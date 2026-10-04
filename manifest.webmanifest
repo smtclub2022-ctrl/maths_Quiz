@@ -1,0 +1,19 @@
+{
+  "name": "I_Mentor_99 — कक्षा 10 गणित",
+  "short_name": "गणित अभ्यास",
+  "description": "हिंदी में कक्षा 10 गणित का अध्यायवार अभ्यास और क्विज़।",
+  "lang": "hi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#f6f7fb",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#6558df"/>
+  <path d="M110 156h292v42H110zm0 82h292v42H110zm0 82h292v42H110z" fill="#fff" opacity=".3"/>
+  <text x="256" y="326" fill="#fff" font-family="serif" font-size="210" text-anchor="middle">π</text>
+</svg>
