@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>Workbook Quiz | I_Mentor_99</title>
+  <style>
+    :root {
+      --ink: #19223a;
+      --muted: #66758d;
+      --line: #e8eaf1;
+      --paper: #ffffff;
+      --canvas: #f6f7fb;
+      --violet: #6558df;
+      --violet-dark: #5043c8;
+      --violet-pale: #f0efff;
+      --green: #279874;
+      --red: #d95858;
+      --amber: #c79218;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #eef2ff 0%, var(--canvas) 35%, #f8fafc 100%);
+      color: var(--ink);
+      font-family: "Noto Sans Devanagari", "DM Sans", sans-serif;
+    }
+    button { font: inherit; }
+    .topbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(26px, calc((100vw - 1160px) / 2));
+      background: rgba(255,255,255,.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      border: 0;
+      background: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .brand-mark {
+      width: 54px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--violet), #7f6ef7);
+      color: white;
+      box-shadow: 0 10px 20px rgba(101,88,223,.2);
+    }
+    .brand-light { color: var(--violet); }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f6f7fb;
+      color: #58647d;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #35b789;
+    }
+    .class-chip { background: var(--violet-pale); color: var(--violet); }
+    .main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 30px 0 40px; }
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 30px 34px;
+      border-radius: 26px;
+      background: linear-gradient(115deg, #6257df, #7a6cf7 56%, #8b75fa 100%);
+      color: white;
+      box-shadow: 0 22px 50px rgba(83,72,208,.22);
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #ddd6ff;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .hero h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); }
+    .hero p { margin: 0; max-width: 540px; color: #f0edff; line-height: 1.7; }
+    .hero-art {
+      width: 120px;
+      height: 120px;
+      display: grid;
+      place-items: center;
+      border-radius: 32px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      font-size: 54px;
+      transform: rotate(-8deg);
+    }
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .stat-box {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+    }
+    .stat-box strong { display: block; font-size: 21px; color: var(--violet); }
+    .stat-box span { color: var(--muted); font-size: 11px; }
+    .section { margin-top: 28px; }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+    .section-heading h2 { margin: 0; font-size: clamp(19px, 2vw, 24px); }
+    .section-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+    .chapter-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+    .chapter-card {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(15,23,42,.03);
+    }
+    .chapter-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .chapter-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: rgba(101,88,223,.1);
+      color: var(--violet);
+      font-weight: 800;
+    }
+    .chapter-arrow { color: #b2b8c7; font-size: 20px; }
+    .chapter-card h3 { margin: 0 0 6px; font-size: 15px; }
+    .chapter-card p { margin: 0; color: var(--muted); font-size: 11px; }
+    .page-top { display: flex; align-items: center; gap: 8px; color: #8c93a7; font-size: 12px; margin-bottom: 18px; }
+    .page-top button {
+      border: 0;
+      background: none;
+      padding: 0;
+      color: var(--violet);
+      cursor: pointer;
+      font: inherit;
+    }
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 15px;
+    }
+    .chapter-badge {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(101,88,223,.1);
+      color: var(--violet);
+      font-weight: 800;
+    }
+    .page-header h1 { margin: 0 0 3px; font-size: clamp(24px, 2.5vw, 32px); }
+    .page-header p { margin: 0; color: var(--muted); font-size: 12px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .set-list { display: grid; gap: 12px; }
+    .set-card {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+    }
+    .set-badge {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: var(--violet);
+      background: var(--violet-pale);
+      font-weight: 800;
+    }
+    .set-card h3 { margin: 0 0 6px; font-size: 15px; }
+    .set-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .set-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #f7f7fb;
+      color: #66728a;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .tag.easy { color: #1f8a63; background: #eafaf3; }
+    .tag.medium { color: #a36b0a; background: #fff5df; }
+    .tag.hard { color: #ba4354; background: #fff0f2; }
+    .tag.hot { color: #654fd7; background: #f0efff; }
+    .primary-btn, .secondary-btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .primary-btn {
+      background: linear-gradient(135deg, var(--violet), #7a6cf7);
+      color: white;
+    }
+    .secondary-btn {
+      background: #f3f4f8;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .quiz-shell { width: min(780px, 100%); margin: 0 auto; }
+    .quiz-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .timer {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: var(--violet-pale);
+      color: var(--violet);
+      font-weight: 800;
+    }
+    .progress { height: 7px; background: #e9edf4; border-radius: 999px; overflow: hidden; margin-bottom: 20px; }
+    .progress > span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--violet), #7f6ef7); transition: width .2s ease; }
+    .question-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(20px, 4vw, 32px);
+      box-shadow: 0 10px 30px rgba(15,23,42,.04);
+    }
+    .q-label { color: var(--violet); font-size: 11px; font-weight: 800; margin-bottom: 12px; }
+    .question-text { margin: 0 0 18px; line-height: 1.7; font-size: clamp(18px, 2vw, 22px); }
+    .options { display: grid; gap: 10px; }
+    .option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .option.selected { border-color: var(--violet); background: #f5f3ff; }
+    .option-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #f1f3f8;
+      color: #67758a;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .option.selected .option-mark { background: var(--violet); color: white; }
+    .hint-box {
+      margin-top: 16px;
+      background: #f8f7ff;
+      border: 1px solid #e6e3ff;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .hint-box summary { list-style: none; cursor: pointer; color: var(--violet-dark); font-weight: 700; }
+    .hint-box summary::-webkit-details-marker { display: none; }
+    .hint-box p { margin: 10px 0 0; color: #61708a; line-height: 1.7; font-size: 13px; }
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .nav-left, .nav-right { display: flex; align-items: center; gap: 8px; }
+    .jump-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .jump-grid button {
+      min-width: 38px;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+    .jump-grid button.current { border-color: var(--violet); background: var(--violet-pale); color: var(--violet); }
+    .jump-grid button.answered { background: #ebfaf4; border-color: #ccefe0; color: #1b7b59; }
+    .result-box {
+      background: linear-gradient(115deg, #6558df, #7b69f0 60%, #8b7cf5 100%);
+      color: white;
+      border-radius: 22px;
+      padding: 26px 20px;
+      margin-bottom: 18px;
+    }
+    .result-box h2 { margin: 0 0 6px; font-size: 30px; }
+    .result-box p { margin: 0; color: #eae6ff; font-size: 12px; }
+    .result-score { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 12px; margin-top: 20px; }
+    .result-metric {
+      padding: 12px 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      text-align: center;
+    }
+    .result-metric strong { display: block; font-size: 23px; }
+    .result-metric span { font-size: 10px; opacity: .9; }
+    .action-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 16px 0 8px; }
+    .status-note { text-align: center; color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+    .answer-list { display: grid; gap: 14px; }
+    .answer-card {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--paper);
+      overflow: hidden;
+    }
+    .answer-summary {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      cursor: pointer;
+    }
+    .answer-summary::-webkit-details-marker { display: none; }
+    .answer-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--violet-pale);
+      color: var(--violet);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .answer-summary p { margin: 0; font-size: 13px; line-height: 1.7; }
+    .answer-state { font-size: 11px; font-weight: 700; }
+    .answer-state.correct { color: var(--green); }
+    .answer-state.incorrect { color: var(--red); }
+    .answer-state.skipped { color: var(--amber); }
+    .answer-detail { padding: 0 18px 18px 60px; color: #60708a; font-size: 12px; line-height: 1.8; }
+    .answer-detail strong { color: var(--ink); }
+    .solution-box { margin-top: 10px; padding: 10px 12px; background: #f8f7ff; border-left: 3px solid #cbc5ff; border-radius: 0 10px 10px 0; }
+    @media (max-width: 760px) {
+      .chapter-grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .set-card { grid-template-columns: 56px 1fr; }
+      .set-card .primary-btn { grid-column: 1 / -1; }
+      .result-score { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .hero { flex-direction: column; align-items: flex-start; }
+      .hero-art { width: 90px; height: 90px; }
+      .nav-row { flex-direction: column; align-items: stretch; }
+      .nav-left, .nav-right { justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <button class="brand" id="homeBtn" type="button">
+      <span class="brand-mark">99</span>
+      <span>I_Mentor_<span class="brand-light">99</span></span>
+    </button>
+    <div class="topbar-right">
+      <span class="chip"><span class="chip-dot"></span> राजस्थान बोर्ड</span>
+      <span class="chip class-chip">कक्षा 10</span>
+    </div>
+  </div>
+  <main class="main" id="app"></main>
+
+  <script>
+    const chapters = [
+      { title: 'वास्तविक संख्याएँ', key: 'hcf' },
+      { title: 'बहुपद', key: 'poly' },
+      { title: 'दो चर वाले रैखिक समीकरण युग्म', key: 'linear' },
+      { title: 'द्विघात समीकरण', key: 'quadratic' },
+      { title: 'समांतर श्रेढियाँ', key: 'ap' },
+      { title: 'त्रिभुज', key: 'triangle' },
+      { title: 'निर्देशांक ज्यामिति', key: 'coordinate' },
+      { title: 'त्रिकोणमिति का परिचय', key: 'trig' },
+      { title: 'त्रिकोणमिति के कुछ अनुप्रयोग', key: 'application' },
+      { title: 'वृत्त', key: 'circle' },
+      { title: 'रचनाएँ', key: 'construction' },
+      { title: 'वृत्तों से संबंधित क्षेत्रफल', key: 'area' },
+      { title: 'पृष्ठीय क्षेत्रफल और आयतन', key: 'volume' },
+      { title: 'सांख्यिकी', key: 'statistics' },
+      { title: 'प्रायिकता', key: 'probability' }
+    ];
+
+    const state = {
+      chapterIndex: 0,
+      setIndex: 0,
+      questionIndex: 0,
+      questions: [],
+      answers: [],
+      selectedOption: null,
+      elapsed: 0,
+      timer: null,
+      startedAt: 0
+    };
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>\"']/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[ch]));
+    }
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${minutes}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function getDifficultyTag(setIndex) {
+      if (setIndex < 3) return { label: 'आसान', cls: 'easy' };
+      if (setIndex < 7) return { label: 'मध्यम', cls: 'medium' };
+      if (setIndex < 9) return { label: 'कठिन', cls: 'hard' };
+      return { label: 'HOTS', cls: 'hot' };
+    }
+
+    function buildQuestion(chapterIndex, setIndex, qNum) {
+      const key = chapters[chapterIndex].key;
+      const level = setIndex + 1;
+      let prompt = '';
+      let options = [];
+      let answer = '';
+      let explanation = '';
+      let hint = '';
+
+      switch (key) {
+        case 'hcf': {
+          const a = 24 + qNum * 8 + setIndex * 2;
+          const b = 18 + qNum * 6 + setIndex * 3;
+          const gcd = (x, y) => (y ? gcd(y, x % y) : x);
+          const g = gcd(a, b);
+          prompt = `${a} और ${b} का HCF क्या है?`;
+          options = [String(g), String(g + 2), String(g + 4), String(g + 6)];
+          answer = String(g);
+          explanation = `HCF सबसे बड़ा सामान्य गुणनखंड है। ${a} और ${b} का HCF ${g} है।`;
+          hint = 'यूक्लिड विभाजन विधि या गुणनखंड विधि से हल करें।';
+          break;
+        }
+        case 'poly': {
+          const sum = 5 + setIndex;
+          const product = 6 + qNum;
+          prompt = `यदि दो शून्यकों का योग ${sum} और गुणनफल ${product} है, तो बहुपद लिखिए।`;
+          options = [`x² − ${sum}x + ${product}`, `x² + ${sum}x + ${product}`, `x² − ${sum}x − ${product}`, `x² + ${sum}x − ${product}`];
+          answer = `x² − ${sum}x + ${product}`;
+          explanation = `बहुपद का रूप x² − (योग)x + (गुणनफल) होता है। इसलिए उत्तर ${answer} है।`;
+          hint = 'शून्यकों के योग और गुणनफल का सूत्र याद रखें।';
+          break;
+        }
+        case 'linear': {
+          const a = 2 + qNum;
+          const b = 3 + setIndex;
+          const c = 11 + qNum;
+          const d = 5 + setIndex;
+          prompt = `समीकरण युग्म ${a}x + ${b}y = ${c} और ${d}x + ${b}y = ${c + 2} का हल है?`;
+          options = ['x = 1, y = 2', 'x = 2, y = 1', 'x = 3, y = 1', 'x = 0, y = 3'];
+          answer = 'x = 1, y = 2';
+          explanation = 'दोनों समीकरणों को घटाने पर x = 1, y = 2 प्राप्त होता है।';
+          hint = 'विलोपन विधि लगाकर x और y निकालें।';
+          break;
+        }
+        case 'quadratic': {
+          prompt = 'द्विघात समीकरण x² − 7x + 12 = 0 के मूल क्या हैं?';
+          options = ['3, 4', '2, 6', '1, 12', '4, 5'];
+          answer = '3, 4';
+          explanation = 'x² − 7x + 12 = (x − 3)(x − 4), इसलिए मूल 3 और 4 हैं।';
+          hint = 'गुणनखंड विधि से हल करें।';
+          break;
+        }
+        case 'ap': {
+          const first = 6 + setIndex;
+          const diff = 3 + (qNum % 4);
+          const nth = first + (level + 2) * diff;
+          prompt = `समांतर श्रेढी ${first}, ${first + diff}, ${first + 2 * diff}, ... का ${level + 3}वाँ पद ज्ञात कीजिए।`;
+          options = [String(nth), String(nth + diff), String(nth - diff), String(nth + 2 * diff)];
+          answer = String(nth);
+          explanation = `aₙ = a + (n − 1)d = ${first} + ${(level + 2)} × ${diff} = ${nth}.`;
+          hint = 'aₙ = a + (n−1)d सूत्र का प्रयोग करें।';
+          break;
+        }
+        case 'triangle': {
+          const ratio = 2 + (qNum % 3);
+          const small = 4 + qNum;
+          const large = small * ratio;
+          prompt = `दो समरूप त्रिभुजों की संगत भुजाओं का अनुपात 1:${ratio} है। छोटे त्रिभुज की भुजा ${small} cm है, तो बड़ी भुजा कितनी होगी?`;
+          options = [`${large} cm`, `${small + ratio} cm`, `${large + 2} cm`, `${ratio} cm`];
+          answer = `${large} cm`;
+          explanation = `समरूप त्रिभुजों में संगत भुजाएँ समान अनुपात में होती हैं, इसलिए ${small} × ${ratio} = ${large} cm.`;
+          hint = 'अनुपात का उपयोग करके समानुपात बनाएं।';
+          break;
+        }
+        case 'coordinate': {
+          const x1 = qNum + 1;
+          const x2 = x1 + 3 + setIndex;
+          const y = (qNum % 4) + 2;
+          const distance = x2 - x1;
+          prompt = `बिंदु (${x1}, ${y}) और (${x2}, ${y}) के बीच की दूरी क्या है?`;
+          options = [`${distance} इकाई`, `${distance + 1} इकाई`, `${distance + 2} इकाई`, `${distance + 4} इकाई`];
+          answer = `${distance} इकाई`;
+          explanation = `दोनों बिंदुओं की y-निर्देशांक समान हैं, इसलिए दूरी = x2 − x1 = ${distance} इकाई.`;
+          hint = 'x-निर्देशांक का अंतर देखिए।';
+          break;
+        }
+        case 'trig': {
+          const values = [['sin 30°', '1/2'], ['sin 45°', '1/√2'], ['sin 60°', '√3/2'], ['cos 60°', '1/2']];
+          const [label, val] = values[(qNum + setIndex) % values.length];
+          prompt = `${label} का मान क्या है?`;
+          options = [val, '1', '√2/2', '√3'];
+          answer = val;
+          explanation = `विशेष कोणों की त्रिकोणमितीय सारणी से ${label} = ${val} है।`;
+          hint = 'विशेष कोणों की सारणी याद रखें।';
+          break;
+        }
+        case 'application': {
+          const base = 10 + qNum + setIndex;
+          prompt = `किसी मीनार की ऊँचाई ज्ञात करने के लिए उन्नयन कोण 45° है। आधार से दूरी ${base} m है, तो मीनार की ऊँचाई क्या होगी?`;
+          options = [`${base} m`, `${base + 3} m`, `${base / 2} m`, `${base + 10} m`];
+          answer = `${base} m`;
+          explanation = `tan 45° = 1, इसलिए ऊँचाई = दूरी = ${base} m.`;
+          hint = 'tan 45° = 1 का प्रयोग करें।';
+          break;
+        }
+        case 'circle': {
+          prompt = 'वृत्त की स्पर्श रेखा, स्पर्श बिंदु पर त्रिज्या के साथ कौन-सा कोण बनाती है?';
+          options = ['90°', '60°', '45°', '180°'];
+          answer = '90°';
+          explanation = 'स्पर्श रेखा प्रमेय के अनुसार, स्पर्श बिंदु पर त्रिज्या और स्पर्श रेखा परस्पर लंबवत होती हैं।';
+          hint = 'स्पर्श रेखा प्रमेय याद करें।';
+          break;
+        }
+        case 'construction': {
+          const division = 2 + ((qNum + setIndex) % 4);
+          prompt = `किसी रेखाखंड को ${division} बराबर भागों में बाँटने के लिए सहायक किरण पर कितने समान अंतराल लेने चाहिए?`;
+          options = [String(division), String(division + 1), String(division - 1), '1'];
+          answer = String(division);
+          explanation = 'समान भागों की संख्या के अनुसार ही सहायक किरण पर समान अंतराल लिए जाते हैं।';
+          hint = 'n बराबर भागों के लिए n समान अंतराल';
+          break;
+        }
+        case 'area': {
+          const r = 3 + qNum + setIndex;
+          const area = r * r;
+          prompt = `त्रिज्या ${r} cm वाले वृत्त का क्षेत्रफल (π के रूप में) कितना होगा?`;
+          options = [`${area}π cm²`, `${2 * area}π cm²`, `${area / 2}π cm²`, `${area + 2}π cm²`];
+          answer = `${area}π cm²`;
+          explanation = `वृत्त का क्षेत्रफल = πr² = π × ${r}² = ${area}π cm².`;
+          hint = 'πr² सूत्र का उपयोग करें।';
+          break;
+        }
+        case 'volume': {
+          const r = 2 + qNum;
+          const height = 4 + setIndex;
+          const vol = r * r * height;
+          prompt = `त्रिज्या ${r} cm और ऊँचाई ${height} cm वाले बेलन का आयतन (π के रूप में) ज्ञात कीजिए।`;
+          options = [`${vol}π cm³`, `${vol / 2}π cm³`, `${2 * vol}π cm³`, `${vol + 3}π cm³`];
+          answer = `${vol}π cm³`;
+          explanation = `बेलन का आयतन = πr²h = π × ${r}² × ${height} = ${vol}π cm³.`;
+          hint = 'आयतन सूत्र πr²h याद करें।';
+          break;
+        }
+        case 'statistics': {
+          const arr = [12, 18, 20, 24, 30];
+          const a = arr[(qNum + setIndex) % arr.length];
+          const b = arr[(qNum + 1 + setIndex) % arr.length];
+          const c = arr[(qNum + 2 + setIndex) % arr.length];
+          const mean = (a + b + c) / 3;
+          prompt = `${a}, ${b}, ${c} का माध्य क्या है?`;
+          options = [String(mean.toFixed(1)), String(mean + 1), String(mean - 1), String(mean + 2)];
+          answer = String(mean.toFixed(1));
+          explanation = `माध्य = (${a} + ${b} + ${c}) / 3 = ${mean.toFixed(1)}.`;
+          hint = 'प्रेक्षणों का योग ÷ कुल प्रेक्षण';
+          break;
+        }
+        case 'probability': {
+          const outcomes = [6, 8, 10, 12];
+          const total = outcomes[(setIndex + qNum) % outcomes.length];
+          const favourable = 2 + (qNum % 3);
+          prompt = `एक प्रयोग में कुल ${total} परिणाम हैं, इनमें से ${favourable} अनुकूल परिणाम हैं। प्रायिकता क्या है?`;
+          options = [`${favourable}/${total}`, `${total}/${favourable}`, `${favourable + 1}/${total}`, `${favourable}/${total + 1}`];
+          answer = `${favourable}/${total}`;
+          explanation = `प्रायिकता = अनुकूल परिणाम ÷ कुल परिणाम = ${favourable}/${total}.`;
+          hint = 'प्रायिकता = अच्छे परिणाम ÷ कुल परिणाम';
+          break;
+        }
+        default: {
+          prompt = 'सामान्य प्रश्न';
+          options = ['1', '2', '3', '4'];
+          answer = '1';
+          explanation = 'यह सामान्य अभ्यास प्रश्न है।';
+          hint = 'सही उत्तर चुनें।';
+        }
+      }
+
+      return { prompt, options, answer, explanation, hint, difficulty: getDifficultyTag(setIndex).label };
+    }
+
+    function buildSetQuestions(chapterIndex, setIndex) {
+      return Array.from({ length: 10 }, (_, idx) => buildQuestion(chapterIndex, setIndex, idx));
+    }
+
+    function renderHome() {
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Workbook practice</p>
+            <h1>कक्षा 10 गणित का स्मार्ट अभ्यास</h1>
+            <p>हर अध्याय के 10 प्रश्नों वाले अभ्यास सेट, आसान से बोर्ड-स्तर तक, साथ में समाधान और प्रगति ट्रैकिंग।</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">π</div>
+        </section>
+        <div class="stats-strip">
+          <div class="stat-box"><strong>${chapters.length}</strong><span>अध्याय</span></div>
+          <div class="stat-box"><strong>10</strong><span>प्रति अध्याय प्रश्न</span></div>
+          <div class="stat-box"><strong>15</strong><span>कुल विषय</span></div>
+          <div class="stat-box"><strong>100%</strong><span>अभ्यास पर ध्यान</span></div>
+        </div>
+        <section class="section">
+          <div class="section-heading">
+            <div>
+              <h2>अपना अध्याय चुनें</h2>
+              <p>हर सेट में संकेत और सही हल मिलेगा</p>
+            </div>
+            <span class="chip">150 प्रश्न उपलब्ध</span>
+          </div>
+          <div class="chapter-grid">
+            ${chapters.map((chapter, index) => `
+              <button class="chapter-card" data-index="${index}" type="button">
+                <span class="chapter-top">
+                  <span class="chapter-number">${String(index + 1).padStart(2, '0')}</span>
+                  <span class="chapter-arrow">↗</span>
+                </span>
+                <h3>${escapeHtml(chapter.title)}</h3>
+                <p>10 प्रैक्टिस प्रश्न · संकेत + समाधान</p>
+              </button>
+            `).join('')}
+          </div>
+        </section>
+      `;
+
+      document.querySelectorAll('.chapter-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.chapterIndex = Number(btn.dataset.index);
+          renderChapter();
+        });
+      });
+    }
+
+    function renderChapter() {
+      const chapter = chapters[state.chapterIndex];
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <div class="page-top"><button type="button" id="goHome">कक्षा 10 गणित</button><span>›</span><span>${escapeHtml(chapter.title)}</span></div>
+        <div class="page-header">
+          <span class="chapter-badge">${String(state.chapterIndex + 1).padStart(2, '0')}</span>
+          <div>
+            <h1>${escapeHtml(chapter.title)}</h1>
+            <p>अभ्यास से समझ और आत्मविश्वास दोनों बढ़ाएँ</p>
+          </div>
+        </div>
+        <div class="pill"><span>📘</span><strong>10 प्रश्न</strong> प्रत्येक सेट में · संकेत + हल</div>
+        <section class="section">
+          <div class="section-heading">
+            <div>
+              <h2>अभ्यास सेट</h2>
+              <p>आसान से कठिन तक क्रमबद्ध अभ्यास</p>
+            </div>
+          </div>
+          <div class="set-list">
+            ${Array.from({ length: 10 }, (_, idx) => {
+              const diff = getDifficultyTag(idx);
+              const preview = buildSetQuestions(state.chapterIndex, idx)[0];
+              return `
+                <article class="set-card">
+                  <span class="set-badge">${idx + 1}</span>
+                  <div>
+                    <h3>${escapeHtml(chapter.title)} · सेट ${idx + 1}</h3>
+                    <p>${escapeHtml(preview.hint)}</p>
+                    <div class="set-meta">
+                      <span class="tag ${diff.cls}">${diff.label}</span>
+                      <span class="tag">10 प्रश्न</span>
+                      <span class="tag">तुरंत परिणाम</span>
+                    </div>
+                  </div>
+                  <button class="primary-btn" type="button" data-set="${idx}">अभ्यास शुरू</button>
+                </article>
+              `;
+            }).join('')}
+          </div>
+        </section>
+      `;
+
+      document.getElementById('goHome').addEventListener('click', renderHome);
+      document.querySelectorAll('[data-set]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.setIndex = Number(btn.dataset.set);
+          startSet();
+        });
+      });
+    }
+
+    function startSet() {
+      state.questions = buildSetQuestions(state.chapterIndex, state.setIndex);
+      state.answers = Array(state.questions.length).fill(null);
+      state.questionIndex = 0;
+      state.selectedOption = null;
+      state.elapsed = 0;
+      state.startedAt = Date.now();
+      clearInterval(state.timer);
+      state.timer = setInterval(() => {
+        state.elapsed = Math.floor((Date.now() - state.startedAt)/1000);
+        const timerEl = document.getElementById('quizTimer');
+        if (timerEl) timerEl.textContent = formatTime(state.elapsed);
+      }, 1000);
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const question = state.questions[state.questionIndex];
+      const answeredCount = state.answers.filter(item => item !== null).length;
+      const progressPercent = (answeredCount / state.questions.length) * 100;
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <div class="quiz-shell">
+          <div class="page-top">
+            <button type="button" id="goHome">कक्षा 10 गणित</button>
+            <span>›</span>
+            <span>${escapeHtml(chapters[state.chapterIndex].title)}</span>
+            <span>›</span>
+            <span>सेट ${state.setIndex + 1}</span>
+          </div>
+          <div class="quiz-topbar">
+            <span>${escapeHtml(chapters[state.chapterIndex].title)} · सेट ${state.setIndex + 1}</span>
+            <span class="timer" id="quizTimer">${formatTime(state.elapsed)}</span>
+          </div>
+          <div class="progress"><span style="width:${progressPercent}%"></span></div>
+          <article class="question-card">
+            <div class="q-label">प्रश्न ${state.questionIndex + 1} / ${state.questions.length} · ${question.difficulty}</div>
+            <h2 class="question-text">${escapeHtml(question.prompt)}</h2>
+            <div class="options">
+              ${question.options.map((option, index) => `
+                <button type="button" class="option ${state.selectedOption === option ? 'selected' : ''}" data-option="${escapeHtml(option)}">
+                  <span class="option-mark">${String.fromCharCode(65 + index)}</span>
+                  <span>${escapeHtml(option)}</span>
+                </button>
+              `).join('')}
+            </div>
+            <details class="hint-box">
+              <summary>संकेत देखें</summary>
+              <p>${escapeHtml(question.hint)}</p>
+            </details>
+            <div class="jump-grid">
+              ${state.questions.map((_, idx) => `
+                <button type="button" class="${idx === state.questionIndex ? 'current' : ''} ${state.answers[idx] !== null ? 'answered' : ''}" data-jump="${idx}">${idx + 1}</button>
+              `).join('')}
+            </div>
+            <div class="nav-row">
+              <div class="nav-left">
+                <button type="button" class="secondary-btn" id="prevBtn" ${state.questionIndex === 0 ? 'disabled' : ''}>← पिछला</button>
+              </div>
+              <div class="nav-right">
+                <span class="chip">${answeredCount}/${state.questions.length} उत्तर</span>
+                <button type="button" class="secondary-btn" id="skipBtn">छोड़ें</button>
+                <button type="button" class="primary-btn" id="nextBtn">${state.questionIndex === state.questions.length - 1 ? 'परिणाम देखें' : 'अगला →'}</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      `;
+
+      document.getElementById('goHome').addEventListener('click', renderHome);
+      document.querySelectorAll('.option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const value = btn.dataset.option;
+          state.selectedOption = value;
+          state.answers[state.questionIndex] = value;
+          renderQuiz();
+        });
+      });
+      document.querySelectorAll('[data-jump]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.questionIndex = Number(btn.dataset.jump);
+          state.selectedOption = state.answers[state.questionIndex];
+          renderQuiz();
+        });
+      });
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (state.questionIndex > 0) {
+          state.questionIndex -= 1;
+          state.selectedOption = state.answers[state.questionIndex];
+          renderQuiz();
+        }
+      });
+      document.getElementById('skipBtn').addEventListener('click', () => {
+        state.answers[state.questionIndex] = null;
+        state.selectedOption = null;
+        if (state.questionIndex === state.questions.length - 1) {
+          submitQuiz();
+        } else {
+          state.questionIndex += 1;
+          state.selectedOption = state.answers[state.questionIndex];
+          renderQuiz();
+        }
+      });
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        if (state.selectedOption !== null) state.answers[state.questionIndex] = state.selectedOption;
+        if (state.questionIndex === state.questions.length - 1) {
+          submitQuiz();
+        } else {
+          state.questionIndex += 1;
+          state.selectedOption = state.answers[state.questionIndex];
+          renderQuiz();
+        }
+      });
+    }
+
+    function submitQuiz() {
+      clearInterval(state.timer);
+      const correct = state.answers.reduce((sum, answer, index) => sum + (answer === state.questions[index].answer ? 1 : 0), 0);
+      const answered = state.answers.filter(v => v !== null).length;
+      const skipped = state.questions.length - answered;
+      const percent = Math.round((correct / state.questions.length) * 100);
+      const app = document.getElementById('app');
+      const rankText = percent >= 80 ? 'शानदार प्रदर्शन!' : percent >= 50 ? 'अच्छी कोशिश!' : 'अभ्यास जारी रखें!';
+
+      app.innerHTML = `
+        <div class="result-box">
+          <p>📘 ${escapeHtml(chapters[state.chapterIndex].title)} · सेट ${state.setIndex + 1}</p>
+          <h2>${rankText}</h2>
+          <div class="result-score">
+            <div class="result-metric"><strong>${correct}</strong><span>सही</span></div>
+            <div class="result-metric"><strong>${percent}%</strong><span>स्कोर</span></div>
+            <div class="result-metric"><strong>${state.questions.length - correct}</strong><span>गलत</span></div>
+            <div class="result-metric"><strong>${skipped}</strong><span>छोड़े</span></div>
+            <div class="result-metric"><strong>${formatTime(state.elapsed)}</strong><span>समय</span></div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button type="button" class="secondary-btn" id="againBtn">फिर से अभ्यास</button>
+          <button type="button" class="secondary-btn" id="chapterBtn">अध्याय मेनू</button>
+          <button type="button" class="primary-btn" id="homeBtn2">मुख्य पेज</button>
+        </div>
+        <p class="status-note">उत्तर दिए गए ${answered}/${state.questions.length} · सटीकता ${(answered ? Math.round(correct / answered * 100) : 0)}%</p>
+        <div class="section-heading"><div><h2>उत्तर-पत्रिका</h2><p>हर सवाल का सही उत्तर और हल यहाँ उपलब्ध है</p></div></div>
+        <div class="answer-list">
+          ${state.questions.map((q, index) => {
+            const chosen = state.answers[index];
+            const isCorrect = chosen === q.answer;
+            const status = chosen === null ? 'छोड़ा' : isCorrect ? 'सही' : 'गलत';
+            const cls = chosen === null ? 'skipped' : isCorrect ? 'correct' : 'incorrect';
+            return `
+              <details class="answer-card" ${!isCorrect ? 'open' : ''}>
+                <summary class="answer-summary">
+                  <span class="answer-number">${index + 1}</span>
+                  <p>${escapeHtml(q.prompt)}</p>
+                  <span class="answer-state ${cls}">${status}</span>
+                </summary>
+                <div class="answer-detail">
+                  <div>आपका उत्तर: <strong>${chosen === null ? 'कोई उत्तर नहीं दिया' : escapeHtml(chosen)}</strong></div>
+                  <div>सही उत्तर: <strong>${escapeHtml(q.answer)}</strong></div>
+                  <div class="solution-box"><strong>हल:</strong> ${escapeHtml(q.explanation)}</div>
+                  <div class="solution-box"><strong>संकेत:</strong> ${escapeHtml(q.hint)}</div>
+                </div>
+              </details>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      document.getElementById('againBtn').addEventListener('click', startSet);
+      document.getElementById('chapterBtn').addEventListener('click', renderChapter);
+      document.getElementById('homeBtn2').addEventListener('click', renderHome);
+    }
+
+    document.getElementById('homeBtn').addEventListener('click', renderHome);
+    renderHome();
+  </script>
+</body>
+</html>
