@@ -17,8 +17,9 @@
 body { margin: 0; background: var(--canvas); color: var(--ink); }
 button { color: inherit; font: inherit; }
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
-.topbar { height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 max(28px, calc((100vw - 1160px) / 2)); background: rgba(255,255,255,.9); border-bottom: 1px solid var(--line); }
+.topbar { position: sticky; top: 0; z-index: 20; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 max(28px, calc((100vw - 1160px) / 2)); background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); }
 .brand { border: 0; padding: 0; background: none; cursor: pointer; display: flex; align-items: center; gap: 11px; font-size: 19px; font-weight: 800; letter-spacing: -.5px; }
+.home-label { flex: 0 0 auto; padding: 8px 11px; border: 1px solid #dedcff; border-radius: 10px; background: #fbfaff; color: var(--violet); font-size: 12px; font-weight: 700; letter-spacing: 0; }
 .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: #fff; background: var(--violet); font: 700 23px "DM Sans", sans-serif; box-shadow: 0 5px 12px #6558df35; }
 .logo-mark { flex: 0 0 72px; width: 72px; height: 50px; overflow: hidden; border-radius: 0; background: transparent; box-shadow: none; }
 .logo-mark img { display: block; width: 100%; height: 100%; object-fit: contain; }
