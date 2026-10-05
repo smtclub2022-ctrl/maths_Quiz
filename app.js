@@ -129,13 +129,11 @@ let bankSourceFilter = "all";
 let bankYearFilter = "all";
 let bankSessionFilter = "all";
 let bankChapterFilter = "all";
-let editingQuestionId = null;
 let storageWarning = "";
 let progress = loadProgress();
 
 const defaultQuestionBank = [...examQuestionBank, ...additionalExamQuestionBank, ...workbookQuestionBank];
 const bankEditStorageKey = "iMentorMathQuestionBankEdits";
-let bankHasLocalEdits = false;
 let bankQuestions = loadQuestionBank();
 
 function isValidQuestionBank(value) {
@@ -162,7 +160,6 @@ function loadQuestionBank() {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (!isValidQuestionBank(parsed)) throw new Error("Saved question-bank edits have an invalid format.");
-      bankHasLocalEdits = true;
       return parsed;
     }
   } catch (error) {
@@ -178,19 +175,6 @@ function loadQuestionBank() {
     storageWarning = "प्रकाशित प्रश्न-बैंक फ़ाइल का प्रारूप अमान्य है। मूल प्रश्न-बैंक दिखाया गया है।";
   }
   return defaultQuestionBank;
-}
-
-function saveQuestionBank() {
-  try {
-    localStorage.setItem(bankEditStorageKey, JSON.stringify(bankQuestions));
-    bankHasLocalEdits = true;
-    storageWarning = "";
-    return true;
-  } catch (error) {
-    console.error("Question-bank edits could not be saved in this browser:", error);
-    storageWarning = "बदलाव इस ब्राउज़र में सेव नहीं हुए। GitHub के लिए फ़ाइल डाउनलोड करके उन्हें सुरक्षित रखें।";
-    return false;
-  }
 }
 
 function loadProgress() {
@@ -320,7 +304,7 @@ function breadcrumb(current) {
 }
 
 function bankBreadcrumb(current = "") {
-  return `<nav class="breadcrumb"><button data-action="home">कक्षा 10 गणित</button><span>›</span><span>पिछले वर्षों के प्रश्न</span>${current ? `<span>›</span><span>${escapeHTML(current)}</span>` : ""}</nav>`;
+  return `<nav class="breadcrumb"><button data-action="home" aria-label="मुखपृष्ठ पर जाएँ">⌂ होम</button><span>›</span><span>पिछले वर्षों के प्रश्न</span>${current ? `<span>›</span><span>${escapeHTML(current)}</span>` : ""}</nav>`;
 }
 
 function renderHome() {
@@ -416,59 +400,6 @@ function getFilteredExamQuestions() {
   );
 }
 
-function renderQuestionEditor(question) {
-  const chapterOptions = chapters.map((chapter, index) =>
-    `<option value="${index}" ${question.chapter === index ? "selected" : ""}>अध्याय ${index + 1} — ${escapeHTML(chapter.title)}</option>`
-  ).join("");
-  const specialChapterOption = `<option value="15" ${question.chapter === 15 ? "selected" : ""}>वैदिक गणित / वर्ग (विशेष)</option>`;
-  const yearOptions = [2021, 2022, 2023, 2024, 2025, 2026].map(year =>
-    `<option value="${year}" ${question.year === year ? "selected" : ""}>${year}</option>`
-  ).join("");
-  const correctOption = question.options.indexOf(question.answer);
-  return `<form class="question-editor" data-editor="${escapeHTML(question.bankId)}">
-    <label class="editor-wide">प्रश्न<textarea name="prompt" rows="3" required>${escapeHTML(question.prompt)}</textarea></label>
-    <label>अध्याय<select name="chapter" required>${chapterOptions}${specialChapterOption}</select></label>
-    <label>परीक्षा वर्ष<select name="year" ${question.sourceType === "workbook" ? "disabled" : ""}>${yearOptions}</select></label>
-    <label>परीक्षा सत्र<select name="session" ${question.sourceType === "workbook" ? "disabled" : ""}><option value="M" ${question.examSession !== "S" ? "selected" : ""}>मुख्य (M)</option><option value="S" ${question.examSession === "S" ? "selected" : ""}>पूरक (S)</option></select></label>
-    ${question.options.map((option, index) => `<label>विकल्प ${letters[index]}<input name="option${index}" value="${escapeHTML(option)}" required></label>`).join("")}
-    <label>सही विकल्प<select name="answer" required>${question.options.map((option, index) => `<option value="${index}" ${correctOption === index ? "selected" : ""}>${letters[index]}</option>`).join("")}</select></label>
-    <label class="editor-wide">हल / उत्तर-कुंजी<textarea name="solution" rows="3" required>${escapeHTML(question.solution)}</textarea></label>
-    <label class="editor-wide">संकेत<textarea name="hint" rows="2" required>${escapeHTML(question.hint)}</textarea></label>
-    <div class="editor-actions editor-wide"><button class="primary-button" type="submit">बदलाव सेव करें</button><button class="secondary-button" type="button" data-cancel-edit>रद्द करें</button></div>
-  </form>`;
-}
-
-function downloadQuestionBank() {
-  const source = `window.questionBankOverrides = ${JSON.stringify(bankQuestions, null, 2).replace(/</g, "\\u003c")};\n`;
-  const blob = new Blob([source], { type: "text/javascript;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "question-bank-overrides.js";
-  document.body.append(link);
-  link.click();
-  link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-  const status = app.querySelector("#bankEditStatus");
-  if (status) status.textContent = "फ़ाइल डाउनलोड हो गई। इसे question-bank-overrides.js के रूप में app की फ़ाइल से बदलें, फिर GitHub पर commit/push करें।";
-}
-
-function resetQuestionBankEdits() {
-  if (!window.confirm("इस ब्राउज़र में किए गए सभी प्रश्न-बैंक बदलाव हटाकर प्रकाशित प्रश्न-बैंक फिर से लोड करें?")) return;
-  try {
-    localStorage.removeItem(bankEditStorageKey);
-    bankQuestions = isValidQuestionBank(window.questionBankOverrides) ? window.questionBankOverrides : defaultQuestionBank;
-    bankHasLocalEdits = false;
-    editingQuestionId = null;
-    storageWarning = "";
-    renderExamBank();
-  } catch (error) {
-    console.error("Local question-bank edits could not be reset:", error);
-    storageWarning = "इस ब्राउज़र के स्थानीय बदलाव नहीं हटाए जा सके।";
-    renderExamBank();
-  }
-}
-
 function renderExamBank() {
   const filteredQuestions = getFilteredExamQuestions();
   const chapterOptions = chapters.map((chapter, index) =>
@@ -476,12 +407,8 @@ function renderExamBank() {
   ).join("");
   const specialChapterSelected = bankChapterFilter === "15";
   app.innerHTML = `${bankBreadcrumb()}
-    <div class="section-heading exam-bank-heading"><div><p class="eyebrow">M2021–M2026 · S2024–S2026 · Workbook Quiz</p><h1>वस्तुनिष्ठ प्रश्न बैंक</h1><p>स्रोत, परीक्षा वर्ष, सत्र और अध्याय चुनें; उत्तर व हल देखने के लिए प्रश्न खोलें।</p></div><span class="count-label">${filteredQuestions.length} प्रश्न</span></div>
-    <section class="bank-publish-tools" aria-label="प्रश्न बैंक संपादन और प्रकाशन">
-      <p id="bankEditStatus" role="status" aria-live="polite">${bankHasLocalEdits ? "स्थानीय बदलाव इस ब्राउज़र में सेव हैं। GitHub पर दिखाने के लिए अद्यतन बैंक फ़ाइल डाउनलोड करें।" : "प्रश्न संपादित/हटाने के बाद बदलाव पहले इसी ब्राउज़र में सेव होंगे; GitHub पर प्रकाशित करने के लिए बैंक फ़ाइल डाउनलोड करें।"}</p>
-      <div><button class="secondary-button" id="downloadQuestionBank">GitHub के लिए प्रश्न बैंक डाउनलोड करें</button>${bankHasLocalEdits ? '<button class="secondary-button" id="resetQuestionBank">स्थानीय बदलाव हटाएँ</button>' : ""}</div>
-      ${storageWarning ? `<p class="storage-warning" role="alert">${escapeHTML(storageWarning)}</p>` : ""}
-    </section>
+    <div class="section-heading exam-bank-heading"><div><p class="eyebrow">M2021–M2026 · S2024–S2026 · Workbook Quiz</p><h1>वस्तुनिष्ठ प्रश्न बैंक</h1><p>पहले अपना उत्तर सोचें, फिर चुने हुए प्रश्नों का क्विज़ शुरू करें। सही उत्तर और हल क्विज़ पूरा होने के बाद ही दिखेंगे।</p></div><span class="count-label">${filteredQuestions.length} प्रश्न</span></div>
+    ${storageWarning ? `<p class="storage-warning" role="alert">${escapeHTML(storageWarning)}</p>` : ""}
     <section class="exam-bank-filters" aria-label="प्रश्न छाँटें">
       <label>प्रश्न स्रोत<select id="bankSourceFilter"><option value="all" ${bankSourceFilter === "all" ? "selected" : ""}>सभी स्रोत</option><option value="past-paper" ${bankSourceFilter === "past-paper" ? "selected" : ""}>बोर्ड प्रश्नपत्र</option><option value="workbook" ${bankSourceFilter === "workbook" ? "selected" : ""}>Workbook Quiz</option></select></label>
       <label>${bankSourceFilter === "workbook" ? "परीक्षा वर्ष (फ़ाइल में उपलब्ध नहीं)" : "परीक्षा वर्ष"}<select id="bankYearFilter" ${bankSourceFilter === "workbook" ? "disabled" : ""}><option value="all" ${bankYearFilter === "all" ? "selected" : ""}>${bankSourceFilter === "workbook" ? "उपलब्ध नहीं" : "सभी वर्ष"}</option>${bankSourceFilter === "workbook" ? "" : [2021, 2022, 2023, 2024, 2025, 2026].map(year => `<option value="${year}" ${bankYearFilter === String(year) ? "selected" : ""}>${year}</option>`).join("")}</select></label>
@@ -489,17 +416,11 @@ function renderExamBank() {
       <label>अध्याय<select id="bankChapterFilter"><option value="all" ${bankChapterFilter === "all" ? "selected" : ""}>सभी अध्याय</option>${chapterOptions}<option value="15" ${specialChapterSelected ? "selected" : ""}>वैदिक गणित / वर्ग (विशेष)</option></select></label>
       ${filteredQuestions.length ? `<button class="primary-button" id="startExamQuiz">इन ${filteredQuestions.length} प्रश्नों का क्विज़ शुरू करें →</button>` : ""}
     </section>
-    ${filteredQuestions.length ? `<section class="exam-question-list" aria-label="प्रश्न सूची">${filteredQuestions.map((question, index) => `<details class="exam-question-card" ${editingQuestionId === question.bankId ? "open" : ""}>
+    ${filteredQuestions.length ? `<section class="exam-question-list" aria-label="क्विज़ के प्रश्न">${filteredQuestions.map((question, index) => `<details class="exam-question-card">
       <summary><span class="exam-question-number">${index + 1}</span><span class="exam-question-heading"><span class="exam-question-meta">${question.year ? `${question.examSession === "S" ? "पूरक" : "मुख्य"} ${question.year} परीक्षा` : "Workbook Quiz"} · ${escapeHTML(question.topic)}</span><strong>${escapeHTML(question.prompt)}</strong></span><span class="card-arrow" aria-hidden="true">⌄</span></summary>
       <ol class="exam-options">${question.options.map((option, optionIndex) => `<li><span>${letters[optionIndex]}.</span> ${escapeHTML(option)}</li>`).join("")}</ol>
-      <div class="exam-answer"><p><strong>सही उत्तर:</strong> ${letters[question.options.indexOf(question.answer)]}. ${escapeHTML(question.answer)}</p><p><strong>${question.sourceType === "workbook" ? "उत्तर-कुंजी:" : "हल:"}</strong> ${escapeHTML(question.solution)}</p></div>
-      <div class="bank-question-actions"><button class="secondary-button" type="button" data-edit-question="${escapeHTML(question.bankId)}">संपादित करें</button><button class="secondary-button" type="button" data-delete-question="${escapeHTML(question.bankId)}">हटाएँ</button></div>
-      ${editingQuestionId === question.bankId ? renderQuestionEditor(question) : ""}
     </details>`).join("")}</section>` : `<div class="empty-state">इस अध्याय और वर्ष के लिए कोई MCQ उपलब्ध नहीं है। कोई दूसरा फ़िल्टर चुनें।</div>`}`;
   app.querySelector('[data-action="home"]').addEventListener("click", goHome);
-  app.querySelector("#downloadQuestionBank").addEventListener("click", downloadQuestionBank);
-  const resetButton = app.querySelector("#resetQuestionBank");
-  if (resetButton) resetButton.addEventListener("click", resetQuestionBankEdits);
   app.querySelector("#bankSourceFilter").addEventListener("change", event => {
     bankSourceFilter = event.target.value;
     bankYearFilter = "all";
@@ -518,70 +439,6 @@ function renderExamBank() {
     bankChapterFilter = event.target.value;
     renderExamBank();
   });
-  app.querySelectorAll("[data-edit-question]").forEach(button => button.addEventListener("click", () => {
-    editingQuestionId = button.dataset.editQuestion;
-    renderExamBank();
-  }));
-  app.querySelectorAll("[data-delete-question]").forEach(button => button.addEventListener("click", () => {
-    if (!window.confirm("क्या आप इस प्रश्न को प्रश्न-बैंक से हटाना चाहते हैं?")) return;
-    bankQuestions = bankQuestions.filter(question => question.bankId !== button.dataset.deleteQuestion);
-    editingQuestionId = null;
-    saveQuestionBank();
-    renderExamBank();
-  }));
-  app.querySelectorAll("[data-cancel-edit]").forEach(button => button.addEventListener("click", () => {
-    editingQuestionId = null;
-    renderExamBank();
-  }));
-  app.querySelectorAll("[data-editor]").forEach(form => form.addEventListener("submit", event => {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const bankId = form.dataset.editor;
-    const currentQuestion = bankQuestions.find(question => question.bankId === bankId);
-    if (!currentQuestion) {
-      const error = new Error(`Question ${bankId} no longer exists in the bank.`);
-      console.error("Question-bank edit could not be applied:", error);
-      storageWarning = "यह प्रश्न अब बैंक में नहीं है; पृष्ठ को फिर से खोलकर बदलाव करें।";
-      renderExamBank();
-      return;
-    }
-    const chapter = Number(formData.get("chapter"));
-    const options = [0, 1, 2, 3].map(index => String(formData.get(`option${index}`)).trim());
-    if (!Number.isInteger(chapter) || chapter < 0 || chapter > 15 || options.some(option => !option)) {
-      storageWarning = "अध्याय और चारों विकल्प जाँचकर फिर सेव करें।";
-      renderExamBank();
-      return;
-    }
-    const answerIndex = Number(formData.get("answer"));
-    const updatedQuestion = {
-      ...currentQuestion,
-      chapter,
-      topic: chapter === 15 ? "वैदिक गणित / वर्ग" : chapters[chapter].title,
-      prompt: String(formData.get("prompt")).trim(),
-      options,
-      answer: options[answerIndex],
-      solution: String(formData.get("solution")).trim(),
-      hint: String(formData.get("hint")).trim()
-    };
-    if (currentQuestion.sourceType === "past-paper") {
-      updatedQuestion.year = Number(formData.get("year"));
-      updatedQuestion.examYear = updatedQuestion.year;
-      updatedQuestion.examSession = String(formData.get("session"));
-      updatedQuestion.difficulty = `${updatedQuestion.examSession}${updatedQuestion.year} परीक्षा`;
-    }
-    if (!updatedQuestion.prompt || !updatedQuestion.solution || !updatedQuestion.hint
-      || !Number.isInteger(answerIndex) || answerIndex < 0 || answerIndex > 3
-      || (currentQuestion.sourceType === "past-paper" && (![2021, 2022, 2023, 2024, 2025, 2026].includes(updatedQuestion.year)
-        || !["M", "S"].includes(updatedQuestion.examSession)))) {
-      storageWarning = "प्रश्न, उत्तर, हल, संकेत और परीक्षा विवरण जाँचकर फिर सेव करें।";
-      renderExamBank();
-      return;
-    }
-    bankQuestions = bankQuestions.map(question => question.bankId === bankId ? updatedQuestion : question);
-    editingQuestionId = null;
-    saveQuestionBank();
-    renderExamBank();
-  }));
   const startButton = app.querySelector("#startExamQuiz");
   if (startButton) startButton.addEventListener("click", startExamQuiz);
 }

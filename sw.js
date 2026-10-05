@@ -1,4 +1,4 @@
-const CACHE_NAME = "imentor-maths-v6";
+const CACHE_NAME = "imentor-maths-v7";
 const APP_FILES = [
   "./",
   "./index.html",
