@@ -28,7 +28,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site/assets
-          cp index.html styles.css app.js workbook-quiz.html manifest.webmanifest icon.svg sw.js _site/
+          cp index.html styles.css app.js workbook-question-bank.js old-paper-question-bank.js question-bank-overrides.js workbook-quiz.html manifest.webmanifest icon.svg sw.js _site/
           cp -R assets/. _site/assets/
       - name: Upload site files
         uses: actions/upload-pages-artifact@v3

@@ -1,8 +1,11 @@
-const CACHE_NAME = "imentor-maths-v2";
+const CACHE_NAME = "imentor-maths-v6";
 const APP_FILES = [
   "./",
   "./index.html",
   "./styles.css",
+  "./workbook-question-bank.js",
+  "./old-paper-question-bank.js",
+  "./question-bank-overrides.js",
   "./app.js",
   "./workbook-quiz.html",
   "./manifest.webmanifest",

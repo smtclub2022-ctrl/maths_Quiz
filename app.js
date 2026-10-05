@@ -16,6 +16,94 @@ const chapters = [
   { title: "प्रायिकता", topics: ["सरल घटनाएँ", "अनुकूल परिणाम", "पूरक घटना"], accent: "#7e8c4c", type: "probability" }
 ];
 
+const examQuestionBank = [
+  { chapter: 0, year: 2022, prompt: "निम्नलिखित में से कौन-सी संख्या अपरिमेय है?", options: ["2", "2.232425… (असांत, अनावर्ती)", "2.23", "2.232323… (आवर्ती)"], answer: 1, solution: "2.232425… को असांत और अनावर्ती दशमलव माना गया है, इसलिए यह अपरिमेय है। बाकी विकल्प पूर्णांक, सांत दशमलव और आवर्ती दशमलव हैं; वे परिमेय हैं।", hint: "अपरिमेय संख्या का दशमलव प्रसार असांत और अनावर्ती होता है।" },
+  { chapter: 1, year: 2021, prompt: "बहुपद f(x) = 6x − 2 में x = 2 रखने पर बहुपद का मान होगा—", options: ["8", "9", "10", "12"], answer: 2, solution: "f(2) = 6 × 2 − 2 = 12 − 2 = 10।", hint: "x के स्थान पर 2 रखकर पहले गुणा करें, फिर 2 घटाएँ।" },
+  { chapter: 1, year: 2021, prompt: "यदि 3, बहुपद 2x² + x + k का एक शून्यक है, तो k का मान होगा—", options: ["12", "21", "24", "−21"], answer: 3, solution: "शून्यक होने के कारण 2(3)² + 3 + k = 0। अतः 18 + 3 + k = 0 और k = −21।", hint: "शून्यक x = 3 को बहुपद में रखकर उसका मान शून्य के बराबर करें।" },
+  { chapter: 1, year: 2022, prompt: "बहुपद P(x) = (3 − x)(x − 4) की घात है—", options: ["2", "4", "0", "3"], answer: 0, solution: "दोनों रैखिक बहुपदों के गुणनफल की घात 1 + 1 = 2 है।", hint: "कोष्ठकों का गुणन करने पर x² का पद मिलता है।" },
+  { chapter: 2, year: 2022, prompt: "k के किस मान के लिए रैखिक समीकरणों के युग्म 3x + y = 1 और (2k − 1)x + y = 2k + 1 का कोई हल नहीं है?", options: ["2", "1", "3", "4"], answer: 0, solution: "कोई हल न होने के लिए x के गुणांक समान, लेकिन नियत पद अलग होने चाहिए। 2k − 1 = 3 से k = 2 मिलता है। तब समीकरणों के नियत पद 1 और 5 अलग हैं।", hint: "दोनों समीकरणों में y का गुणांक पहले से समान है; x के गुणांक बराबर करें।" },
+  { chapter: 3, year: 2022, prompt: "द्विघात समीकरण ax² + bx + c = 0 के मूल वास्तविक नहीं हैं, यदि—", options: ["b² − 4ac > 0", "b² − 4ac = 0", "b² − 4ac < 0", "b² − 4ac ≥ 0"], answer: 2, solution: "विविक्तकर D = b² − 4ac होता है। D < 0 होने पर उसके वर्गमूल का मान वास्तविक नहीं होता, इसलिए मूल वास्तविक नहीं हैं।", hint: "वास्तविक मूलों के लिए विविक्तकर का चिह्न देखें।" },
+  { chapter: 4, year: 2022, prompt: "6 पदों वाली समांतर श्रेढ़ी का प्रथम पद 2 और अंतिम पद 10 है। इसका योगफल है—", options: ["72", "36", "135", "24"], answer: 1, solution: "Sₙ = n(a + l)/2 = 6(2 + 10)/2 = 36।", hint: "प्रथम और अंतिम पद दिए हों तो Sₙ = n(a + l)/2 लगाएँ।" },
+  { chapter: 5, year: 2021, prompt: "DE ∥ BC, AD = 2 सेमी, DB = 3 सेमी और AE = 4 सेमी है। EC का मान होगा—", options: ["5 सेमी", "6 सेमी", "7 सेमी", "4 सेमी"], answer: 1, solution: "मूल समानुपातिकता प्रमेय से AD/DB = AE/EC। इसलिए 2/3 = 4/EC और EC = 6 सेमी।", hint: "समांतर रेखा के कारण AD/DB = AE/EC होगा।" },
+  { chapter: 6, year: 2021, prompt: "मूल बिंदु के निर्देशांक हैं—", options: ["(1, 1)", "(0, 0)", "(0, 1)", "(1, 0)"], answer: 1, solution: "निर्देशांक तल के मूल बिंदु के दोनों निर्देशांक शून्य होते हैं: (0, 0)।", hint: "मूल बिंदु दोनों अक्षों का प्रतिच्छेद है।" },
+  { chapter: 6, year: 2022, prompt: "बिंदु P(5, −4) की x-अक्ष से दूरी है—", options: ["5", "0", "4", "16"], answer: 2, solution: "किसी बिंदु की x-अक्ष से दूरी उसके y-निर्देशांक का परिमाण होती है। अतः |−4| = 4।", hint: "x-अक्ष से दूरी y-निर्देशांक का निरपेक्ष मान है।" },
+  { chapter: 6, year: 2022, prompt: "A(x + 4, y + 5) तथा B(6 − x, 3 − y) को मिलाने वाले रेखाखंड के मध्य-बिंदु के निर्देशांक हैं—", options: ["(x, y)", "(5, 4)", "(x + 5, y + 4)", "(5/2, 4/2)"], answer: 1, solution: "मध्य-बिंदु = ((x + 4 + 6 − x)/2, (y + 5 + 3 − y)/2) = (10/2, 8/2) = (5, 4)।", hint: "मध्य-बिंदु सूत्र में दोनों x-निर्देशांकों और दोनों y-निर्देशांकों का औसत लें।" },
+  { chapter: 7, year: 2021, prompt: "2 sin² 60° cos 60° का मान है—", options: ["4/3", "3/2", "3/4", "1/3"], answer: 2, solution: "sin 60° = √3/2 और cos 60° = 1/2। अतः 2 × (3/4) × (1/2) = 3/4।", hint: "पहले sin² 60° और cos 60° के मान रखें।" },
+  { chapter: 7, year: 2022, prompt: "यदि sin A = 1/2 और A न्यून कोण है, तो 2 sin A cos A का मान है—", options: ["1/4", "√3/2", "1", "1/√2"], answer: 1, solution: "A न्यून कोण है, इसलिए cos A = √(1 − sin² A) = √3/2। अतः 2 × 1/2 × √3/2 = √3/2।", hint: "sin² A + cos² A = 1 का उपयोग करके cos A निकालें।" },
+  { chapter: 8, year: 2021, prompt: "मीनार के पाद से 100 मीटर दूर बिंदु से शीर्ष का उन्नयन कोण 60° है। मीनार की ऊँचाई होगी—", options: ["100/√3 मीटर", "100√3 मीटर", "50√3 मीटर", "200 मीटर"], answer: 1, solution: "tan 60° = ऊँचाई/100। इसलिए ऊँचाई = 100 × √3 = 100√3 मीटर।", hint: "tan 60° = √3 का उपयोग करें।" },
+  { chapter: 8, year: 2022, prompt: "2 tan 30° / (1 − tan² 30°) का मान है—", options: ["1/√3", "1", "0", "√3"], answer: 3, solution: "tan 30° = 1/√3 रखने पर अंश 2/√3 और हर 1 − 1/3 = 2/3 है। भाग देने पर √3 मिलता है।", hint: "tan 30° = 1/√3 रखें और अंश तथा हर को सरल करें।" },
+  { chapter: 9, year: 2021, prompt: "तीन भिन्न संरेखीय बिंदुओं से होकर गुजरने वाले वृत्तों की संख्या है—", options: ["एक", "दो", "शून्य", "अनंत"], answer: 2, solution: "तीन भिन्न संरेखीय बिंदु किसी गैर-विकृत वृत्त पर नहीं हो सकते, इसलिए ऐसा कोई वृत्त नहीं है।", hint: "एक वृत्त के केंद्र से तीनों बिंदुओं की दूरियाँ बराबर होनी चाहिए।" },
+  { chapter: 12, year: 2021, prompt: "एक बेलन की ऊँचाई 11 सेमी तथा वक्र पृष्ठीय क्षेत्रफल 968 सेमी² है। बेलन की त्रिज्या होगी—", options: ["10 सेमी", "11 सेमी", "12 सेमी", "14 सेमी"], answer: 3, solution: "वक्र पृष्ठीय क्षेत्रफल 2πrh = 968। r = 968/(22π); π = 22/7 रखने पर r = 14 सेमी।", hint: "बेलन का वक्र पृष्ठीय क्षेत्रफल 2πrh होता है।" },
+  { chapter: 13, year: 2021, prompt: "आँकड़ों 5, 7, 4, 8, 6 का माध्य है—", options: ["4", "5", "6", "7"], answer: 2, solution: "माध्य = (5 + 7 + 4 + 8 + 6)/5 = 30/5 = 6।", hint: "सभी आँकड़ों का योग लेकर आँकड़ों की संख्या से भाग दें।" },
+  { chapter: 13, year: 2022, prompt: "आँकड़ों 2, 0, 7, 3, 4, 8, 1 की माध्यिका है—", options: ["3", "4", "7", "2"], answer: 0, solution: "आरोही क्रम में आँकड़े 0, 1, 2, 3, 4, 7, 8 हैं। सात मानों में बीच का, अर्थात चौथा मान 3 है।", hint: "आँकड़ों को आरोही क्रम में रखें और बीच का मान चुनें।" },
+  { chapter: 13, year: 2022, prompt: "वर्ग-अंतराल 0–10, 10–20, 20–30, 30–40, 40–50, 50–60 की बारंबारताएँ क्रमशः 5, x, 20, 15, 7, 5 हैं। यदि बारंबारताओं का योग 60 है, तो x का मान है—", options: ["7", "8", "15", "20"], answer: 1, solution: "5 + x + 20 + 15 + 7 + 5 = 60। अतः x + 52 = 60 और x = 8।", hint: "दी गई सभी बारंबारताओं का योग 60 के बराबर करें।" },
+  { chapter: 14, year: 2022, prompt: "एक पासे को एक बार फेंकने पर अभाज्य संख्या प्राप्त होने की प्रायिकता है—", options: ["1/2", "2/3", "0", "1"], answer: 0, solution: "पासे पर अभाज्य अंक 2, 3 और 5 हैं। प्रायिकता = 3/6 = 1/2।", hint: "1 से 6 तक अभाज्य संख्याएँ गिनें।" },
+  { chapter: 15, year: 2021, prompt: "14 का वर्ग है—", options: ["144", "169", "196", "225"], answer: 2, solution: "14² = 14 × 14 = 196। यह प्रश्न वैदिक गणित/वर्ग विषय से है, NCERT के 15 अध्यायों से नहीं।", hint: "14 को 14 से गुणा करें।", chapterTitle: "वैदिक गणित / वर्ग" }
+].map((question, index) => ({
+  ...question,
+  bankId: `m-${question.year}-${index + 1}`,
+  topic: question.chapterTitle || chapters[question.chapter].title,
+  answer: question.options[question.answer],
+  difficulty: `${question.year} परीक्षा`,
+  examYear: question.year,
+  marks: 1,
+  sourceType: "past-paper",
+  examSession: question.examSession || "M"
+}));
+
+const examQuestionHints = [
+  "अभाज्य गुणनखंडों और उनके घातों का उपयोग करें।",
+  "बहुपद के शून्यकों तथा गुणांकों के संबंध का उपयोग करें।",
+  "दिए गए कथन को दो चरों वाला समीकरण बनाकर लिखें।",
+  "विविक्तकर b² − 4ac या मूलों की प्रकृति जाँचें।",
+  "समांतर श्रेढ़ी के nवें पद या योगफल का सूत्र लगाएँ।",
+  "संगत कोणों और भुजाओं के अनुपात की तुलना करें।",
+  "दूरी या मध्य-बिंदु का निर्देशांक सूत्र लगाएँ।",
+  "उचित त्रिकोणमितीय अनुपात या सर्वसमिका चुनें।",
+  "tan θ = ऊँचाई/क्षैतिज दूरी का उपयोग करें।",
+  "स्पर्श रेखा, त्रिज्या और केंद्र कोण के गुण याद करें।",
+  "वृत्त, त्रिज्यखंड या चाप के क्षेत्रफल/लंबाई का सूत्र लगाएँ।",
+  "ठोस आकृति के पृष्ठीय क्षेत्रफल या आयतन का सूत्र लगाएँ।",
+  "माध्य, माध्यिका या बहुलक की परिभाषा के अनुसार गणना करें।",
+  "आँकड़ों को क्रमबद्ध करके या वर्ग-चिह्न/माध्य का सूत्र लगाएँ।",
+  "संभाव्यता और उसकी पूरक घटना के नियम का उपयोग करें।"
+];
+
+const additionalExamQuestionBank = window.oldPaperQuestionBank.flatMap(paper =>
+  paper.questions.map((question, index) => ({
+    ...question,
+    bankId: `${paper.session}${paper.year}-${index + 1}`,
+    topic: chapters[question.chapter].title,
+    year: paper.year,
+    examYear: paper.year,
+    examSession: paper.session,
+    answer: question.options[question.answer],
+    hint: question.hint || examQuestionHints[question.chapter],
+    difficulty: `${paper.session}${paper.year} परीक्षा`,
+    marks: 1,
+    sourceType: "past-paper"
+  }))
+);
+
+const workbookQuestionBank = window.uploadedQuestionBank.map(question => {
+  const options = ["A", "B", "C", "D"].map(letter => question[`Option ${letter}`]);
+  const correctOptionIndex = ["A", "B", "C", "D"].indexOf(question["Correct Option"]);
+  return {
+    chapter: Number(question["Chapter No"]) - 1,
+    topic: question.Chapter,
+    prompt: question.Question,
+    options,
+    answer: options[correctOptionIndex],
+    solution: `अपलोड की गई प्रश्न-फ़ाइल की उत्तर-कुंजी में विकल्प ${question["Correct Option"]} सही चिह्नित है।`,
+    hint: "अध्याय के संबंधित नियम या सूत्र का उपयोग करके विकल्प जाँचें।",
+    difficulty: "Workbook Quiz",
+    marks: 1,
+    sourceType: "workbook",
+    bankId: `workbook-${question["Question ID"]}`,
+    sourceId: question["Question ID"]
+  };
+});
+
 const partNotes = [
   "मूल अवधारणाओं को समझें और हल करने की शुरुआत करें।",
   "सीखे हुए सूत्रों का इस्तेमाल करके अभ्यास करें।",
@@ -37,8 +125,73 @@ let quizStartedAt = 0;
 let quizElapsed = 0;
 let timerHandle = null;
 let quizMode = "set";
+let bankSourceFilter = "all";
+let bankYearFilter = "all";
+let bankSessionFilter = "all";
+let bankChapterFilter = "all";
+let editingQuestionId = null;
 let storageWarning = "";
 let progress = loadProgress();
+
+const defaultQuestionBank = [...examQuestionBank, ...additionalExamQuestionBank, ...workbookQuestionBank];
+const bankEditStorageKey = "iMentorMathQuestionBankEdits";
+let bankHasLocalEdits = false;
+let bankQuestions = loadQuestionBank();
+
+function isValidQuestionBank(value) {
+  if (!Array.isArray(value) || value.length === 0) return false;
+  const ids = new Set();
+  return value.every(question => {
+    if (!question || typeof question.bankId !== "string" || ids.has(question.bankId)
+      || !Number.isInteger(question.chapter) || question.chapter < 0 || question.chapter > 15
+      || typeof question.prompt !== "string" || !question.prompt.trim()
+      || !Array.isArray(question.options) || question.options.length !== 4
+      || question.options.some(option => typeof option !== "string" || !option.trim())
+      || !question.options.includes(question.answer)
+      || typeof question.solution !== "string" || !question.solution.trim()
+      || typeof question.hint !== "string" || !question.hint.trim()
+      || !["past-paper", "workbook"].includes(question.sourceType)) return false;
+    ids.add(question.bankId);
+    return true;
+  });
+}
+
+function loadQuestionBank() {
+  try {
+    const saved = localStorage.getItem(bankEditStorageKey);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (!isValidQuestionBank(parsed)) throw new Error("Saved question-bank edits have an invalid format.");
+      bankHasLocalEdits = true;
+      return parsed;
+    }
+  } catch (error) {
+    console.error("Saved question-bank edits could not be read:", error);
+    storageWarning = "स्थानीय प्रश्न-बैंक बदलाव पढ़े नहीं जा सके। प्रकाशित प्रश्न-बैंक दिखाया गया है।";
+  }
+
+  const publishedOverrides = window.questionBankOverrides;
+  if (publishedOverrides !== null && publishedOverrides !== undefined) {
+    if (isValidQuestionBank(publishedOverrides)) return publishedOverrides;
+    const error = new Error("The published question-bank override has an invalid format.");
+    console.error("Published question-bank edits could not be loaded:", error);
+    storageWarning = "प्रकाशित प्रश्न-बैंक फ़ाइल का प्रारूप अमान्य है। मूल प्रश्न-बैंक दिखाया गया है।";
+  }
+  return defaultQuestionBank;
+}
+
+function saveQuestionBank() {
+  try {
+    localStorage.setItem(bankEditStorageKey, JSON.stringify(bankQuestions));
+    bankHasLocalEdits = true;
+    storageWarning = "";
+    return true;
+  } catch (error) {
+    console.error("Question-bank edits could not be saved in this browser:", error);
+    storageWarning = "बदलाव इस ब्राउज़र में सेव नहीं हुए। GitHub के लिए फ़ाइल डाउनलोड करके उन्हें सुरक्षित रखें।";
+    return false;
+  }
+}
 
 function loadProgress() {
   try {
@@ -166,6 +319,10 @@ function breadcrumb(current) {
   return `<nav class="breadcrumb"><button data-action="home">कक्षा 10 गणित</button><span>›</span><span>${escapeHTML(chapters[selectedChapter].title)}</span>${current ? `<span>›</span><span>${current}</span>` : ""}</nav>`;
 }
 
+function bankBreadcrumb(current = "") {
+  return `<nav class="breadcrumb"><button data-action="home">कक्षा 10 गणित</button><span>›</span><span>पिछले वर्षों के प्रश्न</span>${current ? `<span>›</span><span>${escapeHTML(current)}</span>` : ""}</nav>`;
+}
+
 function renderHome() {
   const totalAttempts = progress.attempts.length;
   const attemptedQuestions = progress.attempts.reduce((sum, attempt) => sum + attempt.answered, 0);
@@ -222,6 +379,11 @@ function renderHome() {
       <label class="primary-button upload-button" for="questionFile">फ़ाइल चुनें</label>
       <input id="questionFile" class="file-input" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv">
     </section>
+    <section class="exam-bank-card" aria-labelledby="examBankTitle">
+      <div class="upload-icon" aria-hidden="true">✓</div>
+      <div><h2 id="examBankTitle">गणित वस्तुनिष्ठ प्रश्न बैंक</h2><p>M2021–M2026 और S2024–S2026 के 136 प्रश्न तथा Workbook Quiz के 75 प्रश्न — अध्याय, वर्ष और परीक्षा सत्र के अनुसार।</p></div>
+      <button class="primary-button" id="openExamBank">प्रश्न बैंक खोलें →</button>
+    </section>
     <section>
       <div class="section-heading"><div><h2>अपना अध्याय चुनें</h2><p>अपनी गति से सीखें और अभ्यास करें</p></div><span class="count-label">कुल ${chapters.length} अध्याय</span></div>
       <div class="chapter-grid">${chapters.map((chapter, index) => `
@@ -236,12 +398,201 @@ function renderHome() {
     setScreen("chapter");
   }));
   app.querySelector('[data-action="mistakes"]').addEventListener("click", () => setScreen("mistakes"));
+  app.querySelector("#openExamBank").addEventListener("click", () => setScreen("bank"));
   app.querySelector("#questionFile").addEventListener("change", event => {
     const file = event.target.files[0];
     app.querySelector("#uploadStatus").textContent = file
       ? `${file.name} चुनी गई (${formatFileSize(file.size)})`
       : "कोई फ़ाइल नहीं चुनी गई";
   });
+}
+
+function getFilteredExamQuestions() {
+  return bankQuestions.filter(question =>
+    (bankSourceFilter === "all" || question.sourceType === bankSourceFilter)
+    && (bankYearFilter === "all" || question.year === Number(bankYearFilter))
+    && (bankSessionFilter === "all" || question.examSession === bankSessionFilter)
+    && (bankChapterFilter === "all" || question.chapter === Number(bankChapterFilter))
+  );
+}
+
+function renderQuestionEditor(question) {
+  const chapterOptions = chapters.map((chapter, index) =>
+    `<option value="${index}" ${question.chapter === index ? "selected" : ""}>अध्याय ${index + 1} — ${escapeHTML(chapter.title)}</option>`
+  ).join("");
+  const specialChapterOption = `<option value="15" ${question.chapter === 15 ? "selected" : ""}>वैदिक गणित / वर्ग (विशेष)</option>`;
+  const yearOptions = [2021, 2022, 2023, 2024, 2025, 2026].map(year =>
+    `<option value="${year}" ${question.year === year ? "selected" : ""}>${year}</option>`
+  ).join("");
+  const correctOption = question.options.indexOf(question.answer);
+  return `<form class="question-editor" data-editor="${escapeHTML(question.bankId)}">
+    <label class="editor-wide">प्रश्न<textarea name="prompt" rows="3" required>${escapeHTML(question.prompt)}</textarea></label>
+    <label>अध्याय<select name="chapter" required>${chapterOptions}${specialChapterOption}</select></label>
+    <label>परीक्षा वर्ष<select name="year" ${question.sourceType === "workbook" ? "disabled" : ""}>${yearOptions}</select></label>
+    <label>परीक्षा सत्र<select name="session" ${question.sourceType === "workbook" ? "disabled" : ""}><option value="M" ${question.examSession !== "S" ? "selected" : ""}>मुख्य (M)</option><option value="S" ${question.examSession === "S" ? "selected" : ""}>पूरक (S)</option></select></label>
+    ${question.options.map((option, index) => `<label>विकल्प ${letters[index]}<input name="option${index}" value="${escapeHTML(option)}" required></label>`).join("")}
+    <label>सही विकल्प<select name="answer" required>${question.options.map((option, index) => `<option value="${index}" ${correctOption === index ? "selected" : ""}>${letters[index]}</option>`).join("")}</select></label>
+    <label class="editor-wide">हल / उत्तर-कुंजी<textarea name="solution" rows="3" required>${escapeHTML(question.solution)}</textarea></label>
+    <label class="editor-wide">संकेत<textarea name="hint" rows="2" required>${escapeHTML(question.hint)}</textarea></label>
+    <div class="editor-actions editor-wide"><button class="primary-button" type="submit">बदलाव सेव करें</button><button class="secondary-button" type="button" data-cancel-edit>रद्द करें</button></div>
+  </form>`;
+}
+
+function downloadQuestionBank() {
+  const source = `window.questionBankOverrides = ${JSON.stringify(bankQuestions, null, 2).replace(/</g, "\\u003c")};\n`;
+  const blob = new Blob([source], { type: "text/javascript;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "question-bank-overrides.js";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  const status = app.querySelector("#bankEditStatus");
+  if (status) status.textContent = "फ़ाइल डाउनलोड हो गई। इसे question-bank-overrides.js के रूप में app की फ़ाइल से बदलें, फिर GitHub पर commit/push करें।";
+}
+
+function resetQuestionBankEdits() {
+  if (!window.confirm("इस ब्राउज़र में किए गए सभी प्रश्न-बैंक बदलाव हटाकर प्रकाशित प्रश्न-बैंक फिर से लोड करें?")) return;
+  try {
+    localStorage.removeItem(bankEditStorageKey);
+    bankQuestions = isValidQuestionBank(window.questionBankOverrides) ? window.questionBankOverrides : defaultQuestionBank;
+    bankHasLocalEdits = false;
+    editingQuestionId = null;
+    storageWarning = "";
+    renderExamBank();
+  } catch (error) {
+    console.error("Local question-bank edits could not be reset:", error);
+    storageWarning = "इस ब्राउज़र के स्थानीय बदलाव नहीं हटाए जा सके।";
+    renderExamBank();
+  }
+}
+
+function renderExamBank() {
+  const filteredQuestions = getFilteredExamQuestions();
+  const chapterOptions = chapters.map((chapter, index) =>
+    `<option value="${index}" ${bankChapterFilter === String(index) ? "selected" : ""}>अध्याय ${index + 1} — ${escapeHTML(chapter.title)}</option>`
+  ).join("");
+  const specialChapterSelected = bankChapterFilter === "15";
+  app.innerHTML = `${bankBreadcrumb()}
+    <div class="section-heading exam-bank-heading"><div><p class="eyebrow">M2021–M2026 · S2024–S2026 · Workbook Quiz</p><h1>वस्तुनिष्ठ प्रश्न बैंक</h1><p>स्रोत, परीक्षा वर्ष, सत्र और अध्याय चुनें; उत्तर व हल देखने के लिए प्रश्न खोलें।</p></div><span class="count-label">${filteredQuestions.length} प्रश्न</span></div>
+    <section class="bank-publish-tools" aria-label="प्रश्न बैंक संपादन और प्रकाशन">
+      <p id="bankEditStatus" role="status" aria-live="polite">${bankHasLocalEdits ? "स्थानीय बदलाव इस ब्राउज़र में सेव हैं। GitHub पर दिखाने के लिए अद्यतन बैंक फ़ाइल डाउनलोड करें।" : "प्रश्न संपादित/हटाने के बाद बदलाव पहले इसी ब्राउज़र में सेव होंगे; GitHub पर प्रकाशित करने के लिए बैंक फ़ाइल डाउनलोड करें।"}</p>
+      <div><button class="secondary-button" id="downloadQuestionBank">GitHub के लिए प्रश्न बैंक डाउनलोड करें</button>${bankHasLocalEdits ? '<button class="secondary-button" id="resetQuestionBank">स्थानीय बदलाव हटाएँ</button>' : ""}</div>
+      ${storageWarning ? `<p class="storage-warning" role="alert">${escapeHTML(storageWarning)}</p>` : ""}
+    </section>
+    <section class="exam-bank-filters" aria-label="प्रश्न छाँटें">
+      <label>प्रश्न स्रोत<select id="bankSourceFilter"><option value="all" ${bankSourceFilter === "all" ? "selected" : ""}>सभी स्रोत</option><option value="past-paper" ${bankSourceFilter === "past-paper" ? "selected" : ""}>बोर्ड प्रश्नपत्र</option><option value="workbook" ${bankSourceFilter === "workbook" ? "selected" : ""}>Workbook Quiz</option></select></label>
+      <label>${bankSourceFilter === "workbook" ? "परीक्षा वर्ष (फ़ाइल में उपलब्ध नहीं)" : "परीक्षा वर्ष"}<select id="bankYearFilter" ${bankSourceFilter === "workbook" ? "disabled" : ""}><option value="all" ${bankYearFilter === "all" ? "selected" : ""}>${bankSourceFilter === "workbook" ? "उपलब्ध नहीं" : "सभी वर्ष"}</option>${bankSourceFilter === "workbook" ? "" : [2021, 2022, 2023, 2024, 2025, 2026].map(year => `<option value="${year}" ${bankYearFilter === String(year) ? "selected" : ""}>${year}</option>`).join("")}</select></label>
+      <label>परीक्षा सत्र<select id="bankSessionFilter" ${bankSourceFilter === "workbook" ? "disabled" : ""}><option value="all" ${bankSessionFilter === "all" ? "selected" : ""}>सभी सत्र</option><option value="M" ${bankSessionFilter === "M" ? "selected" : ""}>मुख्य (M)</option><option value="S" ${bankSessionFilter === "S" ? "selected" : ""}>पूरक (S)</option></select></label>
+      <label>अध्याय<select id="bankChapterFilter"><option value="all" ${bankChapterFilter === "all" ? "selected" : ""}>सभी अध्याय</option>${chapterOptions}<option value="15" ${specialChapterSelected ? "selected" : ""}>वैदिक गणित / वर्ग (विशेष)</option></select></label>
+      ${filteredQuestions.length ? `<button class="primary-button" id="startExamQuiz">इन ${filteredQuestions.length} प्रश्नों का क्विज़ शुरू करें →</button>` : ""}
+    </section>
+    ${filteredQuestions.length ? `<section class="exam-question-list" aria-label="प्रश्न सूची">${filteredQuestions.map((question, index) => `<details class="exam-question-card" ${editingQuestionId === question.bankId ? "open" : ""}>
+      <summary><span class="exam-question-number">${index + 1}</span><span class="exam-question-heading"><span class="exam-question-meta">${question.year ? `${question.examSession === "S" ? "पूरक" : "मुख्य"} ${question.year} परीक्षा` : "Workbook Quiz"} · ${escapeHTML(question.topic)}</span><strong>${escapeHTML(question.prompt)}</strong></span><span class="card-arrow" aria-hidden="true">⌄</span></summary>
+      <ol class="exam-options">${question.options.map((option, optionIndex) => `<li><span>${letters[optionIndex]}.</span> ${escapeHTML(option)}</li>`).join("")}</ol>
+      <div class="exam-answer"><p><strong>सही उत्तर:</strong> ${letters[question.options.indexOf(question.answer)]}. ${escapeHTML(question.answer)}</p><p><strong>${question.sourceType === "workbook" ? "उत्तर-कुंजी:" : "हल:"}</strong> ${escapeHTML(question.solution)}</p></div>
+      <div class="bank-question-actions"><button class="secondary-button" type="button" data-edit-question="${escapeHTML(question.bankId)}">संपादित करें</button><button class="secondary-button" type="button" data-delete-question="${escapeHTML(question.bankId)}">हटाएँ</button></div>
+      ${editingQuestionId === question.bankId ? renderQuestionEditor(question) : ""}
+    </details>`).join("")}</section>` : `<div class="empty-state">इस अध्याय और वर्ष के लिए कोई MCQ उपलब्ध नहीं है। कोई दूसरा फ़िल्टर चुनें।</div>`}`;
+  app.querySelector('[data-action="home"]').addEventListener("click", goHome);
+  app.querySelector("#downloadQuestionBank").addEventListener("click", downloadQuestionBank);
+  const resetButton = app.querySelector("#resetQuestionBank");
+  if (resetButton) resetButton.addEventListener("click", resetQuestionBankEdits);
+  app.querySelector("#bankSourceFilter").addEventListener("change", event => {
+    bankSourceFilter = event.target.value;
+    bankYearFilter = "all";
+    bankSessionFilter = "all";
+    renderExamBank();
+  });
+  app.querySelector("#bankYearFilter").addEventListener("change", event => {
+    bankYearFilter = event.target.value;
+    renderExamBank();
+  });
+  app.querySelector("#bankSessionFilter").addEventListener("change", event => {
+    bankSessionFilter = event.target.value;
+    renderExamBank();
+  });
+  app.querySelector("#bankChapterFilter").addEventListener("change", event => {
+    bankChapterFilter = event.target.value;
+    renderExamBank();
+  });
+  app.querySelectorAll("[data-edit-question]").forEach(button => button.addEventListener("click", () => {
+    editingQuestionId = button.dataset.editQuestion;
+    renderExamBank();
+  }));
+  app.querySelectorAll("[data-delete-question]").forEach(button => button.addEventListener("click", () => {
+    if (!window.confirm("क्या आप इस प्रश्न को प्रश्न-बैंक से हटाना चाहते हैं?")) return;
+    bankQuestions = bankQuestions.filter(question => question.bankId !== button.dataset.deleteQuestion);
+    editingQuestionId = null;
+    saveQuestionBank();
+    renderExamBank();
+  }));
+  app.querySelectorAll("[data-cancel-edit]").forEach(button => button.addEventListener("click", () => {
+    editingQuestionId = null;
+    renderExamBank();
+  }));
+  app.querySelectorAll("[data-editor]").forEach(form => form.addEventListener("submit", event => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const bankId = form.dataset.editor;
+    const currentQuestion = bankQuestions.find(question => question.bankId === bankId);
+    if (!currentQuestion) {
+      const error = new Error(`Question ${bankId} no longer exists in the bank.`);
+      console.error("Question-bank edit could not be applied:", error);
+      storageWarning = "यह प्रश्न अब बैंक में नहीं है; पृष्ठ को फिर से खोलकर बदलाव करें।";
+      renderExamBank();
+      return;
+    }
+    const chapter = Number(formData.get("chapter"));
+    const options = [0, 1, 2, 3].map(index => String(formData.get(`option${index}`)).trim());
+    if (!Number.isInteger(chapter) || chapter < 0 || chapter > 15 || options.some(option => !option)) {
+      storageWarning = "अध्याय और चारों विकल्प जाँचकर फिर सेव करें।";
+      renderExamBank();
+      return;
+    }
+    const answerIndex = Number(formData.get("answer"));
+    const updatedQuestion = {
+      ...currentQuestion,
+      chapter,
+      topic: chapter === 15 ? "वैदिक गणित / वर्ग" : chapters[chapter].title,
+      prompt: String(formData.get("prompt")).trim(),
+      options,
+      answer: options[answerIndex],
+      solution: String(formData.get("solution")).trim(),
+      hint: String(formData.get("hint")).trim()
+    };
+    if (currentQuestion.sourceType === "past-paper") {
+      updatedQuestion.year = Number(formData.get("year"));
+      updatedQuestion.examYear = updatedQuestion.year;
+      updatedQuestion.examSession = String(formData.get("session"));
+      updatedQuestion.difficulty = `${updatedQuestion.examSession}${updatedQuestion.year} परीक्षा`;
+    }
+    if (!updatedQuestion.prompt || !updatedQuestion.solution || !updatedQuestion.hint
+      || !Number.isInteger(answerIndex) || answerIndex < 0 || answerIndex > 3
+      || (currentQuestion.sourceType === "past-paper" && (![2021, 2022, 2023, 2024, 2025, 2026].includes(updatedQuestion.year)
+        || !["M", "S"].includes(updatedQuestion.examSession)))) {
+      storageWarning = "प्रश्न, उत्तर, हल, संकेत और परीक्षा विवरण जाँचकर फिर सेव करें।";
+      renderExamBank();
+      return;
+    }
+    bankQuestions = bankQuestions.map(question => question.bankId === bankId ? updatedQuestion : question);
+    editingQuestionId = null;
+    saveQuestionBank();
+    renderExamBank();
+  }));
+  const startButton = app.querySelector("#startExamQuiz");
+  if (startButton) startButton.addEventListener("click", startExamQuiz);
+}
+
+function startExamQuiz() {
+  questions = getFilteredExamQuestions().map(question => ({ ...question }));
+  if (!questions.length) return;
+  quizMode = "bank";
+  questionCount = questions.length;
+  selectedChapter = questions[0].chapter < chapters.length ? questions[0].chapter : 0;
+  startQuiz();
 }
 
 function formatFileSize(bytes) {
@@ -689,7 +1040,9 @@ async function shareQuizOnWhatsApp() {
 
 function startQuiz() {
   stopQuizTimer();
-  questions = Array.from({ length: questionCount }, (_, index) => makeQuestion(selectedChapter, selectedPart, index + selectedSet * 10));
+  if (quizMode !== "bank") {
+    questions = Array.from({ length: questionCount }, (_, index) => makeQuestion(selectedChapter, selectedPart, index + selectedSet * 10));
+  }
   questionIndex = 0;
   selectedOption = null;
   answers = Array(questions.length).fill(null);
@@ -701,7 +1054,7 @@ function startQuiz() {
 function finishQuiz() {
   stopQuizTimer();
   quizElapsed = Math.floor((Date.now() - quizStartedAt) / 1000);
-  saveQuizResult();
+  if (quizMode !== "bank") saveQuizResult();
   setScreen("result");
 }
 
@@ -730,12 +1083,14 @@ function renderQuiz() {
   const answeredCount = answers.filter(answer => answer !== null).length;
   const percent = (answeredCount / questions.length) * 100;
   const isChapterTest = quizMode === "chapter";
-  app.innerHTML = `${breadcrumb("क्विज़")}
+  const isExamBankQuiz = quizMode === "bank";
+  const examBankSource = question.year ? `${question.year} परीक्षा` : "Workbook Quiz";
+  app.innerHTML = `${isExamBankQuiz ? bankBreadcrumb("क्विज़") : breadcrumb("क्विज़")}
     <section class="quiz-layout">
-      <div class="quiz-top"><span>${isChapterTest ? "अध्याय मास्टर टेस्ट" : escapeHTML(question.topic)} · ${escapeHTML(question.difficulty)}</span><span class="quiz-timer" id="quizTimer" aria-label="बीता समय">${formatTime(quizElapsed)}</span><span class="quiz-count">प्रश्न ${questionIndex + 1} <span style="font-weight:400;color:#9ba1af">/ ${questions.length}</span></span></div>
+      <div class="quiz-top"><span>${isExamBankQuiz ? `${examBankSource} · ${escapeHTML(question.topic)}` : isChapterTest ? "अध्याय मास्टर टेस्ट" : `${escapeHTML(question.topic)} · ${escapeHTML(question.difficulty)}`}</span><span class="quiz-timer" id="quizTimer" aria-label="बीता समय">${formatTime(quizElapsed)}</span><span class="quiz-count">प्रश्न ${questionIndex + 1} <span style="font-weight:400;color:#9ba1af">/ ${questions.length}</span></span></div>
       <div class="progress-track"><div class="progress-fill" style="width:${percent}%"></div></div>
       <article class="question-card">
-        <p class="question-kicker">${isChapterTest ? "अध्याय टेस्ट" : `सेट ${selectedSet + 1}`} · प्रश्न ${questionIndex + 1} · ${question.marks} अंक</p>
+        <p class="question-kicker">${isExamBankQuiz ? `${examBankSource} · ${escapeHTML(question.topic)}` : isChapterTest ? "अध्याय टेस्ट" : `सेट ${selectedSet + 1}`} · प्रश्न ${questionIndex + 1} · ${question.marks} अंक</p>
         <h2 class="question-text">${escapeHTML(question.prompt)}</h2>
         <div class="options">${question.options.map((option, index) => `
           <button class="option ${selectedOption === option ? "selected" : ""}" data-option="${escapeHTML(option)}"><span class="option-mark">${letters[index]}</span><span>${escapeHTML(option)}</span></button>`).join("")}
@@ -787,20 +1142,31 @@ function renderResult() {
   const accuracy = answered ? Math.round(correct / answered * 100) : 0;
   const hosted = isPubliclyHosted();
   const wrongCount = answers.reduce((sum, answer, index) => sum + (answer !== null && answer !== questions[index].answer ? 1 : 0), 0);
-  const quizTitle = quizMode === "chapter"
-    ? "अध्याय मास्टर टेस्ट"
-    : quizMode === "mistakes"
-      ? "गलत प्रश्नों का अभ्यास"
-      : `सेट ${selectedSet + 1}`;
-  app.innerHTML = `${breadcrumb("परिणाम")}
+  const bankSources = new Set(questions.map(question => question.sourceType));
+  const bankYears = [...new Set(questions.map(question => question.year).filter(Boolean))].sort();
+  const bankSessions = new Set(questions.map(question => question.examSession).filter(Boolean));
+  const bankSessionTitle = bankSessions.size > 1 ? "मुख्य + पूरक" : bankSessions.has("S") ? "पूरक" : "मुख्य";
+  const bankTitle = bankSources.size > 1
+    ? "पिछले वर्ष + Workbook Quiz प्रश्न बैंक"
+    : bankSources.has("workbook")
+      ? "Workbook Quiz प्रश्न बैंक"
+      : `${bankYears.join(" + ")} ${bankSessionTitle} परीक्षा प्रश्न बैंक`;
+  const quizTitle = quizMode === "bank"
+    ? bankTitle
+    : quizMode === "chapter"
+      ? "अध्याय मास्टर टेस्ट"
+      : quizMode === "mistakes"
+        ? "गलत प्रश्नों का अभ्यास"
+        : `सेट ${selectedSet + 1}`;
+  app.innerHTML = `${quizMode === "bank" ? bankBreadcrumb("परिणाम") : breadcrumb("परिणाम")}
     <section class="quiz-layout">
-      <div class="result-hero"><span class="result-icon">✦</span><h1>${percent >= 80 ? "शानदार प्रदर्शन!" : percent >= 50 ? "अच्छी कोशिश!" : "अभ्यास जारी रखें!"}</h1><p>${escapeHTML(chapters[selectedChapter].title)} · ${quizTitle}</p>
+      <div class="result-hero"><span class="result-icon">✦</span><h1>${percent >= 80 ? "शानदार प्रदर्शन!" : percent >= 50 ? "अच्छी कोशिश!" : "अभ्यास जारी रखें!"}</h1><p>${quizMode === "bank" ? "कक्षा 10 गणित" : escapeHTML(chapters[selectedChapter].title)} · ${quizTitle}</p>
         <div class="score-row"><div class="score-stat"><strong>${correct}/${questions.length}</strong><span>सही उत्तर</span></div><div class="score-stat"><strong>${percent}%</strong><span>स्कोर</span></div><div class="score-stat"><strong>${wrongCount}</strong><span>गलत</span></div><div class="score-stat"><strong>${skipped}</strong><span>छोड़े</span></div><div class="score-stat"><strong>${formatTime(quizElapsed)}</strong><span>समय</span></div></div>
       </div>
       ${storageWarning ? `<p class="storage-warning" role="status">${escapeHTML(storageWarning)}</p>` : ""}
       <p class="result-accuracy">उत्तर दिए गए ${answered}/${questions.length} · उत्तर दिए गए प्रश्नों में सटीकता ${accuracy}%</p>
-      <div class="result-actions"><button id="retryQuiz" class="secondary-button">फिर से अभ्यास करें</button>${wrongCount ? '<button id="retryWrong" class="secondary-button">केवल गलत प्रश्न</button>' : ""}<button id="hardQuiz" class="secondary-button">कठिन प्रश्न करें</button><button id="backChapter" class="secondary-button">अध्याय पर लौटें</button><button id="downloadQuiz" class="secondary-button">Quiz फ़ाइल डाउनलोड करें</button>${hosted ? '<button id="copyQuizLink" class="secondary-button">क्विज़ लिंक कॉपी करें</button>' : ""}<button id="shareQuiz" class="primary-button">${hosted ? "WhatsApp पर लिंक भेजें" : "WhatsApp पर फ़ाइल शेयर करें"}</button></div>
-      <p id="shareStatus" class="share-status" role="status" aria-live="polite">${hosted ? "लिंक पाने वाला सीधे ब्राउज़र में यह क्विज़ दे सकेगा। उसके जवाब आपके पास जमा नहीं होंगे।" : "लाइव क्विज़ लिंक के लिए ऐप को GitHub Pages पर प्रकाशित करें; अभी HTML फ़ाइल भेज सकते हैं।"}</p>
+      <div class="result-actions"><button id="retryQuiz" class="secondary-button">${quizMode === "bank" ? "प्रश्न फिर से हल करें" : "फिर से अभ्यास करें"}</button>${wrongCount && quizMode !== "bank" ? '<button id="retryWrong" class="secondary-button">केवल गलत प्रश्न</button>' : ""}${quizMode === "bank" ? "" : '<button id="hardQuiz" class="secondary-button">कठिन प्रश्न करें</button>'}<button id="backChapter" class="secondary-button">${quizMode === "bank" ? "प्रश्न बैंक पर लौटें" : "अध्याय पर लौटें"}</button>${quizMode === "bank" ? "" : `<button id="downloadQuiz" class="secondary-button">Quiz फ़ाइल डाउनलोड करें</button>${hosted ? '<button id="copyQuizLink" class="secondary-button">क्विज़ लिंक कॉपी करें</button>' : ""}<button id="shareQuiz" class="primary-button">${hosted ? "WhatsApp पर लिंक भेजें" : "WhatsApp पर फ़ाइल शेयर करें"}</button>`}</div>
+      ${quizMode === "bank" ? "" : `<p id="shareStatus" class="share-status" role="status" aria-live="polite">${hosted ? "लिंक पाने वाला सीधे ब्राउज़र में यह क्विज़ दे सकेगा। उसके जवाब आपके पास जमा नहीं होंगे।" : "लाइव क्विज़ लिंक के लिए ऐप को GitHub Pages पर प्रकाशित करें; अभी HTML फ़ाइल भेज सकते हैं।"}</p>`}
       <div class="section-heading"><div><h2>उत्तर-पत्रिका और समाधान</h2><p>किसी प्रश्न पर टैप करके उसका चरण-दर-चरण हल देखें</p></div></div>
       <div class="answer-list">${questions.map((question, index) => {
         const isCorrect = answers[index] === question.answer;
@@ -812,12 +1178,16 @@ function renderResult() {
     </section>`;
   app.querySelector('[data-action="home"]').addEventListener("click", goHome);
   app.querySelector("#retryQuiz").addEventListener("click", startQuiz);
-  if (wrongCount) app.querySelector("#retryWrong").addEventListener("click", startWrongQuiz);
-  app.querySelector("#hardQuiz").addEventListener("click", startHardQuiz);
-  app.querySelector("#backChapter").addEventListener("click", () => setScreen("chapter"));
-  app.querySelector("#downloadQuiz").addEventListener("click", downloadShareableQuiz);
-  app.querySelector("#shareQuiz").addEventListener("click", shareQuizLinkOnWhatsApp);
-  if (hosted) app.querySelector("#copyQuizLink").addEventListener("click", copyQuizLink);
+  if (wrongCount && quizMode !== "bank") app.querySelector("#retryWrong").addEventListener("click", startWrongQuiz);
+  if (quizMode === "bank") {
+    app.querySelector("#backChapter").addEventListener("click", () => setScreen("bank"));
+  } else {
+    app.querySelector("#hardQuiz").addEventListener("click", startHardQuiz);
+    app.querySelector("#backChapter").addEventListener("click", () => setScreen("chapter"));
+    app.querySelector("#downloadQuiz").addEventListener("click", downloadShareableQuiz);
+    app.querySelector("#shareQuiz").addEventListener("click", shareQuizLinkOnWhatsApp);
+    if (hosted) app.querySelector("#copyQuizLink").addEventListener("click", copyQuizLink);
+  }
 }
 
 function renderMistakes() {
@@ -836,6 +1206,7 @@ function renderMistakes() {
 function render() {
   if (screen === "home") renderHome();
   else if (screen === "chapter") renderChapter();
+  else if (screen === "bank") renderExamBank();
   else if (screen === "quiz") renderQuiz();
   else if (screen === "result") renderResult();
   else if (screen === "mistakes") renderMistakes();
