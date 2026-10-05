@@ -3,40 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f7fb">
-  <meta name="description" content="कक्षा 10 गणित के अध्यायवार अभ्यास, क्विज़, संकेत और चरण-दर-चरण समाधान।">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>I_Mentor_99 — कक्षा 10 गणित</title>
+  <title>कक्षा 10 गणित – क्विज़</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="कक्षा 10 गणित के प्रश्नों के साथ इंटरैक्टिव क्विज़।" />
 </head>
-<body>
-  <div class="app-shell">
-    <header class="topbar">
-      <button class="brand" id="homeButton" aria-label="मुखपृष्ठ पर जाएँ">
-        <span class="home-label">⌂ होम</span>
-        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt=""></span>
-        <span>कक्षा 10 गणित</span>
-      </button>
-      <div class="topbar-right">
-        <a class="board-chip" href="workbook-quiz.html" target="_blank" rel="noopener noreferrer" aria-label="Workbook Quiz">📘 Workbook Quiz</a>
-        <span class="board-chip"><span class="chip-dot"></span> राजस्थान बोर्ड</span>
-        <span class="class-chip">कक्षा 10</span>
-      </div>
-    </header>
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+  <header class="bg-white shadow-md p-4 flex justify-between items-center">
+    <button id="homeButton" class="flex items-center space-x-2 text-lg font-semibold" aria-label="मुखपृष्ठ पर जाएँ">
+      <span class="text-2xl">⌂</span>
+      <span>होम</span>
+    </button>
+    <div class="flex space-x-4">
+      <a href="workbook-quiz.html" target="_blank" rel="noopener noreferrer" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700">📘 Workbook Quiz</a>
+      <span class="px-3 py-1 bg-green-100 text-green-800 rounded">राजस्थान बोर्ड</span>
+      <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded">कक्षा 10</span>
+    </div>
+  </header>
 
-    <main id="app" class="main-content" aria-live="polite"></main>
-    <footer class="footer"><span>सीखें, अभ्यास करें, आगे बढ़ें।</span><span>कक्षा 10 · गणित</span></footer>
-  </div>
-  <script src="workbook-question-bank.js"></script>
-  <script src="old-paper-question-bank.js"></script>
-  <script src="question-bank-overrides.js"></script>
+  <main id="app" class="flex-grow container mx-auto p-4" aria-live="polite">
+    <!-- Quiz UI will be injected by app.js -->
+  </main>
+
+  <footer class="bg-white text-center p-4 shadow-inner">
+    <span>सीखें, अभ्यास करें, आगे बढ़ें।</span> • <span>कक्षा 10 · गणित</span>
+  </footer>
+
+  <script src="questions.json"></script>
   <script src="app.js"></script>
 </body>
 </html>
