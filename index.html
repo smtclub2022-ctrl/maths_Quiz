@@ -1,37 +1,116 @@
-<!doctype html>
-<html lang="hi">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>कक्षा 10 गणित – क्विज़</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <meta name="description" content="कक्षा 10 गणित के प्रश्नों के साथ इंटरैक्टिव क्विज़।" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 10 Maths Quiz</title>
+    <style>
+        /* CSS - The Design */
+        body { background: #f4f7f6; font-family: 'Arial', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .quiz-card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        h1 { color: #2c3e50; font-size: 24px; margin-bottom: 20px; }
+        .question { font-size: 18px; font-weight: bold; margin-bottom: 20px; color: #34495e; }
+        .options { display: grid; gap: 10px; }
+        .btn { background: #ecf0f1; border: 2px solid #3498db; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .btn:hover { background: #3498db; color: white; }
+        .hidden { display: none; }
+        .score-text { font-size: 22px; color: #27ae60; font-weight: bold; }
+        .restart { margin-top: 20px; padding: 10px 20px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
-  <header class="bg-white shadow-md p-4 flex justify-between items-center">
-    <button id="homeButton" class="flex items-center space-x-2 text-lg font-semibold" aria-label="मुखपृष्ठ पर जाएँ">
-      <span class="text-2xl">⌂</span>
-      <span>होम</span>
-    </button>
-    <div class="flex space-x-4">
-      <a href="workbook-quiz.html" target="_blank" rel="noopener noreferrer" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700">📘 Workbook Quiz</a>
-      <span class="px-3 py-1 bg-green-100 text-green-800 rounded">राजस्थान बोर्ड</span>
-      <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded">कक्षा 10</span>
+<body>
+
+    <div class="quiz-card">
+        <div id="quiz-screen">
+            <h1 id="topic">Class 10 Maths</h1>
+            <p id="q-number" style="color: #7f8c8d;">Question 1 of 5</p>
+            <div class="question" id="question">Loading question...</div>
+            <div class="options" id="options">
+                <!-- Buttons will appear here -->
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h1>Quiz Finished!</h1>
+            <p class="score-text" id="score-display"></p>
+            <button class="restart" onclick="location.reload()">Start Again</button>
+        </div>
     </div>
-  </header>
 
-  <main id="app" class="flex-grow container mx-auto p-4" aria-live="polite">
-    <!-- Quiz UI will be injected by app.js -->
-  </main>
+    <script>
+        // JAVASCRIPT - The Questions & Logic
+        const quizData = [
+            {
+                q: "What is the HCF of 135 and 225?",
+                options: ["15", "30", "45", "5"],
+                correct: 2 // 45
+            },
+            {
+                q: "If sin A = 3/4, what is the value of cos A?",
+                options: ["sqrt(7)/4", "4/3", "1/2", "3/5"],
+                correct: 0
+            },
+            {
+                q: "The sum of the zeroes of quadratic polynomial 3x² - 5x + 2 is:",
+                options: ["2/3", "5/3", "-5/3", "1"],
+                correct: 1
+            },
+            {
+                q: "The distance of point (3, 4) from the origin is:",
+                options: ["3 units", "4 units", "5 units", "7 units"],
+                correct: 2
+            },
+            {
+                q: "In an AP: 10, 7, 4... the 30th term is:",
+                options: ["77", "-77", "-87", "87"],
+                correct: 1
+            }
+        ];
 
-  <footer class="bg-white text-center p-4 shadow-inner">
-    <span>सीखें, अभ्यास करें, आगे बढ़ें।</span> • <span>कक्षा 10 · गणित</span>
-  </footer>
+        let currentQ = 0;
+        let score = 0;
 
-  <script src="questions.json"></script>
-  <script src="app.js"></script>
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const qNumEl = document.getElementById("q-number");
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultScreen = document.getElementById("result-screen");
+        const scoreDisplay = document.getElementById("score-display");
+
+        function loadQuiz() {
+            const currentData = quizData[currentQ];
+            questionEl.innerText = currentData.q;
+            qNumEl.innerText = `Question ${currentQ + 1} of ${quizData.length}`;
+            optionsEl.innerHTML = "";
+
+            currentData.options.forEach((opt, index) => {
+                const button = document.createElement("button");
+                button.classList.add("btn");
+                button.innerText = opt;
+                button.onclick = () => checkAnswer(index);
+                optionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected) {
+            if (selected === quizData[currentQ].correct) {
+                score++;
+            }
+            currentQ++;
+            if (currentQ < quizData.length) {
+                loadQuiz();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.classList.add("hidden");
+            resultScreen.classList.remove("hidden");
+            scoreDisplay.innerText = `You scored ${score} / ${quizData.length}`;
+        }
+
+        loadQuiz();
+    </script>
 </body>
 </html>
