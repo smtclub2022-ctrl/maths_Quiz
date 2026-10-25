@@ -21,7 +21,23 @@ Workflow केवल app की HTML, CSS, JavaScript, icon और आवश्
 - प्रश्न बैंक के प्रश्नों के विकल्प देखने के बाद फ़िल्टर किए गए प्रश्नों का क्विज़ शुरू करें। क्विज़ पूरा होने तक सही उत्तर और हल छिपे रहते हैं; परिणाम में उत्तर-पत्रिका और समाधान दिखते हैं। प्रश्न बैंक और क्विज़ स्क्रीन के **⌂ होम** बटन से मुख्य पृष्ठ पर लौटें।
 - ऐप को HTTPS पर पहली बार खोलने के बाद इसका shell offline उपलब्ध रहता है। Android Chrome में ब्राउज़र मेन्यू से **Add to Home screen** चुनें।
 
-प्रगति और गलतियाँ उसी ब्राउज़र के `localStorage` में रहती हैं; वे दूसरे डिवाइस पर sync नहीं होतीं और शिक्षक/server को नहीं भेजी जातीं। साझा लिंक चुने गए अध्याय, सेट और प्रश्न संख्या का क्विज़ खोलता है, लेकिन विद्यार्थी के उत्तर साझा नहीं करता।
+प्रगति और गलतियाँ उसी ब्राउज़र के `localStorage` में रहती हैं; वे दूसरे डिवाइस पर sync नहीं होतीं। विद्यार्थी का नाम, कक्षा, विद्यालय और मोबाइल नंबर अलग MongoDB API में सहेजे जाते हैं। GitHub Pages static hosting है, इसलिए MongoDB credentials केवल backend में रखें—कभी frontend में नहीं।
+
+### विद्यार्थी विवरण और MongoDB API
+
+पहली बार ऐप खोलने पर विद्यार्थी विवरण फ़ॉर्म आता है। फ़ॉर्म अंग्रेज़ी में है; नाम और विद्यालय के नाम uppercase में MongoDB में सहेजे जाते हैं और कक्षा `CLASS 1` से `CLASS 12` तक रखी जाती है। OTP नहीं है; इसलिए मोबाइल नंबर सत्यापित नहीं होता और यह पहचान-सुरक्षित authentication नहीं है। समान मोबाइल नंबर से जमा की गई जानकारी उसी विद्यार्थी रिकॉर्ड को अपडेट करती है। फॉर्म में अभिभावक/विद्यार्थी अनुमति की पुष्टि आवश्यक है।
+
+1. MongoDB Atlas में database बनाकर `students` collection के लिए backend को access देने वाला database user और network access सेट करें।
+2. Render (या किसी Python web-service host) पर `backend` फ़ोल्डर को अलग Web Service की तरह deploy करें। Build command `pip install -r requirements.txt`, start command `gunicorn app:app`, और health-check path `/api/health` रखें।
+3. Backend service के environment में `MONGODB_URI`, वैकल्पिक `MONGODB_DATABASE` (डिफ़ॉल्ट `i_mentor`) और `ALLOWED_ORIGINS` सेट करें। `ALLOWED_ORIGINS` में प्रकाशित frontend का पूरा origin रखें, जैसे `https://<account>.github.io` (repository path शामिल न करें)। लोकल परीक्षण के लिए `http://localhost:8000` भी जोड़ें।
+4. `api-config.js` में `window.STUDENT_API_BASE_URL` को backend का HTTPS origin दें, जैसे `https://<service>.onrender.com`। यह URL सार्वजनिक है; MongoDB URI/पासवर्ड नहीं।
+5. Backend के `/api/health` पर `{"status":"ok"}` जाँचने के बाद static site फिर से deploy करें। लोकल परीक्षण में repository root पर `python -m http.server 8000` और `backend` फ़ोल्डर में `python app.py` चलाएँ।
+
+MongoDB रिकॉर्ड में मोबाइल नंबर unique key है। OTP/authentication न होने के कारण मोबाइल नंबर रखने वाला कोई भी व्यक्ति उस नंबर का रिकॉर्ड अपडेट कर सकता है; वास्तविक सुरक्षित login के लिए verified sign-in जोड़ना होगा। सार्वजनिक रूप से खोलने से पहले MongoDB Atlas की network access सीमित करें और लागू गोपनीयता/अभिभावक-सहमति नियमों की समीक्षा करें। साझा लिंक चुने गए अध्याय, सेट और प्रश्न संख्या का क्विज़ खोलता है, लेकिन विद्यार्थी के उत्तर साझा नहीं करता।
+
+### Admin uploads
+
+Question-file uploads are available only at `/admin.html`, not on the student dashboard. Configure backend environment variables `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and a long random `SECRET_KEY`; keep them private and use HTTPS. Set `ALLOWED_ORIGINS` to the exact GitHub Pages origin and `SESSION_COOKIE_SECURE=true`. For local HTTP-only testing set `SESSION_COOKIE_SECURE=false` and include `http://localhost:8000` in `ALLOWED_ORIGINS`. The admin API uses an HTTP-only signed session cookie plus a CSRF token. Login is required to list, upload, download, or delete files. Files are kept in MongoDB GridFS (`admin_uploads` bucket), limited to 25 MB each, and restricted by extension to PDF, Word, Excel, and CSV. They are stored privately, but are **not automatically parsed or added to the quiz question bank**.
 
 अध्याय अभ्यास के प्रश्न नियम-आधारित हैं। प्रश्न-बैंक उपलब्ध कराए गए प्रश्नपत्रों के वस्तुनिष्ठ प्रश्नों और Workbook Quiz की अपलोड की गई CSV फ़ाइल पर आधारित है; इसे आधिकारिक या सम्पूर्ण NCERT प्रश्न-बैंक न मानें। ऑनलाइन leaderboard, प्रमाणपत्र, फ़ाइल से प्रश्न आयात और Class 10 का 80-अंकों वाला full mock इस static संस्करण में शामिल नहीं हैं।
 

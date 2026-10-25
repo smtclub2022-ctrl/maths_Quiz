@@ -18,7 +18,8 @@ body { margin: 0; background: var(--canvas); color: var(--ink); }
 button { color: inherit; font: inherit; }
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
 .topbar { position: sticky; top: 0; z-index: 20; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 max(28px, calc((100vw - 1160px) / 2)); background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); }
-.brand { border: 0; padding: 0; background: none; cursor: pointer; display: flex; align-items: center; gap: 11px; font-size: 19px; font-weight: 800; letter-spacing: -.5px; }
+.brand { padding: 0; color: inherit; text-decoration: none; display: flex; align-items: center; gap: 11px; font-size: 19px; font-weight: 800; letter-spacing: -.5px; }
+.brand:focus-visible, .board-chip:focus-visible { outline: 3px solid #aca6ff; outline-offset: 3px; }
 .home-label { flex: 0 0 auto; padding: 8px 11px; border: 1px solid #dedcff; border-radius: 10px; background: #fbfaff; color: var(--violet); font-size: 12px; font-weight: 700; letter-spacing: 0; }
 .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: #fff; background: var(--violet); font: 700 23px "DM Sans", sans-serif; box-shadow: 0 5px 12px #6558df35; }
 .logo-mark { flex: 0 0 72px; width: 72px; height: 50px; overflow: hidden; border-radius: 0; background: transparent; box-shadow: none; }
@@ -28,6 +29,46 @@ button { color: inherit; font: inherit; }
 .board-chip, .class-chip { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 99px; background: #f6f7fb; color: #5f687e; font-size: 12px; font-weight: 600; text-decoration: none; }
 .class-chip { background: var(--violet-pale); color: var(--violet); }
 .chip-dot { width: 7px; height: 7px; border-radius: 50%; background: #36b58d; }
+.student-switch { border: 0; cursor: pointer; font: inherit; }
+.student-switch[hidden] { display: none; }
+.student-login { width: min(100%, 520px); margin: 0 auto; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: 0 16px 40px #25294b0b; }
+.student-login-brand { display: grid; place-items: center; height: 105px; margin: -4px 0 12px; }
+.student-login-brand img { display: block; width: 150px; height: 105px; object-fit: contain; }
+.student-login > .eyebrow, .student-login > h1, .student-login > .subheading { text-align: center; }
+.student-login > .eyebrow { margin-bottom: 5px; }
+.student-login > h1 { margin-bottom: 5px; }
+.student-login-form { display: grid; gap: 8px; margin-top: 24px; }
+.student-login-form > label:not(.student-consent) { margin-top: 7px; color: #4d5870; font-size: 12px; font-weight: 700; }
+.student-login-form input:not([type="checkbox"]), .student-login-form select { width: 100%; min-height: 45px; padding: 10px 12px; border: 1px solid #dfe2ec; border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 13px; }
+.student-login-form input:not([type="checkbox"]) { text-transform: uppercase; }
+.student-login-form input:focus, .student-login-form select:focus { outline: 3px solid #aca6ff66; border-color: var(--violet); }
+.student-login-note { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+.student-consent { display: flex; align-items: flex-start; gap: 9px; margin-top: 8px; color: #5f687e; font-size: 11px; line-height: 1.6; }
+.student-consent input { flex: 0 0 auto; margin-top: 3px; accent-color: var(--violet); }
+.student-login-status { min-height: 18px; margin: 3px 0 0; color: var(--violet); font-size: 12px; }
+.student-login-status.error { color: var(--red); }
+.student-login-submit { width: 100%; min-height: 46px; }
+.student-login-submit:disabled { cursor: wait; opacity: .7; }
+.admin-panel { width: min(100%, 720px); margin: 0 auto; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: white; box-shadow: 0 16px 40px #25294b0b; }
+.admin-panel h1 { margin-bottom: 6px; }
+.admin-panel > p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+.admin-form { display: grid; gap: 9px; margin-top: 20px; }
+.admin-form label { margin-top: 5px; color: #4d5870; font-size: 12px; font-weight: 700; }
+.admin-form input:not([type="file"]) { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #dfe2ec; border-radius: 10px; background: white; color: var(--ink); font: inherit; font-size: 13px; }
+.admin-form input:focus { outline: 3px solid #aca6ff66; border-color: var(--violet); }
+.admin-message { min-height: 20px; margin: 4px 0 0 !important; color: var(--violet) !important; font-size: 12px !important; }
+.admin-message.error { color: var(--red) !important; }
+.admin-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin: 16px 0 22px; }
+.admin-toolbar h2 { margin: 0; font-size: 18px; }
+.admin-files { display: grid; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+.admin-file { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 12px; }
+.admin-file-info { min-width: 0; overflow-wrap: anywhere; }
+.admin-file-info strong { display: block; font-size: 13px; }
+.admin-file-info span { color: var(--muted); font-size: 11px; }
+.admin-file-actions { display: flex; flex: 0 0 auto; gap: 8px; }
+.admin-file-actions a, .admin-file-actions button { border: 0; background: transparent; color: var(--violet); cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; text-decoration: none; }
+.admin-file-actions button { color: var(--red); }
+.admin-empty { padding: 20px; border: 1px dashed #dfe2ec; border-radius: 12px; color: var(--muted); font-size: 12px; text-align: center; }
 .main-content { width: min(1160px, calc(100% - 48px)); flex: 1; margin: 0 auto; padding: 38px 0 58px; }
 .footer { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 20px 0 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; color: #9299aa; font-size: 12px; }
 .eyebrow { margin: 0 0 10px; color: var(--violet); font-size: 12px; font-weight: 700; letter-spacing: .5px; }
@@ -48,15 +89,6 @@ h1 { margin-bottom: 10px; font-size: clamp(26px, 3vw, 36px); line-height: 1.35; 
 .section-heading h2 { margin: 0 0 3px; font-size: 19px; }
 .section-heading p { margin: 0; color: var(--muted); font-size: 12px; }
 .count-label { color: #9299aa; font-size: 12px; }
-.upload-card { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 16px; margin: 0 0 34px; padding: 20px 22px; border: 1px solid #dedcff; border-radius: 16px; background: linear-gradient(110deg, #fff 0%, #fbfaff 100%); }
-.upload-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; color: var(--violet); background: var(--violet-pale); font: 700 25px "DM Sans", sans-serif; }
-.upload-copy h2 { margin: 0 0 4px; font-size: 16px; }
-.upload-copy p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
-.upload-copy .upload-note { margin-top: 3px; color: #969caf; font-size: 10px; }
-.upload-status { margin-top: 5px !important; color: var(--violet) !important; font-size: 11px !important; overflow-wrap: anywhere; }
-.upload-button { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
-.file-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); border: 0; }
-.file-input:focus-visible + .upload-button, .upload-button:focus-visible { outline: 3px solid #aca6ff; outline-offset: 3px; }
 .chapter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .chapter-card { --accent: #6558df; border: 1px solid var(--line); border-radius: 15px; background: var(--paper); padding: 18px; cursor: pointer; text-align: left; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
 .chapter-card:hover { transform: translateY(-3px); border-color: #c9c5ff; box-shadow: 0 10px 25px #25294b0b; }
@@ -171,6 +203,7 @@ h1 { margin-bottom: 10px; font-size: clamp(26px, 3vw, 36px); line-height: 1.35; 
 .result-accuracy { margin: -7px 0 15px; color: var(--muted); font-size: 12px; text-align: center; }
 .remove-mistake { margin-top: 13px; }
 .exam-bank-card { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 16px; margin: 0 0 34px; padding: 20px 22px; border: 1px solid #dedcff; border-radius: 16px; background: linear-gradient(110deg, #fff 0%, #fbfaff 100%); }
+.exam-bank-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; color: var(--violet); background: var(--violet-pale); font: 700 25px "DM Sans", sans-serif; }
 .exam-bank-card h2 { margin: 0 0 4px; font-size: 16px; }
 .exam-bank-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
 .exam-bank-heading { align-items: center; }
@@ -198,10 +231,8 @@ button:focus-visible, summary:focus-visible { outline: 3px solid #aca6ff; outlin
   .hero { min-height: 190px; padding: 27px 23px; }
   .hero-art { width: 78px; height: 78px; margin: 0; border-radius: 24px; }
   .hero-art span { font-size: 42px; }
-  .upload-card { grid-template-columns: 42px 1fr; gap: 12px; padding: 17px; }
-  .upload-icon { width: 40px; height: 40px; }
-  .upload-button { grid-column: 2; justify-self: start; }
   .exam-bank-card { grid-template-columns: 42px 1fr; gap: 12px; padding: 17px; }
+  .exam-bank-icon { width: 40px; height: 40px; }
   .exam-bank-card .primary-button { grid-column: 2; justify-self: start; }
   .exam-bank-filters button { margin-left: 0; }
   .exam-options { grid-template-columns: 1fr; padding-left: 58px; }
@@ -223,6 +254,10 @@ button:focus-visible, summary:focus-visible { outline: 3px solid #aca6ff; outlin
 @media (max-width: 430px) {
   .topbar { height: auto; min-height: 64px; padding: 8px 14px; align-items: flex-start; flex-direction: column; gap: 6px; }
   .topbar-right { width: 100%; justify-content: flex-end; gap: 5px; }
+  .student-login { padding: 21px 17px; }
+  .admin-panel { padding: 20px 16px; }
+  .admin-file { align-items: flex-start; flex-direction: column; }
+  .admin-file-actions { align-self: flex-end; }
   .board-chip { font-size: 10px; padding: 7px 9px; }
   .class-chip { font-size: 10px; padding: 7px 9px; }
   .hero-art { display: none; }

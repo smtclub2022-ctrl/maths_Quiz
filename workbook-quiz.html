@@ -39,15 +39,14 @@
       backdrop-filter: blur(10px);
     }
     .brand {
-      border: 0;
-      background: none;
       padding: 0;
+      color: inherit;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 10px;
       font-size: 18px;
       font-weight: 800;
-      cursor: pointer;
     }
     .brand-mark {
       width: 54px;
@@ -58,6 +57,25 @@
       background: linear-gradient(135deg, var(--violet), #7f6ef7);
       color: white;
       box-shadow: 0 10px 20px rgba(101,88,223,.2);
+    }
+    .logo-mark {
+      flex: 0 0 72px;
+      width: 72px;
+      height: 50px;
+      overflow: hidden;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .logo-mark img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .home-label {
+      padding: 8px 11px;
+      border: 1px solid #dedcff;
+      border-radius: 10px;
+      background: #fbfaff;
+      color: var(--violet);
+      font-size: 12px;
+      font-weight: 700;
     }
     .brand-light { color: var(--violet); }
     .topbar-right {
@@ -412,11 +430,13 @@
 </head>
 <body>
   <div class="topbar">
-    <button class="brand" id="homeBtn" type="button">
-      <span class="brand-mark">99</span>
+    <a class="brand" href="./index.html" aria-label="मुखपृष्ठ पर जाएँ">
+      <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+      <span class="home-label">⌂ होम</span>
       <span>I_Mentor_<span class="brand-light">99</span></span>
-    </button>
+    </a>
     <div class="topbar-right">
+      <a class="chip" href="board-exam-papers.html" style="text-decoration:none;">📜 बोर्ड परीक्षा पेपर्स</a>
       <span class="chip"><span class="chip-dot"></span> राजस्थान बोर्ड</span>
       <span class="chip class-chip">कक्षा 10</span>
     </div>
@@ -934,7 +954,6 @@
       document.getElementById('homeBtn2').addEventListener('click', renderHome);
     }
 
-    document.getElementById('homeBtn').addEventListener('click', renderHome);
     renderHome();
   </script>
 </body>

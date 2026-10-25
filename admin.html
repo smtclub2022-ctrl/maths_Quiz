@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Uploads | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Go to home page">
+        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+        <span class="home-label">⌂ HOME</span>
+        <span>ADMIN</span>
+      </a>
+    </header>
+    <main class="main-content">
+      <section id="adminLoginPanel" class="admin-panel" aria-labelledby="adminLoginTitle">
+        <p class="eyebrow">I_MENTOR_99 · PRIVATE AREA</p>
+        <h1 id="adminLoginTitle">ADMIN LOGIN</h1>
+        <p>Sign in to upload and manage question files. Only the configured administrator can access these files.</p>
+        <form id="adminLoginForm" class="admin-form">
+          <label for="adminUsername">ADMIN USERNAME</label>
+          <input id="adminUsername" name="username" type="text" autocomplete="username" required>
+          <label for="adminPassword">ADMIN PASSWORD</label>
+          <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
+          <p id="adminLoginMessage" class="admin-message" role="status" aria-live="polite"></p>
+          <button class="primary-button" type="submit">SIGN IN</button>
+        </form>
+      </section>
+
+      <section id="adminDashboard" class="admin-panel" aria-labelledby="adminDashboardTitle" hidden>
+        <p class="eyebrow">PRIVATE ADMIN AREA</p>
+        <div class="admin-toolbar">
+          <h1 id="adminDashboardTitle">QUESTION FILES</h1>
+          <button id="adminLogout" class="secondary-button" type="button">SIGN OUT</button>
+        </div>
+        <p>Upload PDF, Word, Excel or CSV files. Files are stored privately in MongoDB and are not automatically imported into the quiz question bank. Maximum file size: 25 MB.</p>
+        <form id="adminUploadForm" class="admin-form">
+          <label for="adminFile">SELECT QUESTION FILE</label>
+          <input id="adminFile" name="file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" required>
+          <p id="adminUploadMessage" class="admin-message" role="status" aria-live="polite"></p>
+          <button class="primary-button" type="submit">UPLOAD FILE</button>
+        </form>
+        <div class="admin-toolbar">
+          <h2>UPLOADED FILES</h2>
+          <button id="refreshAdminFiles" class="secondary-button" type="button">REFRESH</button>
+        </div>
+        <p id="adminListMessage" class="admin-message" role="status" aria-live="polite"></p>
+        <ul id="adminFileList" class="admin-files" aria-live="polite"></ul>
+      </section>
+    </main>
+    <footer class="footer"><span>Admin file uploads are private.</span><a href="./index.html">Return to quiz</a></footer>
+  </div>
+  <script src="api-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
