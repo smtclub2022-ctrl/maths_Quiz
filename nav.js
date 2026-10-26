@@ -224,13 +224,14 @@
 
   // --- RBSE Board Quiz Hub Modal Management ---
   const rbseHubModal = document.getElementById("rbseHubModal");
+  const rbseHubBackdrop = document.getElementById("rbseHubBackdrop");
   const closeRbseHubBtn = document.getElementById("closeRbseHubBtn");
 
   function openRbseHub() {
     if (!rbseHubModal) return;
     renderRbseHubGrid();
     rbseHubModal.classList.add("open");
-    rbseHubModal.removeAttribute("hidden");
+    if (rbseHubBackdrop) rbseHubBackdrop.classList.add("open");
     rbseHubModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
   }
@@ -238,17 +239,13 @@
   function closeRbseHub() {
     if (!rbseHubModal) return;
     rbseHubModal.classList.remove("open");
-    rbseHubModal.setAttribute("hidden", "");
+    if (rbseHubBackdrop) rbseHubBackdrop.classList.remove("open");
     rbseHubModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
   }
 
   if (closeRbseHubBtn) closeRbseHubBtn.addEventListener("click", closeRbseHub);
-  if (rbseHubModal) {
-    rbseHubModal.addEventListener("click", (e) => {
-      if (e.target === rbseHubModal) closeRbseHub();
-    });
-  }
+  if (rbseHubBackdrop) rbseHubBackdrop.addEventListener("click", closeRbseHub);
 
   function renderRbseHubGrid() {
     const grid = document.getElementById("rbseHubGrid");

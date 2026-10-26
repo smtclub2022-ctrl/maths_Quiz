@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.1">
 </head>
 <body>
   <!-- Sidebar Backdrop -->
@@ -300,18 +300,21 @@
   </div>
 
   <!-- RBSE Board Quiz Hub Modal -->
-  <div class="formula-modal-backdrop" id="rbseHubModal" hidden aria-hidden="true" role="dialog" aria-label="RBSE बोर्ड अध्यायवार क्विज़ हब">
-    <div class="formula-modal-content" style="max-width: 860px;">
-      <div class="formula-modal-header">
-        <div class="formula-modal-title">
-          <span class="formula-modal-icon">🏛️</span>
-          <div>
-            <h3>माध्यमिक शिक्षा बोर्ड राजस्थान (RBSE)</h3>
-            <p>सभी 15 अध्यायों के बोर्ड परीक्षा (2021-2026) एवं आधिकारिक वर्कबुक प्रश्न बैंक (185+ प्रश्न)</p>
-          </div>
+  <div class="formula-backdrop" id="rbseHubBackdrop" aria-hidden="true"></div>
+  <div class="formula-modal" id="rbseHubModal" role="dialog" aria-modal="true" aria-labelledby="rbseHubTitle" aria-hidden="true" style="width: min(860px, calc(100vw - 32px));">
+    <div class="formula-modal-header">
+      <div class="formula-modal-title" id="rbseHubTitle">
+        <span class="fmodal-icon">🏛️</span>
+        <div>
+          <strong>माध्यमिक शिक्षा बोर्ड राजस्थान (RBSE)</strong>
+          <span>सभी 15 अध्यायों के बोर्ड परीक्षा (2021-2026) एवं आधिकारिक वर्कबुक प्रश्न बैंक (185+ प्रश्न)</span>
         </div>
-        <button class="formula-modal-close" id="closeRbseHubBtn" type="button" aria-label="बंद करें">✕</button>
       </div>
+      <button class="formula-close-btn" id="closeRbseHubBtn" type="button" aria-label="बंद करें">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="formula-modal-body">
       <div class="rbse-hub-grid" id="rbseHubGrid">
         <!-- Dynamically populated by nav.js -->
       </div>
@@ -328,7 +331,7 @@
         <a class="brand" id="homeButton" href="./index.html" aria-label="मुखपृष्ठ पर जाएँ">
           <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
           <span class="home-label">⌂ होम</span>
-          <span class="brand-title">कक्षा 10 गणित</span>
+          <span class="brand-title" id="topbarBrandTitle">कक्षा 10 गणित</span>
         </a>
       </div>
 
@@ -386,12 +389,12 @@
     </button>
   </nav>
 
-  <script src="curriculum-data.js"></script>
-  <script src="workbook-question-bank.js"></script>
-  <script src="old-paper-question-bank.js"></script>
-  <script src="question-bank-overrides.js"></script>
-  <script src="api-config.js"></script>
-  <script src="app.js"></script>
-  <script src="nav.js"></script>
+  <script src="curriculum-data.js?v=2.1"></script>
+  <script src="workbook-question-bank.js?v=2.1"></script>
+  <script src="old-paper-question-bank.js?v=2.1"></script>
+  <script src="question-bank-overrides.js?v=2.1"></script>
+  <script src="api-config.js?v=2.1"></script>
+  <script src="app.js?v=2.1"></script>
+  <script src="nav.js?v=2.1"></script>
 </body>
 </html>
