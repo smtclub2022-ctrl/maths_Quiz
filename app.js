@@ -202,6 +202,7 @@ function saveProgress() {
   try {
     localStorage.setItem("iMentorMathProgress", JSON.stringify(progress));
     storageWarning = "";
+    if (window.iMentor && typeof window.iMentor.refreshNav === "function") window.iMentor.refreshNav();
     return true;
   } catch (error) {
     console.error("Learning progress could not be saved:", error);
@@ -554,6 +555,16 @@ function startExamQuiz() {
   startQuiz();
 }
 
+function startChapterBoardQuiz(chapterIndex) {
+  const filtered = bankQuestions.filter(q => q.chapter === chapterIndex);
+  if (!filtered.length) return;
+  questions = filtered.map(q => ({ ...q }));
+  quizMode = "bank";
+  questionCount = questions.length;
+  selectedChapter = chapterIndex;
+  startQuiz();
+}
+
 function formatFileSize(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -579,7 +590,21 @@ function renderChapter() {
         <button class="primary-button" data-set="${index}">${completedSets.has(index) ? "फिर अभ्यास करें" : "अभ्यास शुरू करें"} <span aria-hidden="true">→</span></button>
       </article>`}).join("")}
     </section>
-    <section class="chapter-test-card"><div><h2>अध्याय मास्टर टेस्ट</h2><p>30 प्रश्नों से पूरे अध्याय की तैयारी जाँचें।</p></div><button class="primary-button" id="chapterTest">टेस्ट शुरू करें →</button></section>`;
+    <section class="chapter-test-card"><div><h2>अध्याय मास्टर टेस्ट</h2><p>30 प्रश्नों से पूरे अध्याय की तैयारी जाँचें।</p></div><button class="primary-button" id="chapterTest">टेस्ट शुरू करें →</button></section>
+    ${(() => {
+      const bCount = bankQuestions.filter(q => q.chapter === selectedChapter).length;
+      return bCount ? `
+      <section class="rbse-chapter-card">
+        <div class="rbse-card-badge">🏛️ माध्यमिक शिक्षा बोर्ड राजस्थान (RBSE)</div>
+        <div class="rbse-card-content">
+          <div>
+            <h2>बोर्ड परीक्षा एवं वर्कबुक प्रश्न बैंक</h2>
+            <p>इस अध्याय से 2021 से 2026 तक के मुख्य व पूरक बोर्ड प्रश्न और आधिकारिक वर्कबुक के <strong>${bCount} वास्तविक प्रश्न</strong> हल करें।</p>
+          </div>
+          <button class="primary-button rbse-start-btn" id="startChapterBoardQuiz">बोर्ड क्विज़ शुरू करें (${bCount} प्रश्न) →</button>
+        </div>
+      </section>` : "";
+    })()}`;
   app.querySelector('[data-action="home"]').addEventListener("click", goHome);
   app.querySelectorAll("[data-set]").forEach(button => button.addEventListener("click", () => {
     selectedSet = Number(button.dataset.set);
@@ -595,6 +620,8 @@ function renderChapter() {
     quizMode = "chapter";
     startQuiz();
   });
+  const rbseBtn = app.querySelector("#startChapterBoardQuiz");
+  if (rbseBtn) rbseBtn.addEventListener("click", () => startChapterBoardQuiz(selectedChapter));
 }
 
 function getDifficulty(setIndex) {
@@ -1014,6 +1041,7 @@ function finishQuiz() {
   stopQuizTimer();
   quizElapsed = Math.floor((Date.now() - quizStartedAt) / 1000);
   if (quizMode !== "bank") saveQuizResult();
+  if (window.iMentorSound) window.iMentorSound.playComplete();
   setScreen("result");
 }
 
@@ -1065,6 +1093,10 @@ function renderQuiz() {
     selectedOption = button.dataset.option;
     answers[questionIndex] = selectedOption;
     message = "";
+    if (window.iMentorSound) {
+      if (selectedOption === question.answer) window.iMentorSound.playSuccess();
+      else window.iMentorSound.playClick();
+    }
     renderQuiz();
   }));
   const moveToQuestion = nextIndex => {
@@ -1184,6 +1216,7 @@ function render() {
   else if (screen === "quiz") renderQuiz();
   else if (screen === "result") renderResult();
   else if (screen === "mistakes") renderMistakes();
+  if (window.iMentor && typeof window.iMentor.refreshNav === "function") window.iMentor.refreshNav();
 }
 
 const sharedQuizParams = new URLSearchParams(window.location.search);
@@ -1209,6 +1242,50 @@ if (sharedQuizParams.get("quiz") === "1") {
     beginQuizTimer();
   }
 }
+window.iMentor = {
+  getChapters: () => chapters,
+  getCurrentScreen: () => screen,
+  isSessionActive: () => studentSessionActive,
+  getMistakesCount: () => (progress && Array.isArray(progress.mistakes)) ? progress.mistakes.length : 0,
+  goToScreen: (newScreen, chapterIdx = null) => {
+    stopQuizTimer();
+    if (!studentSessionActive) {
+      screen = "home";
+      renderStudentLogin();
+      return;
+    }
+    screen = newScreen;
+    if (chapterIdx !== null && chapterIdx !== undefined) {
+      selectedChapter = Number(chapterIdx);
+    }
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
+  startBoardQuiz: (chapterIdx) => {
+    stopQuizTimer();
+    startChapterBoardQuiz(Number(chapterIdx));
+  },
+  getBoardQuestionsCount: (chapterIdx) => {
+    return bankQuestions.filter(q => q.chapter === Number(chapterIdx)).length;
+  },
+  switchStudent: () => {
+    stopQuizTimer();
+    studentSessionActive = false;
+    try {
+      sessionStorage.removeItem(studentSessionKey);
+    } catch (e) {
+      console.error(e);
+    }
+    render();
+    window.scrollTo(0, 0);
+  },
+  refreshNav: () => {
+    if (typeof window.syncNavUI === "function") {
+      window.syncNavUI();
+    }
+  }
+};
+
 render();
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
