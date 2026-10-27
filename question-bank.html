@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>प्रश्न बैंक (Searchable Question Bank) | कक्षा 10 गणित | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .bank-filter-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 768px) {
+      .bank-filter-panel { grid-template-columns: 1fr; }
+    }
+    .bank-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .q-item-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+      transition: border-color .15s ease;
+    }
+    .q-item-card:hover {
+      border-color: var(--violet);
+    }
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .q-source-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284c7;
+    }
+    .q-ch-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--violet-pale);
+      color: var(--violet);
+    }
+    .q-prompt {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .q-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
+      .q-options-grid { grid-template-columns: 1fr; }
+    }
+    .q-option-pill {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .q-option-pill.is-correct {
+      border-color: var(--green);
+      background: var(--green-pale);
+      font-weight: 700;
+      color: #065f46;
+    }
+    .q-actions-row {
+      display: flex;
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line);
+      flex-wrap: wrap;
+    }
+    .q-toggle-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .q-toggle-btn:hover {
+      background: var(--violet-pale);
+      color: var(--violet);
+    }
+    .q-detail-box {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--canvas);
+      border-left: 3px solid var(--violet);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">RBSE सर्च एवं रिवीजन हब</span>
+          <h1>🔍 कक्षा 10 गणित — प्रश्न बैंक</h1>
+          <p>2021 से 2026 तक के सभी बोर्ड परीक्षा वस्तुनिष्ठ प्रश्न और वर्कबुक प्रश्नों का सर्च योग्य संग्रह।</p>
+        </div>
+        <div class="page-hero-meta">
+          <div class="hero-stat-badge">
+            <strong id="filteredCount">0</strong>
+            <span>प्रश्न मिले</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search and Filter Panel -->
+      <div class="bank-filter-panel">
+        <input type="search" id="bankSearch" placeholder="🔍 प्रश्न में कोई भी शब्द, सूत्र या संख्या खोजें..." class="bank-select" style="background:var(--paper);">
+        
+        <select id="chapterFilter" class="bank-select">
+          <option value="all">सभी 15 अध्याय</option>
+        </select>
+
+        <select id="sourceFilter" class="bank-select">
+          <option value="all">सभी स्रोत (Board + WB)</option>
+          <option value="board">केवल बोर्ड पेपर्स</option>
+          <option value="workbook">केवल वर्कबुक</option>
+        </select>
+      </div>
+
+      <!-- Questions List -->
+      <div id="questionsContainer">
+        <!-- Dynamically rendered -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("question-bank");
+      const allQ = ExamSuite.getAllQuestions();
+      const container = document.getElementById("questionsContainer");
+      const countEl = document.getElementById("filteredCount");
+      const chFilter = document.getElementById("chapterFilter");
+      const srcFilter = document.getElementById("sourceFilter");
+      const searchInput = document.getElementById("bankSearch");
+
+      // Populate chapters in filter
+      ExamSuite.chapterNames.forEach((name, idx) => {
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.textContent = `${idx + 1}. ${name}`;
+        chFilter.appendChild(opt);
+      });
+
+      function render() {
+        const query = searchInput.value.trim().toLowerCase();
+        const chVal = chFilter.value;
+        const srcVal = srcFilter.value;
+
+        const filtered = allQ.filter(q => {
+          const matchCh = chVal === "all" || q.chapter === Number(chVal);
+          const matchSrc = srcVal === "all" || q.type === srcVal;
+          const matchText = !query || 
+            q.prompt.toLowerCase().includes(query) || 
+            (q.solution && q.solution.toLowerCase().includes(query)) ||
+            (q.options && q.options.some(opt => opt.toLowerCase().includes(query)));
+          return matchCh && matchSrc && matchText;
+        });
+
+        countEl.textContent = filtered.length;
+        container.innerHTML = "";
+
+        if (!filtered.length) {
+          container.innerHTML = `<div style="text-align:center; padding:50px 20px; background:var(--paper); border-radius:16px; border:1px solid var(--line); color:var(--muted);">
+            <div style="font-size:32px; margin-bottom:10px;">🔍</div>
+            <strong>कोई प्रश्न नहीं मिला</strong>
+            <p style="font-size:13px; margin-top:4px;">कृपया अपना सर्च कीवर्ड बदलें या फिल्टर रीसेट करें।</p>
+          </div>`;
+          return;
+        }
+
+        filtered.slice(0, 100).forEach((q, idx) => {
+          const card = document.createElement("div");
+          card.className = "q-item-card";
+          card.innerHTML = `
+            <div class="q-header">
+              <span class="q-source-badge">${q.source}</span>
+              <span class="q-ch-badge">${q.chapterName}</span>
+            </div>
+            <div class="q-prompt">${idx + 1}. ${q.prompt}</div>
+            <div class="q-options-grid">
+              ${q.options.map((opt, i) => `
+                <div class="q-option-pill ${opt === q.answer ? "is-correct" : ""}">
+                  <strong>${["(A)", "(B)", "(C)", "(D)"][i]}</strong>
+                  <span>${opt}</span>
+                  ${opt === q.answer ? '<span style="margin-left:auto; color:var(--green); font-weight:800;">✓ सही</span>' : ""}
+                </div>
+              `).join("")}
+            </div>
+            <div class="q-actions-row">
+              <button class="q-toggle-btn" type="button" data-action="toggle-sol">📝 विस्तृत हल देखें</button>
+              <button class="q-toggle-btn" type="button" data-action="copy">📋 कॉपी करें</button>
+              <a href="exam-timer.html?chapter=${q.chapter}&count=10" class="q-toggle-btn" style="text-decoration:none;">⚡ इस अध्याय का टेस्ट दें</a>
+            </div>
+            <div class="q-detail-box" style="display:none;">
+              <strong>चरणबद्ध हल:</strong> ${q.solution}
+            </div>
+          `;
+
+          const solBtn = card.querySelector('[data-action="toggle-sol"]');
+          const solBox = card.querySelector('.q-detail-box');
+          solBtn.addEventListener('click', () => {
+            const isHidden = solBox.style.display === "none";
+            solBox.style.display = isHidden ? "block" : "none";
+            solBtn.textContent = isHidden ? "✕ हल छिपाएँ" : "📝 विस्तृत हल देखें";
+          });
+
+          const copyBtn = card.querySelector('[data-action="copy"]');
+          copyBtn.addEventListener('click', () => {
+            const textToCopy = `${q.prompt}\n(A) ${q.options[0]}  (B) ${q.options[1]}  (C) ${q.options[2]}  (D) ${q.options[3]}\nसही उत्तर: ${q.answer}\nहल: ${q.solution}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+              copyBtn.textContent = "✓ कॉपी हो गया!";
+              setTimeout(() => copyBtn.textContent = "📋 कॉपी करें", 1500);
+            });
+          });
+
+          container.appendChild(card);
+        });
+
+        if (filtered.length > 100) {
+          const note = document.createElement("p");
+          note.style.textAlign = "center";
+          note.style.color = "var(--muted)";
+          note.style.fontSize = "13px";
+          note.textContent = `शीर्ष 100 प्रश्न प्रदर्शित हैं (कुल ${filtered.length} प्रश्न उपलब्ध)। अधिक सटीक परिणामों के लिए अध्याय या कीवर्ड चुनें।`;
+          container.appendChild(note);
+        }
+      }
+
+      searchInput.addEventListener("input", render);
+      chFilter.addEventListener("change", render);
+      srcFilter.addEventListener("change", render);
+
+      render();
+    });
+  </script>
+</body>
+</html>
+

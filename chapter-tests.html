@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>अध्यायवार टेस्ट (Chapter-wise Tests) | कक्षा 10 गणित | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .ch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+    .ch-test-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      position: relative;
+    }
+    .ch-test-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+      border-color: var(--violet);
+    }
+    .ch-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ch-card-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--violet-pale);
+      color: var(--violet);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .ch-card-header h3 {
+      margin: 0 0 2px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .ch-card-header span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .ch-test-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .btn-test-option {
+      padding: 9px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .btn-test-option:hover {
+      background: var(--violet);
+      color: #fff;
+      border-color: var(--violet);
+    }
+    .btn-master-test {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--violet), #0284c7);
+      color: #fff;
+      border: 0;
+    }
+    .btn-master-test:hover {
+      opacity: 0.95;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">अध्यायवार अभ्यास व मूल्यांकन</span>
+          <h1>📚 कक्षा 10 गणित — अध्यायवार टेस्ट</h1>
+          <p>प्रत्येक अध्याय के 10 प्रश्न, 20 प्रश्न व 30 प्रश्नों का संपूर्ण अध्याय टेस्ट हल करें।</p>
+        </div>
+        <div class="page-hero-meta">
+          <div class="hero-stat-badge">
+            <strong>15</strong>
+            <span>अध्याय</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong>150+</strong>
+            <span>अभ्यास सेट्स</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <input type="search" id="chSearch" placeholder="🔍 अध्याय खोजें..." class="quiz-search" style="max-width:320px;">
+        <span style="font-size:13px; color:var(--muted);">कक्षा 10 · माध्यमिक शिक्षा बोर्ड राजस्थान (NCERT)</span>
+      </div>
+
+      <div class="ch-grid" id="chapterGrid">
+        <!-- Dynamically rendered -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>कक्षा 10 गणित</span>
+    </footer>
+  </div>
+
+  <script src="curriculum-data.js"></script>
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("chapter-tests");
+      const grid = document.getElementById("chapterGrid");
+      const search = document.getElementById("chSearch");
+
+      const mathsCurriculum = window.curriculumData && window.curriculumData.class10 ? 
+        window.curriculumData.class10.subjects.find(s => s.id === "maths") : null;
+      const chapters = (mathsCurriculum && mathsCurriculum.chapters) || [];
+
+      function render(filter = "") {
+        grid.innerHTML = "";
+        chapters.forEach((ch, idx) => {
+          const title = ch.title || `अध्याय ${idx + 1}`;
+          const eng = ch.englishTitle || "";
+          if (filter && !title.toLowerCase().includes(filter) && !eng.toLowerCase().includes(filter) && !String(idx + 1).includes(filter)) {
+            return;
+          }
+
+          const qCount = ExamSuite.getQuestionsByChapter(idx).length;
+          const exCount = (ch.exercises || []).length;
+
+          const card = document.createElement("div");
+          card.className = "ch-test-card";
+          card.innerHTML = `
+            <div>
+              <div class="ch-card-header">
+                <span class="ch-card-num">${idx + 1}</span>
+                <div>
+                  <h3>${title}</h3>
+                  <span>${eng}</span>
+                </div>
+              </div>
+              <div style="margin-top:12px; display:flex; gap:10px; font-size:12px; color:var(--muted);">
+                <span>📖 ${exCount} प्रश्नावली</span>
+                <span>🏛️ ${qCount} बोर्ड प्रश्न</span>
+              </div>
+            </div>
+            <div class="ch-test-actions">
+              <a href="exam-timer.html?chapter=${idx}&count=10" class="btn-test-option">
+                ⚡ 10 प्रश्न टेस्ट
+              </a>
+              <a href="exam-timer.html?chapter=${idx}&count=20" class="btn-test-option">
+                🎯 20 प्रश्न टेस्ट
+              </a>
+              <a href="exam-timer.html?chapter=${idx}&count=30" class="btn-test-option btn-master-test">
+                🏆 अध्याय मास्टर टेस्ट (30 प्रश्न) →
+              </a>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      search.addEventListener("input", (e) => {
+        render(e.target.value.trim().toLowerCase());
+      });
+
+      render();
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <meta name="description" content="कक्षा 10 गणित क्विज़ सेंटर — सभी 15 अध्यायों के क्विज़, बोर्ड पेपर्स, वर्कबुक और रैपिड टेस्ट।">
+  <title>क्विज़ सेंटर (Quiz Center) | कक्षा 10 गणित | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .quiz-filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .quiz-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .quiz-tab {
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .15s ease;
+      white-space: nowrap;
+    }
+    .quiz-tab:hover, .quiz-tab.active {
+      background: var(--violet);
+      color: #fff;
+      border-color: var(--violet);
+    }
+    .quiz-search {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 13px;
+      min-width: 240px;
+    }
+    .quiz-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .quiz-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .quiz-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+      border-color: var(--violet);
+    }
+    .quiz-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .quiz-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .tag-board { background: rgba(2, 132, 199, 0.12); color: #0284c7; }
+    .tag-wb { background: rgba(39, 152, 116, 0.12); color: #279874; }
+    .tag-hots { background: rgba(230, 171, 44, 0.14); color: #b45309; }
+    .tag-speed { background: rgba(101, 88, 223, 0.12); color: var(--violet); }
+    .quiz-card h3 {
+      margin: 8px 0 4px;
+      font-size: 17px;
+      color: var(--ink);
+    }
+    .quiz-card p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .quiz-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+    .quiz-start-btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--violet);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color .15s ease;
+      text-decoration: none;
+    }
+    .quiz-start-btn:hover {
+      background: var(--violet-dark);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">अभ्यास एवं मूल्यांकन केंद्र</span>
+          <h1>🎯 कक्षा 10 गणित — क्विज़ सेंटर</h1>
+          <p>माध्यमिक शिक्षा बोर्ड राजस्थान (RBSE) के सभी 15 अध्यायों के वस्तुनिष्ठ प्रश्न, बोर्ड पेपर्स और वर्कबुक क्विज़।</p>
+        </div>
+        <div class="page-hero-meta">
+          <div class="hero-stat-badge">
+            <strong id="statTotalQuestions">185+</strong>
+            <span>बोर्ड प्रश्न</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong>15</strong>
+            <span>अध्याय</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong>2021-26</strong>
+            <span>विगत सत्र</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Cards -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:24px;">
+        <a href="exam-timer.html?mode=speed10" class="hero-stat-badge" style="text-decoration:none; padding:16px; border-left:4px solid var(--violet); text-align:left; align-items:flex-start;">
+          <span style="font-size:18px;">⚡</span>
+          <strong style="font-size:15px; color:var(--ink);">रैपिड 10 क्विज़</strong>
+          <span style="color:var(--muted); font-size:12px; text-transform:none;">10 प्रश्न · 10 मिनट टाइमर</span>
+        </a>
+        <a href="chapter-tests.html" class="hero-stat-badge" style="text-decoration:none; padding:16px; border-left:4px solid #0284c7; text-align:left; align-items:flex-start;">
+          <span style="font-size:18px;">📚</span>
+          <strong style="font-size:15px; color:var(--ink);">अध्यायवार टेस्ट</strong>
+          <span style="color:var(--muted); font-size:12px; text-transform:none;">15 अध्यायों के 10-10 सेट</span>
+        </a>
+        <a href="mock-exams.html" class="hero-stat-badge" style="text-decoration:none; padding:16px; border-left:4px solid var(--green); text-align:left; align-items:flex-start;">
+          <span style="font-size:18px;">📝</span>
+          <strong style="font-size:15px; color:var(--ink);">पूर्ण मॉक परीक्षा</strong>
+          <span style="color:var(--muted); font-size:12px; text-transform:none;">80 अंक बोर्ड पैटर्न सिमुलेशन</span>
+        </a>
+        <a href="mistake-book.html" class="hero-stat-badge" style="text-decoration:none; padding:16px; border-left:4px solid var(--red); text-align:left; align-items:flex-start;">
+          <span style="font-size:18px;">❌</span>
+          <strong style="font-size:15px; color:var(--ink);">भूल सुधार पुस्तिका</strong>
+          <span style="color:var(--muted); font-size:12px; text-transform:none;">गलत प्रश्नों का पुनः अभ्यास</span>
+        </a>
+      </div>
+
+      <!-- Filter and Search -->
+      <div class="quiz-filter-bar">
+        <div class="quiz-tabs" id="quizTabs">
+          <button class="quiz-tab active" data-filter="all">सभी क्विज़</button>
+          <button class="quiz-tab" data-filter="board">बोर्ड पेपर्स (2021-26)</button>
+          <button class="quiz-tab" data-filter="workbook">वर्कबुक (कार्यपत्रक)</button>
+          <button class="quiz-tab" data-filter="chapter">अध्यायवार</button>
+        </div>
+        <input type="search" class="quiz-search" id="quizSearch" placeholder="🔍 क्विज़ या अध्याय खोजें...">
+      </div>
+
+      <!-- Quizzes Grid -->
+      <div class="quiz-cards-grid" id="quizGrid">
+        <!-- Dynamically rendered -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("quiz-center");
+      const questions = ExamSuite.getAllQuestions();
+      document.getElementById("statTotalQuestions").textContent = questions.length + "+";
+
+      const quizzes = [
+        {
+          id: "rbse-2026",
+          category: "board",
+          title: "RBSE बोर्ड परीक्षा 2026 प्रश्न बैंक",
+          tag: "बोर्ड 2026",
+          tagClass: "tag-board",
+          desc: "2026 मुख्य एवं पूरक परीक्षा के आधिकारिक वस्तुनिष्ठ प्रश्नों का संपूर्ण संग्रह।",
+          questionsCount: questions.filter(q => q.year === 2026).length || 15,
+          time: "20 मिनट",
+          href: "exam-timer.html?source=board&year=2026"
+        },
+        {
+          id: "rbse-2025",
+          category: "board",
+          title: "RBSE बोर्ड परीक्षा 2025 प्रश्न बैंक",
+          tag: "बोर्ड 2025",
+          tagClass: "tag-board",
+          desc: "2025 परीक्षा के वास्तविक वस्तुनिष्ठ प्रश्न व उनके चरणबद्ध हिंदी हल।",
+          questionsCount: questions.filter(q => q.year === 2025).length || 18,
+          time: "25 मिनट",
+          href: "exam-timer.html?source=board&year=2025"
+        },
+        {
+          id: "rbse-2024",
+          category: "board",
+          title: "RBSE बोर्ड परीक्षा 2024 प्रश्न बैंक",
+          tag: "बोर्ड 2024",
+          tagClass: "tag-board",
+          desc: "2024 मुख्य एवं पूरक परीक्षा के सभी अध्यायों से पूछे गए वस्तुनिष्ठ प्रश्न।",
+          questionsCount: questions.filter(q => q.year === 2024).length || 20,
+          time: "25 मिनट",
+          href: "exam-timer.html?source=board&year=2024"
+        },
+        {
+          id: "workbook-all",
+          category: "workbook",
+          title: "RBSE कक्षा 10 आधिकारिक वर्कबुक क्विज़",
+          tag: "वर्कबुक",
+          tagClass: "tag-wb",
+          desc: "शिक्षा विभाग राजस्थान द्वारा जारी उपचारात्मक शिक्षण कार्यपुस्तिका के 75 प्रश्न।",
+          questionsCount: questions.filter(q => q.type === "workbook").length || 75,
+          time: "60 मिनट",
+          href: "workbook-quiz.html"
+        },
+        {
+          id: "rapid-mixed",
+          category: "speed",
+          title: "रैपिड फायर मिक्स्ड क्विज़ (10 प्रश्न)",
+          tag: "स्पीड टेस्ट",
+          tagClass: "tag-speed",
+          desc: "सभी 15 अध्यायों से रैंडम 10 प्रश्न — त्वरित परीक्षा तैयारी व गति बढ़ाने हेतु।",
+          questionsCount: 10,
+          time: "10 मिनट",
+          href: "exam-timer.html?mode=speed10"
+        },
+        {
+          id: "ch-trig",
+          category: "chapter",
+          title: "अध्याय 8 व 9: त्रिकोणमिति स्पेशल क्विज़",
+          tag: "HOTS",
+          tagClass: "tag-hots",
+          desc: "त्रिकोणमितीय अनुपात, सर्वसमिकाएँ एवं ऊँचाई-दूरी के महत्वपूर्ण बोर्ड प्रश्न।",
+          questionsCount: 25,
+          time: "30 मिनट",
+          href: "exam-timer.html?chapter=7"
+        },
+        {
+          id: "ch-geom",
+          category: "chapter",
+          title: "अध्याय 6, 7 व 10: ज्यामिति व निर्देशांक",
+          tag: "बोर्ड स्पेशल",
+          tagClass: "tag-board",
+          desc: "थेल्स प्रमेय, दूरी सूत्र, विभाजन सूत्र और वृत्त की स्पर्श रेखाओं पर आधारित प्रश्न।",
+          questionsCount: 30,
+          time: "35 मिनट",
+          href: "exam-timer.html?chapter=5"
+        },
+        {
+          id: "ch-stats",
+          category: "chapter",
+          title: "अध्याय 14 व 15: सांख्यिकी एवं प्रायिकता",
+          tag: "हाई स्कोरिंग",
+          tagClass: "tag-wb",
+          desc: "माध्य, माध्यक, बहुलक एवं पासे-ताश की प्रायिकता के सर्वाधिक अंक वाले प्रश्न।",
+          questionsCount: 28,
+          time: "30 मिनट",
+          href: "exam-timer.html?chapter=13"
+        }
+      ];
+
+      const grid = document.getElementById("quizGrid");
+      let activeFilter = "all";
+      let searchQ = "";
+
+      function render() {
+        grid.innerHTML = "";
+        const filtered = quizzes.filter(q => {
+          const matchCat = activeFilter === "all" || q.category === activeFilter;
+          const matchSearch = !searchQ || q.title.toLowerCase().includes(searchQ) || q.desc.toLowerCase().includes(searchQ);
+          return matchCat && matchSearch;
+        });
+
+        if (!filtered.length) {
+          grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--muted);">कोई क्विज़ नहीं मिला। कृपया दूसरा कीवर्ड खोजें।</div>`;
+          return;
+        }
+
+        filtered.forEach(q => {
+          const card = document.createElement("div");
+          card.className = "quiz-card";
+          card.innerHTML = `
+            <div>
+              <div class="quiz-card-top">
+                <span class="quiz-tag ${q.tagClass}">${q.tag}</span>
+                <span style="font-size:12px; font-weight:700; color:var(--muted);">⏱️ ${q.time}</span>
+              </div>
+              <h3>${q.title}</h3>
+              <p>${q.desc}</p>
+            </div>
+            <div>
+              <div class="quiz-meta">
+                <span>📝 ${q.questionsCount} प्रश्न</span>
+                <span>🏆 RBSE पैटर्न</span>
+              </div>
+              <a href="${q.href}" class="quiz-start-btn" style="margin-top:12px;">
+                क्विज़ शुरू करें →
+              </a>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      document.querySelectorAll(".quiz-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".quiz-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          activeFilter = tab.dataset.filter;
+          render();
+        });
+      });
+
+      document.getElementById("quizSearch").addEventListener("input", (e) => {
+        searchQ = e.target.value.trim().toLowerCase();
+        render();
+      });
+
+      render();
+    });
+  </script>
+</body>
+</html>
+

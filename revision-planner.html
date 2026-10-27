@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>रिवीजन प्लानर एवं समय सारणी (Revision Planner) | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .countdown-banner {
+      background: linear-gradient(135deg, var(--violet), #0284c7);
+      border-radius: 20px;
+      padding: 28px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .countdown-timer-grid {
+      display: flex;
+      gap: 12px;
+    }
+    .timer-tile {
+      background: rgba(255,255,255,0.18);
+      border-radius: 12px;
+      padding: 10px 16px;
+      text-align: center;
+      min-width: 65px;
+    }
+    .timer-tile strong {
+      font-size: 26px;
+      display: block;
+      line-height: 1;
+    }
+    .timer-tile span {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+    .plan-week-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .chapter-checklist-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--canvas);
+      margin-bottom: 8px;
+      font-size: 13px;
+      gap: 10px;
+    }
+    .ch-checkbox-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .ch-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .progress-bar-wrap {
+      background: var(--canvas);
+      border-radius: 999px;
+      height: 12px;
+      overflow: hidden;
+      margin: 12px 0 20px;
+      border: 1px solid var(--line);
+    }
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--violet), var(--green));
+      height: 100%;
+      width: 0%;
+      transition: width .3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <!-- Countdown Banner -->
+      <div class="countdown-banner">
+        <div>
+          <span style="font-size:12px; text-transform:uppercase; letter-spacing:.05em; opacity:.9;">🎯 लक्ष्य: RBSE बोर्ड परीक्षा 2026</span>
+          <h2 style="margin:6px 0 0; font-size:24px;">परीक्षा उल्टी गिनती (Board Countdown)</h2>
+        </div>
+        <div class="countdown-timer-grid">
+          <div class="timer-tile"><strong id="cdDays">00</strong><span>दिन</span></div>
+          <div class="timer-tile"><strong id="cdHours">00</strong><span>घंटे</span></div>
+          <div class="timer-tile"><strong id="cdMins">00</strong><span>मिनट</span></div>
+          <div class="timer-tile"><strong id="cdSecs">00</strong><span>सेकंड</span></div>
+        </div>
+      </div>
+
+      <!-- Syllabus Progress Tracker -->
+      <div class="plan-week-card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="margin:0; font-size:17px; color:var(--ink);">📈 संपूर्ण पाठ्यक्रम रिवीजन प्रगति</h3>
+          <strong id="progressPercentText" style="color:var(--violet); font-size:18px;">0% पूर्ण</strong>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        <p style="margin:0; font-size:13px; color:var(--muted);">अध्यायों के चेकबॉक्स को टिक करें, आपकी तैयारी स्वतः सुरक्षित रहेगी।</p>
+      </div>
+
+      <!-- 30-Day Master Schedule -->
+      <div class="plan-week-card">
+        <h3 style="margin:0 0 16px; font-size:18px; color:var(--ink);">📅 30 दिवसीय मास्टर रिवीजन कार्ययोजना</h3>
+
+        <!-- Week 1 -->
+        <div style="margin-bottom:20px;">
+          <h4 style="margin:0 0 10px; font-size:15px; color:var(--violet);">सप्ताह 1: संख्या पद्धति एवं बीजगणित (अध्याय 1 से 5)</h4>
+          <div id="week1List"></div>
+        </div>
+
+        <!-- Week 2 -->
+        <div style="margin-bottom:20px;">
+          <h4 style="margin:0 0 10px; font-size:15px; color:var(--violet);">सप्ताह 2: ज्यामिति एवं निर्देशांक (अध्याय 6, 7, 10, 11)</h4>
+          <div id="week2List"></div>
+        </div>
+
+        <!-- Week 3 -->
+        <div style="margin-bottom:20px;">
+          <h4 style="margin:0 0 10px; font-size:15px; color:var(--violet);">सप्ताह 3: त्रिकोणमिति एवं क्षेत्रमिति (अध्याय 8, 9, 12, 13)</h4>
+          <div id="week3List"></div>
+        </div>
+
+        <!-- Week 4 -->
+        <div>
+          <h4 style="margin:0 0 10px; font-size:15px; color:var(--violet);">सप्ताह 4: सांख्यिकी, प्रायिकता एवं प्री-बोर्ड मॉक (अध्याय 14, 15)</h4>
+          <div id="week4List"></div>
+        </div>
+      </div>
+
+      <!-- Toppers Strategy Tips -->
+      <div class="plan-week-card" style="background:var(--canvas);">
+        <h3 style="margin:0 0 12px; font-size:17px; color:var(--ink);">💡 बोर्ड परीक्षा में 80/80 अंक प्राप्त करने के 5 स्वर्णिम नियम</h3>
+        <ol style="margin:0; padding-left:20px; font-size:13px; line-height:1.8; color:var(--ink);">
+          <li><strong>प्रतिदिन 10 वस्तुनिष्ठ प्रश्न हल करें:</strong> खण्ड अ के 30 अंक वस्तुनिष्ठ व रिक्त स्थान से आसानी से प्राप्त किए जा सकते हैं।</li>
+          <li><strong>सूत्र चार्ट बनाएं:</strong> त्रिकोणमिति (sin/cos टेबल) और क्षेत्रमिति (बेलन/शंकु/गोला) के सूत्र प्रतिदिन सुबह 5 मिनट दोहराएं।</li>
+          <li><strong>चरणबद्ध प्रस्तुतीकरण:</strong> ज्यामिति व प्रमेय में चित्र पेंसिल से साफ़ बनाएं और 'दिया है', 'सिद्ध करना है', 'उपपत्ति' स्पष्ट लिखें।</li>
+          <li><strong>रफ कार्य के लिए बायां पृष्ठ उपयोग करें:</strong> गणना करते समय उत्तर पुस्तिका के अंतिम पृष्ठ या बाईं ओर रफ कार्य करें।</li>
+          <li><strong>विगत 5 वर्षों के बोर्ड पेपर्स अवश्य हल करें:</strong> कम से कम 30-40% प्रश्न पुराने पेपर्स और वर्कबुक से सीधे पूछे जाते हैं।</li>
+        </ol>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("revision-planner");
+
+      // Exam countdown: Target date around March 15, 2026 (Typical RBSE Board Date)
+      const targetDate = new Date("2026-03-15T08:30:00+05:30").getTime();
+      function updateCountdown() {
+        const now = Date.now();
+        const diff = targetDate - now;
+        if (diff > 0) {
+          const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
+          document.getElementById("cdDays").textContent = String(d).padStart(2, "0");
+          document.getElementById("cdHours").textContent = String(h).padStart(2, "0");
+          document.getElementById("cdMins").textContent = String(m).padStart(2, "0");
+          document.getElementById("cdSecs").textContent = String(s).padStart(2, "0");
+        }
+      }
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      // Planner Checklist state in localStorage
+      const PLANNER_KEY = "iMentorPlannerChecks";
+      let checks = {};
+      try {
+        checks = JSON.parse(localStorage.getItem(PLANNER_KEY)) || {};
+      } catch (e) {}
+
+      const weeks = {
+        week1List: [0, 1, 2, 3, 4],
+        week2List: [5, 6, 9, 10],
+        week3List: [7, 8, 11, 12],
+        week4List: [13, 14]
+      };
+
+      function renderWeek(containerId, chIndices) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        chIndices.forEach(idx => {
+          const chName = ExamSuite.chapterNames[idx] || `अध्याय ${idx + 1}`;
+          const row = document.createElement("div");
+          row.className = "chapter-checklist-row";
+
+          const c1 = checks[`${idx}_formula`] ? "checked" : "";
+          const c2 = checks[`${idx}_ex`] ? "checked" : "";
+          const c3 = checks[`${idx}_test`] ? "checked" : "";
+
+          row.innerHTML = `
+            <div>
+              <strong>अध्याय ${idx + 1}:</strong> ${chName}
+            </div>
+            <div class="ch-checkbox-group">
+              <label class="ch-checkbox-label">
+                <input type="checkbox" data-key="${idx}_formula" ${c1}> सूत्र
+              </label>
+              <label class="ch-checkbox-label">
+                <input type="checkbox" data-key="${idx}_ex" ${c2}> प्रश्नावली
+              </label>
+              <label class="ch-checkbox-label">
+                <input type="checkbox" data-key="${idx}_test" ${c3}> टेस्ट
+              </label>
+              <a href="exam-timer.html?chapter=${idx}&count=10" style="color:var(--violet); font-size:12px; font-weight:700; text-decoration:none;">टेस्ट दें →</a>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+      }
+
+      Object.keys(weeks).forEach(k => renderWeek(k, weeks[k]));
+
+      function updateProgress() {
+        const totalChecks = 15 * 3;
+        let checkedCount = 0;
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          if (cb.checked) checkedCount++;
+        });
+
+        const pct = Math.round((checkedCount / totalChecks) * 100);
+        document.getElementById("progressPercentText").textContent = `${pct}% पूर्ण`;
+        document.getElementById("progressBarFill").style.width = `${pct}%`;
+      }
+
+      document.addEventListener("change", (e) => {
+        if (e.target.matches('input[type="checkbox"]')) {
+          const k = e.target.dataset.key;
+          checks[k] = e.target.checked;
+          localStorage.setItem(PLANNER_KEY, JSON.stringify(checks));
+          ExamSuite.playSound("click");
+          updateProgress();
+        }
+      });
+
+      updateProgress();
+    });
+  </script>
+</body>
+</html>
+

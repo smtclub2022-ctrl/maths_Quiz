@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>समयबद्ध परीक्षा (Timed Examination) | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .exam-header {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 12px max(24px, calc((100vw - 1160px) / 2));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+    .exam-timer-display {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: var(--violet-pale);
+      color: var(--violet);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: .05em;
+    }
+    .exam-timer-display.timer-danger {
+      background: var(--red-pale);
+      color: var(--red);
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    .exam-layout {
+      max-width: 1140px;
+      margin: 20px auto;
+      padding: 0 16px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+    }
+    @media (max-width: 860px) {
+      .exam-layout { grid-template-columns: 1fr; }
+    }
+    .question-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 480px;
+    }
+    .q-step-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .q-text-large {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .opt-list {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .opt-btn {
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1.5px solid var(--line);
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: all .15s ease;
+    }
+    .opt-btn:hover {
+      border-color: var(--violet);
+      background: var(--paper);
+    }
+    .opt-btn.selected {
+      border-color: var(--violet);
+      background: var(--violet-pale);
+      color: var(--violet-dark);
+      font-weight: 700;
+    }
+    .exam-nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .palette-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+      position: sticky;
+      top: 88px;
+      height: fit-content;
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 16px 0;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .palette-btn {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all .15s ease;
+    }
+    .palette-btn.current {
+      box-shadow: 0 0 0 2px var(--violet);
+    }
+    .palette-btn.answered {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+    .palette-btn.flagged {
+      background: #f59e0b;
+      color: #fff;
+      border-color: #f59e0b;
+    }
+    .status-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="exam-header">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a href="index.html" class="home-label" title="परीक्षा छोड़ें">✕ बाहर निकलें</a>
+        <strong id="examTitle" style="font-size:15px; color:var(--ink);">कक्षा 10 गणित परीक्षा</strong>
+      </div>
+      <div class="exam-timer-display" id="timerBox">
+        <span>⏱️</span>
+        <span id="timerText">00:00</span>
+      </div>
+      <button class="primary-button" id="btnSubmitExam" style="padding:8px 16px; font-size:13px;">
+        परीक्षा सबमिट करें ✓
+      </button>
+    </header>
+
+    <main class="exam-layout">
+      <!-- Question Section -->
+      <section class="question-panel">
+        <div>
+          <div class="q-step-bar">
+            <span style="font-size:13px; font-weight:700; color:var(--violet);" id="qStepIndicator">प्रश्न 1 / 30</span>
+            <div style="display:flex; gap:8px;">
+              <button class="secondary-button" id="btnFlag" style="padding:5px 10px; font-size:12px;">🔖 मार्क फॉर रिव्यू</button>
+              <button class="secondary-button" id="btnClear" style="padding:5px 10px; font-size:12px;">क्लियर</button>
+            </div>
+          </div>
+          <div class="q-text-large" id="qPrompt">प्रश्न लोड हो रहा है...</div>
+          <div class="opt-list" id="optContainer">
+            <!-- Options dynamically added -->
+          </div>
+        </div>
+
+        <div class="exam-nav-controls">
+          <button class="secondary-button" id="btnPrev">← पिछला प्रश्न</button>
+          <span style="font-size:12px; color:var(--muted);" id="qSourceTag">स्रोत: RBSE बोर्ड प्रश्न</span>
+          <button class="primary-button" id="btnNext">अगला प्रश्न →</button>
+        </div>
+      </section>
+
+      <!-- Palette Sidebar -->
+      <aside class="palette-panel">
+        <h4 style="margin:0 0 6px; font-size:14px; color:var(--ink);">प्रश्न नेविगेटर</h4>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);">
+          <span>कुल: <strong id="pTotalCount">0</strong></span>
+          <span>उत्तरित: <strong id="pAnsweredCount" style="color:var(--green);">0</strong></span>
+        </div>
+
+        <div class="palette-grid" id="paletteGrid">
+          <!-- Dynamically populated buttons -->
+        </div>
+
+        <div class="status-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:var(--green);"></span> उत्तरित</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> रिव्यू</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--canvas); border:1px solid var(--line);"></span> अनुत्तरित</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--violet);"></span> वर्तमान</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const chParam = params.get("chapter");
+      const yrParam = params.get("year");
+      const sessParam = params.get("session");
+      const modeParam = params.get("mode");
+      const mockParam = params.get("mock");
+      const countParam = parseInt(params.get("count")) || 15;
+
+      const allQ = ExamSuite.getAllQuestions();
+      let questions = [];
+      let testName = "कक्षा 10 गणित परीक्षा";
+      let totalMinutes = 20;
+
+      // Filter questions based on intent
+      if (chParam !== null) {
+        const cIdx = parseInt(chParam);
+        questions = ExamSuite.getQuestionsByChapter(cIdx);
+        testName = `अध्याय ${cIdx + 1} टेस्ट: ${ExamSuite.chapterNames[cIdx] || ""}`;
+        totalMinutes = countParam === 30 ? 45 : (countParam === 20 ? 30 : 15);
+      } else if (yrParam !== null) {
+        questions = allQ.filter(q => q.year === parseInt(yrParam) && (!sessParam || q.session === sessParam));
+        testName = `RBSE बोर्ड ${yrParam} ${sessParam === "S" ? "पूरक" : "मुख्य"} परीक्षा`;
+        totalMinutes = 25;
+      } else if (mockParam !== null) {
+        testName = `RBSE बोर्ड मॉक परीक्षा - ${mockParam}`;
+        totalMinutes = countParam >= 50 ? 90 : 45;
+        questions = [...allQ].sort(() => 0.5 - Math.random());
+      } else if (modeParam === "speed10") {
+        testName = "रैपिड 10 स्पीड क्विज़";
+        totalMinutes = 10;
+        questions = [...allQ].sort(() => 0.5 - Math.random());
+      } else {
+        questions = [...allQ].sort(() => 0.5 - Math.random());
+        totalMinutes = 25;
+      }
+
+      if (!questions.length) {
+        questions = allQ;
+      }
+
+      // Slice to count
+      questions = questions.slice(0, Math.min(countParam, questions.length));
+
+      document.getElementById("examTitle").textContent = testName;
+      document.getElementById("pTotalCount").textContent = questions.length;
+
+      let currentIndex = 0;
+      const userAnswers = {};
+      const flagged = new Set();
+      let timeRemaining = totalMinutes * 60;
+      const startTime = Date.now();
+
+      const timerText = document.getElementById("timerText");
+      const timerBox = document.getElementById("timerBox");
+
+      const timerInterval = setInterval(() => {
+        timeRemaining--;
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          finishExam(true);
+          return;
+        }
+
+        const m = Math.floor(timeRemaining / 60);
+        const s = timeRemaining % 60;
+        timerText.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+
+        if (timeRemaining <= 300) {
+          timerBox.classList.add("timer-danger");
+          if (timeRemaining === 300) ExamSuite.playSound("warning");
+        }
+      }, 1000);
+
+      const qStepIndicator = document.getElementById("qStepIndicator");
+      const qPrompt = document.getElementById("qPrompt");
+      const optContainer = document.getElementById("optContainer");
+      const qSourceTag = document.getElementById("qSourceTag");
+      const paletteGrid = document.getElementById("paletteGrid");
+      const btnPrev = document.getElementById("btnPrev");
+      const btnNext = document.getElementById("btnNext");
+      const btnFlag = document.getElementById("btnFlag");
+      const btnClear = document.getElementById("btnClear");
+      const btnSubmitExam = document.getElementById("btnSubmitExam");
+
+      function renderQuestion() {
+        const q = questions[currentIndex];
+        qStepIndicator.textContent = `प्रश्न ${currentIndex + 1} / ${questions.length}`;
+        qPrompt.textContent = q.prompt;
+        qSourceTag.textContent = `स्रोत: ${q.source || "RBSE Board"}`;
+
+        btnPrev.disabled = currentIndex === 0;
+        btnNext.textContent = currentIndex === questions.length - 1 ? "समीक्षा करें →" : "अगला प्रश्न →";
+
+        optContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = `opt-btn ${userAnswers[currentIndex] === opt ? "selected" : ""}`;
+          btn.innerHTML = `<strong>${["(A)", "(B)", "(C)", "(D)"][idx]}</strong> <span>${opt}</span>`;
+          btn.addEventListener("click", () => {
+            ExamSuite.playSound("click");
+            userAnswers[currentIndex] = opt;
+            renderQuestion();
+            updatePalette();
+          });
+          optContainer.appendChild(btn);
+        });
+
+        btnFlag.textContent = flagged.has(currentIndex) ? "✓ रिव्यू से हटाएँ" : "🔖 मार्क फॉर रिव्यू";
+
+        updatePalette();
+      }
+
+      function updatePalette() {
+        paletteGrid.innerHTML = "";
+        let answeredCount = 0;
+
+        questions.forEach((_, idx) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "palette-btn";
+          b.textContent = idx + 1;
+
+          if (userAnswers[idx] !== undefined) {
+            b.classList.add("answered");
+            answeredCount++;
+          }
+          if (flagged.has(idx)) {
+            b.classList.add("flagged");
+          }
+          if (idx === currentIndex) {
+            b.classList.add("current");
+          }
+
+          b.addEventListener("click", () => {
+            currentIndex = idx;
+            renderQuestion();
+          });
+          paletteGrid.appendChild(b);
+        });
+
+        document.getElementById("pAnsweredCount").textContent = answeredCount;
+      }
+
+      btnPrev.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderQuestion();
+        }
+      });
+
+      btnNext.addEventListener("click", () => {
+        if (currentIndex < questions.length - 1) {
+          currentIndex++;
+          renderQuestion();
+        } else {
+          finishExam(false);
+        }
+      });
+
+      btnFlag.addEventListener("click", () => {
+        if (flagged.has(currentIndex)) flagged.delete(currentIndex);
+        else flagged.add(currentIndex);
+        renderQuestion();
+      });
+
+      btnClear.addEventListener("click", () => {
+        delete userAnswers[currentIndex];
+        renderQuestion();
+      });
+
+      btnSubmitExam.addEventListener("click", () => {
+        const total = questions.length;
+        const ans = Object.keys(userAnswers).length;
+        const conf = confirm(`आप परीक्षा सबमिट करने जा रहे हैं।\nकुल प्रश्न: ${total}\nउत्तर दिए गए: ${ans}\nअनुत्तरित: ${total - ans}\n\nक्या आप वाकई परीक्षा सबमिट करना चाहते हैं?`);
+        if (conf) {
+          clearInterval(timerInterval);
+          finishExam(false);
+        }
+      });
+
+      function finishExam(isTimeOut = false) {
+        clearInterval(timerInterval);
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        let correctCount = 0;
+        const reviewList = [];
+
+        questions.forEach((q, idx) => {
+          const chosen = userAnswers[idx];
+          const isCorrect = chosen === q.answer;
+          if (isCorrect) correctCount++;
+          else if (chosen !== undefined) {
+            ExamSuite.saveMistake(q, chosen);
+          }
+
+          reviewList.push({
+            prompt: q.prompt,
+            options: q.options,
+            answer: q.answer,
+            chosen: chosen || null,
+            isCorrect: isCorrect,
+            solution: q.solution,
+            hint: q.hint,
+            chapter: q.chapter,
+            chapterName: q.chapterName
+          });
+        });
+
+        const resultData = {
+          title: testName,
+          total: questions.length,
+          correct: correctCount,
+          wrong: Object.keys(userAnswers).length - correctCount,
+          unanswered: questions.length - Object.keys(userAnswers).length,
+          percentage: Math.round((correctCount / questions.length) * 100),
+          timeSpent: elapsed,
+          date: new Date().toLocaleDateString("hi-IN"),
+          isTimeOut: isTimeOut,
+          reviews: reviewList
+        };
+
+        ExamSuite.saveLatestResult(resultData);
+        ExamSuite.playSound("complete");
+        window.location.href = "result.html";
+      }
+
+      renderQuestion();
+    });
+  </script>
+</body>
+</html>
+

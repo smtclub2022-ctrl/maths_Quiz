@@ -57,35 +57,13 @@
     </div>
 
     <div class="sidebar-content">
+      <!-- Section 1: Main Quick Links -->
       <div class="sidebar-nav-group">
-        <span class="sidebar-group-title">त्वरित नेविगेशन</span>
+        <span class="sidebar-group-title">मुख्य मेनू</span>
         <nav class="sidebar-nav">
           <button class="sidebar-nav-item active" type="button" data-nav="home">
             <span class="nav-icon">⌂</span>
             <span class="nav-text">मुख्य पृष्ठ (होम)</span>
-          </button>
-          <a class="sidebar-nav-item" href="board-exam-papers.html" target="_blank" rel="noopener noreferrer">
-            <span class="nav-icon">📜</span>
-            <span class="nav-text">बोर्ड परीक्षा पेपर्स (2021-26)</span>
-            <span class="nav-badge-pill">New</span>
-          </a>
-          <a class="sidebar-nav-item" href="workbook-quiz.html" target="_blank" rel="noopener noreferrer">
-            <span class="nav-icon">📘</span>
-            <span class="nav-text">Workbook Quiz</span>
-          </a>
-          <button class="sidebar-nav-item" type="button" id="sidebarRbseHubBtn">
-            <span class="nav-icon">🏛️</span>
-            <span class="nav-text">RBSE अध्यायवार बोर्ड क्विज़</span>
-            <span class="nav-badge-pill">185+ Qs</span>
-          </button>
-          <button class="sidebar-nav-item" type="button" data-nav="bank">
-            <span class="nav-icon">🔍</span>
-            <span class="nav-text">बोर्ड प्रश्न बैंक (Search Bank)</span>
-          </button>
-          <button class="sidebar-nav-item" type="button" data-nav="mistakes">
-            <span class="nav-icon">❌</span>
-            <span class="nav-text">मेरी गलतियाँ (रिवीजन)</span>
-            <span class="sidebar-mistake-badge" id="sidebarMistakeBadge" hidden>0</span>
           </button>
           <button class="sidebar-nav-item" type="button" id="sidebarFormulaBtn">
             <span class="nav-icon">📐</span>
@@ -98,17 +76,82 @@
         </nav>
       </div>
 
+      <!-- Section 2: Examination & Test Suite -->
       <div class="sidebar-nav-group">
+        <span class="sidebar-group-title">परीक्षा एवं टेस्ट पोर्टल (Exam Suite)</span>
+        <nav class="sidebar-nav">
+          <a class="sidebar-nav-item" href="quiz-center.html">
+            <span class="nav-icon">🎯</span>
+            <span class="nav-text">क्विज़ सेंटर (Quiz Center)</span>
+            <span class="nav-badge-pill">हब</span>
+          </a>
+          <button class="sidebar-nav-item" type="button" id="sidebarRbseHubBtn">
+            <span class="nav-icon">🏛️</span>
+            <span class="nav-text">RBSE अध्यायवार बोर्ड क्विज़</span>
+            <span class="nav-badge-pill">185+ Qs</span>
+          </button>
+          <a class="sidebar-nav-item" href="chapter-tests.html">
+            <span class="nav-icon">📚</span>
+            <span class="nav-text">अध्यायवार टेस्ट (Chapter Tests)</span>
+          </a>
+          <a class="sidebar-nav-item" href="mock-exams.html">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">संपूर्ण मॉक परीक्षा (Mock Exams)</span>
+          </a>
+          <a class="sidebar-nav-item" href="exam-timer.html">
+            <span class="nav-icon">⏱️</span>
+            <span class="nav-text">परीक्षा टाइमर मोड (Timed Exam)</span>
+          </a>
+          <a class="sidebar-nav-item" href="previous-papers.html">
+            <span class="nav-icon">📜</span>
+            <span class="nav-text">विगत वर्षों के पेपर्स (2021-26)</span>
+          </a>
+          <a class="sidebar-nav-item" href="sample-papers.html">
+            <span class="nav-icon">📑</span>
+            <span class="nav-text">मॉडल प्रश्न पत्र (Sample Papers)</span>
+          </a>
+          <a class="sidebar-nav-item" href="workbook-quiz.html" target="_blank" rel="noopener noreferrer">
+            <span class="nav-icon">📘</span>
+            <span class="nav-text">Workbook Quiz (कार्यपत्रक)</span>
+          </a>
+          <a class="sidebar-nav-item" href="question-bank.html">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-text">सर्च प्रश्न बैंक (Question Bank)</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Section 3: Student Progress & Tools -->
+      <div class="sidebar-nav-group">
+        <span class="sidebar-group-title">विद्यार्थी प्रगति एवं टूल्स</span>
+        <nav class="sidebar-nav">
+          <a class="sidebar-nav-item" href="mistake-book.html">
+            <span class="nav-icon">❌</span>
+            <span class="nav-text">भूल सुधार पुस्तिका (Mistake Book)</span>
+            <span class="sidebar-mistake-badge" id="sidebarMistakeBadge" hidden>0</span>
+          </a>
+          <a class="sidebar-nav-item" href="revision-planner.html">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">रिवीजन प्लानर (Study Planner)</span>
+          </a>
+          <a class="sidebar-nav-item" href="leaderboard.html">
+            <span class="nav-icon">🏆</span>
+            <span class="nav-text">लीडरबोर्ड एवं रैंक (Leaderboard)</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Section 4: Chapters Browser -->
+      <div class="sidebar-nav-group">
+        <span class="sidebar-group-title">अध्यायवार अभ्यास (1–15 अध्याय)</span>
         <div class="sidebar-search-wrap">
           <input type="search" class="sidebar-search-input" id="sidebarSearchInput" placeholder="🔍 अध्याय खोजें (उदा. 8, त्रिकोणमिति)..." aria-label="अध्याय खोजें">
         </div>
-        <span class="sidebar-group-title">अध्यायवार अभ्यास (1–15 अध्याय)</span>
         <div class="sidebar-chapters-list" id="sidebarChaptersList">
           <!-- Populated dynamically via nav.js -->
         </div>
       </div>
     </div>
-
     <div class="sidebar-footer">
       <span>सीखें, अभ्यास करें, आगे बढ़ें।</span>
       <span>कक्षा 10 · गणित</span>
@@ -336,6 +379,7 @@
       </div>
 
       <div class="topbar-right">
+        <a class="board-chip topbar-desktop-link" href="quiz-center.html" aria-label="Quiz Center">🎯 क्विज़ सेंटर</a>
         <a class="board-chip topbar-desktop-link" href="board-exam-papers.html" target="_blank" rel="noopener noreferrer" aria-label="Board Exam Papers">📜 बोर्ड परीक्षा पेपर्स</a>
         <a class="board-chip topbar-desktop-link" href="workbook-quiz.html" target="_blank" rel="noopener noreferrer" aria-label="Workbook Quiz">📘 Workbook Quiz</a>
         <button class="board-chip topbar-btn" id="topbarRbseHubBtn" type="button" title="RBSE अध्यायवार बोर्ड क्विज़">🏛️ बोर्ड क्विज़</button>

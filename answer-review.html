@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>उत्तर समीक्षा एवं विस्तृत हल (Answer Review) | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .rev-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .rev-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .rev-status-pill {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+    .status-pass { background: #d1fae5; color: #065f46; }
+    .status-fail { background: #fee2e2; color: #b91c1c; }
+    .status-skip { background: #f1f5f9; color: #64748b; }
+    .rev-prompt {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .rev-opts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
+      .rev-opts { grid-template-columns: 1fr; }
+    }
+    .rev-opt {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      font-size: 13px;
+    }
+    .rev-opt.opt-correct {
+      border-color: var(--green);
+      background: var(--green-pale);
+      font-weight: 700;
+      color: #065f46;
+    }
+    .rev-opt.opt-wrong {
+      border-color: var(--red);
+      background: var(--red-pale);
+      font-weight: 700;
+      color: #991b1b;
+    }
+    .rev-sol-box {
+      background: var(--canvas);
+      border-left: 4px solid var(--violet);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">विस्तृत समाधान व विश्लेषण</span>
+          <h1>📝 उत्तर समीक्षा एवं चरणबद्ध हल</h1>
+          <p id="revHeroTitle">आपके द्वारा हल किए गए प्रश्नों के सही उत्तर एवं बोर्ड परीक्षा अनुसार स्पष्टीकरण।</p>
+        </div>
+        <div class="page-hero-meta">
+          <a href="result.html" class="secondary-button" style="text-decoration:none;">← वापस परिणाम देखें</a>
+        </div>
+      </div>
+
+      <div class="quiz-filter-bar" style="margin-bottom:20px;">
+        <div class="quiz-tabs" id="revTabs">
+          <button class="quiz-tab active" data-filter="all">सभी प्रश्न</button>
+          <button class="quiz-tab" data-filter="incorrect">केवल गलत (Incorrect)</button>
+          <button class="quiz-tab" data-filter="correct">केवल सही (Correct)</button>
+          <button class="quiz-tab" data-filter="unanswered">अनुत्तरित (Skipped)</button>
+        </div>
+      </div>
+
+      <div id="reviewContainer">
+        <!-- Dynamically rendered -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("quiz-center");
+      const res = ExamSuite.getLatestResult();
+      const container = document.getElementById("reviewContainer");
+
+      if (!res || !res.reviews || !res.reviews.length) {
+        container.innerHTML = `<div style="text-align:center; padding:50px; background:var(--paper); border-radius:18px; border:1px solid var(--line);">
+          <h3>कोई हालिया टेस्ट समीक्षा उपलब्ध नहीं है।</h3>
+          <p style="color:var(--muted);"><a href="quiz-center.html">क्विज़ सेंटर से टेस्ट प्रारंभ करें</a></p>
+        </div>`;
+        return;
+      }
+
+      document.getElementById("revHeroTitle").textContent = `${res.title} · कुल ${res.total} प्रश्न · शुद्धता: ${res.percentage}%`;
+
+      let activeFilter = "all";
+
+      function render() {
+        container.innerHTML = "";
+
+        const filtered = res.reviews.filter(r => {
+          if (activeFilter === "correct") return r.isCorrect;
+          if (activeFilter === "incorrect") return !r.isCorrect && r.chosen !== null;
+          if (activeFilter === "unanswered") return r.chosen === null;
+          return true;
+        });
+
+        if (!filtered.length) {
+          container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--muted);">इस श्रेणी में कोई प्रश्न नहीं है।</div>`;
+          return;
+        }
+
+        filtered.forEach((r, idx) => {
+          let statusBadge = "";
+          if (r.isCorrect) {
+            statusBadge = '<span class="rev-status-pill status-pass">✓ सही उत्तर</span>';
+          } else if (r.chosen !== null) {
+            statusBadge = '<span class="rev-status-pill status-fail">✗ गलत उत्तर</span>';
+          } else {
+            statusBadge = '<span class="rev-status-pill status-skip">⚪ अनुत्तरित</span>';
+          }
+
+          const card = document.createElement("div");
+          card.className = "rev-card";
+          card.innerHTML = `
+            <div class="rev-header">
+              <span style="font-weight:800; font-size:14px; color:var(--violet);">प्रश्न ${idx + 1}</span>
+              ${statusBadge}
+            </div>
+            <div class="rev-prompt">${r.prompt}</div>
+            <div class="rev-opts">
+              ${r.options.map((opt, i) => {
+                let optClass = "";
+                let label = "";
+                if (opt === r.answer) {
+                  optClass = "opt-correct";
+                  label = " (सही उत्तर)";
+                } else if (opt === r.chosen) {
+                  optClass = "opt-wrong";
+                  label = " (आपका उत्तर)";
+                }
+                return `<div class="rev-opt ${optClass}">
+                  <strong>${["(A)", "(B)", "(C)", "(D)"][i]}</strong> ${opt} ${label}
+                </div>`;
+              }).join("")}
+            </div>
+            <div class="rev-sol-box">
+              <strong>चरणबद्ध हल (Step-by-step Solution):</strong><br>
+              ${r.solution || "बोर्ड उत्तर कुंजी के अनुसार सही विकल्प।"}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      document.querySelectorAll(".quiz-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".quiz-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          activeFilter = tab.dataset.filter;
+          render();
+        });
+      });
+
+      render();
+    });
+  </script>
+</body>
+</html>
+

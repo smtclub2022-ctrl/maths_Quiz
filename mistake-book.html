@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>मेरी भूल सुधार पुस्तिका (Mistake Book) | कक्षा 10 गणित | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .mistake-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+      transition: border-color .15s ease;
+    }
+    .mistake-card:hover {
+      border-color: var(--red);
+    }
+    .m-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .m-ch-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--red-pale);
+      color: var(--red);
+    }
+    .m-prompt {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .m-answers-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+    @media (max-width: 600px) {
+      .m-answers-box { grid-template-columns: 1fr; }
+    }
+    .ans-chip {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+    .ans-wrong {
+      background: var(--red-pale);
+      border-color: var(--red);
+      color: #991b1b;
+    }
+    .ans-correct {
+      background: var(--green-pale);
+      border-color: var(--green);
+      color: #065f46;
+      font-weight: 700;
+    }
+    .m-solution-box {
+      background: var(--canvas);
+      border-left: 4px solid var(--violet);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .btn-resolve-mistake {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--canvas);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-resolve-mistake:hover {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--red);">कमजोर क्षेत्रों का उपचार</span>
+          <h1>❌ मेरी भूल सुधार पुस्तिका (Mistake Book)</h1>
+          <p>क्विज़ एवं टेस्ट में गलत उत्तर दिए गए प्रश्नों का संग्रह — सही अवधारणा समझें और दोबारा अभ्यास करें।</p>
+        </div>
+        <div class="page-hero-meta">
+          <div class="hero-stat-badge">
+            <strong id="mCount" style="color:var(--red);">0</strong>
+            <span>गलतियाँ दर्ज</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+        <select id="mChapterFilter" class="bank-select" style="max-width:300px;">
+          <option value="all">सभी अध्याय</option>
+        </select>
+        <div style="display:flex; gap:10px;">
+          <button class="primary-button" id="btnRetestMistakes" type="button" style="padding:10px 18px; font-size:13px;">
+            ⚡ केवल गलतियों का टेस्ट दें
+          </button>
+          <button class="secondary-button" id="btnPrintMistakes" type="button">
+            🖨️ प्रिंट शीट
+          </button>
+        </div>
+      </div>
+
+      <div id="mistakesList">
+        <!-- Dynamically rendered -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("mistake-book");
+      const listEl = document.getElementById("mistakesList");
+      const countEl = document.getElementById("mCount");
+      const chFilter = document.getElementById("mChapterFilter");
+      const btnRetest = document.getElementById("btnRetestMistakes");
+      const btnPrint = document.getElementById("btnPrintMistakes");
+
+      ExamSuite.chapterNames.forEach((name, idx) => {
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.textContent = `${idx + 1}. ${name}`;
+        chFilter.appendChild(opt);
+      });
+
+      function loadAndRender() {
+        const prog = ExamSuite.getProgress();
+        const mistakes = prog.mistakes || [];
+        countEl.textContent = mistakes.length;
+
+        const filterVal = chFilter.value;
+        const filtered = mistakes.filter(m => filterVal === "all" || m.chapter === Number(filterVal));
+
+        listEl.innerHTML = "";
+
+        if (!mistakes.length) {
+          listEl.innerHTML = `<div style="text-align:center; padding:60px 20px; background:var(--paper); border-radius:20px; border:1px solid var(--line);">
+            <div style="font-size:42px; margin-bottom:12px;">🎉</div>
+            <h3 style="margin:0 0 8px; color:var(--ink);">बहुत बढ़िया! अभी कोई गलती दर्ज नहीं है।</h3>
+            <p style="color:var(--muted); font-size:14px; margin:0 0 20px;">जब आप टेस्ट में किसी प्रश्न का गलत उत्तर देंगे, वह स्वतः यहाँ जुड़ जाएगा।</p>
+            <a href="quiz-center.html" class="primary-button" style="text-decoration:none; display:inline-block;">क्विज़ सेंटर पर अभ्यास करें →</a>
+          </div>`;
+          btnRetest.disabled = true;
+          return;
+        }
+
+        btnRetest.disabled = false;
+
+        filtered.forEach((m, idx) => {
+          const card = document.createElement("div");
+          card.className = "mistake-card";
+          const chName = ExamSuite.chapterNames[m.chapter] || `अध्याय ${Number(m.chapter) + 1}`;
+
+          card.innerHTML = `
+            <div class="m-header">
+              <span class="m-ch-badge">${chName}</span>
+              <span style="font-size:12px; color:var(--muted);">${new Date(m.timestamp || Date.now()).toLocaleDateString("hi-IN")}</span>
+            </div>
+            <div class="m-prompt">${idx + 1}. ${m.prompt}</div>
+            <div class="m-answers-box">
+              <div class="ans-chip ans-wrong">
+                <span>✗ आपका उत्तर:</span> <strong>${m.chosen || "अनुत्तरित"}</strong>
+              </div>
+              <div class="ans-chip ans-correct">
+                <span>✓ सही उत्तर:</span> <strong>${m.answer}</strong>
+              </div>
+            </div>
+            <div class="m-solution-box">
+              <strong>चरणबद्ध हल:</strong><br>
+              ${m.solution || "अध्याय के सूत्र एवं प्रमेय का सही प्रयोग करें।"}
+            </div>
+            <div>
+              <button class="btn-resolve-mistake" type="button" data-key="${m.key}">
+                ✓ समझ आ गया (सूची से हटाएँ)
+              </button>
+            </div>
+          `;
+
+          const delBtn = card.querySelector(".btn-resolve-mistake");
+          delBtn.addEventListener("click", () => {
+            ExamSuite.removeMistake(m.key);
+            ExamSuite.playSound("click");
+            loadAndRender();
+          });
+
+          listEl.appendChild(card);
+        });
+      }
+
+      chFilter.addEventListener("change", loadAndRender);
+
+      btnRetest.addEventListener("click", () => {
+        const prog = ExamSuite.getProgress();
+        if (prog.mistakes && prog.mistakes.length) {
+          window.location.href = "exam-timer.html?count=" + Math.min(20, prog.mistakes.length);
+        }
+      });
+
+      btnPrint.addEventListener("click", () => {
+        window.print();
+      });
+
+      loadAndRender();
+    });
+  </script>
+</body>
+</html>
+

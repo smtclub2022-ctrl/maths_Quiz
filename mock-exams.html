@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>मॉक परीक्षा (Mock Exams) | कक्षा 10 गणित | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .mock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .mock-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .mock-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+    }
+    .mock-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      background: rgba(101, 88, 223, 0.12);
+      color: var(--violet);
+      text-transform: uppercase;
+    }
+    .instructions-card {
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .instructions-card h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+      color: var(--violet);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .instructions-list {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">RBSE बोर्ड परीक्षा सिमुलेशन</span>
+          <h1>📝 कक्षा 10 गणित — संपूर्ण मॉक परीक्षा</h1>
+          <p>माध्यमिक शिक्षा बोर्ड राजस्थान के नवीनतम ब्लूप्रिंट व अंक विभाजन के अनुसार पूर्ण पाठ्यक्रम मॉक टेस्ट।</p>
+        </div>
+        <div class="page-hero-meta">
+          <div class="hero-stat-badge">
+            <strong>80</strong>
+            <span>पूर्णांक (Marks)</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong>3:15 घंटे</strong>
+            <span>बोर्ड समयावधि</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong>5</strong>
+            <span>मॉडल पेपर्स</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="instructions-card">
+        <h3>📌 परीक्षार्थियों के लिए सामान्य निर्देश (Exam Guidelines)</h3>
+        <ul class="instructions-list">
+          <li>यह मॉक परीक्षा राजस्थान बोर्ड (RBSE) के नवीनतम पाठ्यक्रम एवं ब्लूप्रिंट पर आधारित है।</li>
+          <li>सभी प्रश्न वस्तुनिष्ठ एवं बहुविकल्पीय हैं। प्रत्येक सही उत्तर के लिए 1 अंक निर्धारित है।</li>
+          <li>किसी भी प्रश्न में ऋणात्मक अंकन (Negative Marking) नहीं है, अतः सभी प्रश्न अवश्य हल करें।</li>
+          <li>परीक्षा प्रारंभ करने के बाद टाइमर स्वतः शुरू हो जाएगा। समयावधि समाप्त होने पर टेस्ट अपने-आप सबमिट हो जाएगा।</li>
+        </ul>
+      </div>
+
+      <div class="mock-grid">
+        <div class="mock-card">
+          <div>
+            <span class="mock-badge">मॉक टेस्ट 1</span>
+            <h3 style="margin:10px 0 6px; font-size:18px;">संपूर्ण पाठ्यक्रम बोर्ड मॉक परीक्षा - 1</h3>
+            <p style="margin:0; font-size:13px; color:var(--muted);">सभी 15 अध्यायों के संतुलित प्रश्न, ब्लूप्रिंट अनुसार।</p>
+            <div style="margin-top:14px; display:flex; gap:12px; font-size:12px; color:var(--muted);">
+              <span>📝 30 प्रश्न</span>
+              <span>⏱️ 45 मिनट</span>
+              <span>🏆 80 अंक पैटर्न</span>
+            </div>
+          </div>
+          <a href="exam-timer.html?mock=1&count=30" class="primary-button" style="text-align:center; text-decoration:none;">
+            परीक्षा प्रारंभ करें →
+          </a>
+        </div>
+
+        <div class="mock-card">
+          <div>
+            <span class="mock-badge" style="background:rgba(2, 132, 199, 0.12); color:#0284c7;">मॉक टेस्ट 2</span>
+            <h3 style="margin:10px 0 6px; font-size:18px;">संपूर्ण पाठ्यक्रम बोर्ड मॉक परीक्षा - 2</h3>
+            <p style="margin:0; font-size:13px; color:var(--muted);">विगत वर्षों के टॉपर्स अभ्यास प्रश्नों का संकलन।</p>
+            <div style="margin-top:14px; display:flex; gap:12px; font-size:12px; color:var(--muted);">
+              <span>📝 30 प्रश्न</span>
+              <span>⏱️ 45 मिनट</span>
+              <span>🏆 80 अंक पैटर्न</span>
+            </div>
+          </div>
+          <a href="exam-timer.html?mock=2&count=30" class="primary-button" style="text-align:center; text-decoration:none;">
+            परीक्षा प्रारंभ करें →
+          </a>
+        </div>
+
+        <div class="mock-card">
+          <div>
+            <span class="mock-badge" style="background:rgba(39, 152, 116, 0.12); color:#279874;">मॉक टेस्ट 3</span>
+            <h3 style="margin:10px 0 6px; font-size:18px;">संख्या पद्धति, बीजगणित व त्रिकोणमिति</h3>
+            <p style="margin:0; font-size:13px; color:var(--muted);">अध्याय 1 से 5 और अध्याय 8, 9 का सघन मूल्यांकन।</p>
+            <div style="margin-top:14px; display:flex; gap:12px; font-size:12px; color:var(--muted);">
+              <span>📝 25 प्रश्न</span>
+              <span>⏱️ 35 मिनट</span>
+              <span>🎯 यूनिट 1 व 3</span>
+            </div>
+          </div>
+          <a href="exam-timer.html?mock=3&count=25" class="primary-button" style="text-align:center; text-decoration:none;">
+            परीक्षा प्रारंभ करें →
+          </a>
+        </div>
+
+        <div class="mock-card">
+          <div>
+            <span class="mock-badge" style="background:rgba(230, 171, 44, 0.14); color:#b45309;">मॉक टेस्ट 4</span>
+            <h3 style="margin:10px 0 6px; font-size:18px;">ज्यामिति, क्षेत्रमिति व सांख्यिकी स्पेशल</h3>
+            <p style="margin:0; font-size:13px; color:var(--muted);">अध्याय 6, 7, 10, 12, 13, 14, 15 के सर्वाधिक स्कोरिंग प्रश्न।</p>
+            <div style="margin-top:14px; display:flex; gap:12px; font-size:12px; color:var(--muted);">
+              <span>📝 25 प्रश्न</span>
+              <span>⏱️ 35 मिनट</span>
+              <span>🎯 यूनिट 2, 4 व 5</span>
+            </div>
+          </div>
+          <a href="exam-timer.html?mock=4&count=25" class="primary-button" style="text-align:center; text-decoration:none;">
+            परीक्षा प्रारंभ करें →
+          </a>
+        </div>
+
+        <div class="mock-card" style="grid-column: 1 / -1; background:linear-gradient(135deg, rgba(101, 88, 223, 0.04), rgba(2, 132, 199, 0.04));">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <span class="mock-badge" style="background:var(--violet); color:#fff;">🏆 ग्रैंड प्री-बोर्ड</span>
+              <h3 style="margin:10px 0 6px; font-size:20px;">प्री-बोर्ड 2026 फाइनल रिहर्सल (50 प्रश्न)</h3>
+              <p style="margin:0; font-size:14px; color:var(--muted);">पूर्ण परीक्षा हॉल जैसा अनुभव — वास्तविक समय सीमा और विस्तृत परिणाम विश्लेषण के साथ।</p>
+            </div>
+            <a href="exam-timer.html?mock=5&count=50" class="primary-button" style="padding:14px 26px; text-decoration:none;">
+              ग्रैंड प्री-बोर्ड प्रारंभ करें (50 प्रश्न) →
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("mock-exams");
+    });
+  </script>
+</body>
+</html>
+

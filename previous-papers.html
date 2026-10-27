@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>विगत वर्षों के बोर्ड पेपर्स (Previous Papers) | कक्षा 10 गणित | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .paper-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .paper-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+      border-color: var(--violet);
+    }
+    .paper-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284c7;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">RBSE बोर्ड अभिलेखागार (2021-2026)</span>
+          <h1>📜 कक्षा 10 गणित — विगत वर्षों के बोर्ड पेपर्स</h1>
+          <p>माध्यमिक शिक्षा बोर्ड राजस्थान के 2021 से 2026 तक के मुख्य व पूरक परीक्षा प्रश्न पत्र और उत्तर कुंजी।</p>
+        </div>
+        <div class="page-hero-meta">
+          <div class="hero-stat-badge">
+            <strong>6 वर्ष</strong>
+            <span>2021-2026</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong>11 सत्र</strong>
+            <span>Main + Supp</span>
+          </div>
+          <div class="hero-stat-badge">
+            <strong id="paperQCount">185+</strong>
+            <span>प्रश्न उपलब्ध</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="year-grid" id="papersGrid">
+        <!-- Dynamically rendered -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("previous-papers");
+      const grid = document.getElementById("papersGrid");
+
+      const papers = [
+        { year: 2026, session: "M", title: "RBSE बोर्ड 2026 — मुख्य परीक्षा", desc: "माध्यमिक परीक्षा 2026 गणित का आधिकारिक वस्तुनिष्ठ प्रश्न पत्र व समाधान।" },
+        { year: 2026, session: "S", title: "RBSE बोर्ड 2026 — पूरक परीक्षा", desc: "पूरक परीक्षा 2026 के महत्वपूर्ण प्रश्न और चरणबद्ध हल।" },
+        { year: 2025, session: "M", title: "RBSE बोर्ड 2025 — मुख्य परीक्षा", desc: "माध्यमिक परीक्षा 2025 का प्रश्न पत्र (सभी 15 अध्यायों के प्रश्न)।" },
+        { year: 2025, session: "S", title: "RBSE बोर्ड 2025 — पूरक परीक्षा", desc: "पूरक परीक्षा 2025 गणित वस्तुनिष्ठ प्रश्न बैंक।" },
+        { year: 2024, session: "M", title: "RBSE बोर्ड 2024 — मुख्य परीक्षा", desc: "2024 मुख्य परीक्षा के 15 वस्तुनिष्ठ प्रश्न व व्याख्या सहित उत्तर।" },
+        { year: 2024, session: "S", title: "RBSE बोर्ड 2024 — पूरक परीक्षा", desc: "2024 पूरक परीक्षा का हल सहित प्रश्न पत्र।" },
+        { year: 2023, session: "M", title: "RBSE बोर्ड 2023 — मुख्य परीक्षा", desc: "2023 मुख्य परीक्षा के सभी 12 वस्तुनिष्ठ प्रश्न व विस्तृत हल।" },
+        { year: 2023, session: "S", title: "RBSE बोर्ड 2023 — पूरक परीक्षा", desc: "2023 पूरक परीक्षा गणित प्रश्न पत्र।" },
+        { year: 2022, session: "M", title: "RBSE बोर्ड 2022 — मुख्य परीक्षा", desc: "2022 बोर्ड मुख्य परीक्षा के महत्वपूर्ण बहुविकल्पीय प्रश्न।" },
+        { year: 2022, session: "S", title: "RBSE बोर्ड 2022 — पूरक परीक्षा", desc: "2022 पूरक परीक्षा गणित पेपर।" },
+        { year: 2021, session: "M", title: "RBSE बोर्ड 2021 — मुख्य परीक्षा", desc: "2021 मुख्य परीक्षा का बोर्ड प्रश्न संग्रह।" }
+      ];
+
+      papers.forEach(p => {
+        const matchingBank = (window.oldPaperQuestionBank || []).find(b => b.year === p.year && b.session === p.session);
+        const qCount = matchingBank ? matchingBank.questions.length : 15;
+
+        const card = document.createElement("div");
+        card.className = "paper-card";
+        card.innerHTML = `
+          <div>
+            <span class="paper-badge">${p.session === "M" ? "मुख्य परीक्षा" : "पूरक परीक्षा"} · ${p.year}</span>
+            <h3 style="margin:10px 0 6px; font-size:17px; color:var(--ink);">${p.title}</h3>
+            <p style="margin:0; font-size:13px; color:var(--muted);">${p.desc}</p>
+            <div style="margin-top:12px; display:flex; gap:10px; font-size:12px; color:var(--muted);">
+              <span>📝 ${qCount} वस्तुनिष्ठ प्रश्न</span>
+              <span>⏱️ 20 मिनट</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <a href="exam-timer.html?source=board&year=${p.year}&session=${p.session}" class="primary-button" style="text-align:center; text-decoration:none;">
+              ऑनलाइन टेस्ट दें →
+            </a>
+            <a href="board-exam-papers.html" class="secondary-button" style="text-align:center; text-decoration:none;">
+              हल सहित विस्तार से देखें
+            </a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>
+

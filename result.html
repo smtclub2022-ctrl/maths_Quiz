@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>परीक्षा परिणाम एवं अंकतालिका (Result) | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .result-hero {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 36px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-pale), #e0e7ff);
+      border: 4px solid var(--violet);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .score-circle .score-num {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--violet);
+      line-height: 1;
+    }
+    .score-circle .score-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .grade-pill {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .grade-a-plus { background: #d1fae5; color: #065f46; }
+    .grade-a { background: #e0f2fe; color: #0369a1; }
+    .grade-b { background: #fef3c7; color: #b45309; }
+    .grade-c { background: #fee2e2; color: #b91c1c; }
+    .stats-breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 680px) {
+      .stats-breakdown-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .res-stat-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+    .res-stat-card strong {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .res-stat-card span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container" style="max-width:860px;">
+      <div class="result-hero" id="resultHero">
+        <span class="grade-pill grade-a-plus" id="gradeBadge">🏆 उत्कृष्ट प्रदर्शन</span>
+        <div class="score-circle">
+          <span class="score-num" id="resScore">0</span>
+          <span class="score-label" id="resTotal">/ 0</span>
+        </div>
+        <h2 id="resTitle" style="margin:0 0 6px; font-size:22px; color:var(--ink);">परीक्षा परिणाम</h2>
+        <p style="margin:0; font-size:14px; color:var(--muted);" id="resSubtitle">माध्यमिक शिक्षा बोर्ड राजस्थान</p>
+      </div>
+
+      <div class="stats-breakdown-grid">
+        <div class="res-stat-card" style="border-top:3px solid var(--green);">
+          <strong id="statCorrect" style="color:var(--green);">0</strong>
+          <span>✓ सही उत्तर</span>
+        </div>
+        <div class="res-stat-card" style="border-top:3px solid var(--red);">
+          <strong id="statWrong" style="color:var(--red);">0</strong>
+          <span>✗ गलत उत्तर</span>
+        </div>
+        <div class="res-stat-card" style="border-top:3px solid #94a3b8;">
+          <strong id="statUnanswered" style="color:#64748b;">0</strong>
+          <span>⚪ अनुत्तरित</span>
+        </div>
+        <div class="res-stat-card" style="border-top:3px solid var(--violet);">
+          <strong id="statTime" style="color:var(--violet);">0:00</strong>
+          <span>⏱️ लगा समय</span>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <a href="answer-review.html" class="primary-button" style="text-decoration:none;">
+          📝 विस्तृत हल एवं समीक्षा देखें →
+        </a>
+        <a href="mistake-book.html" class="secondary-button" style="text-decoration:none;">
+          ❌ भूल सुधार पुस्तिका
+        </a>
+        <button class="secondary-button" id="btnShareWhatsApp" type="button">
+          📲 WhatsApp पर शेयर करें
+        </button>
+        <button class="secondary-button" id="btnPrintReport" type="button">
+          🖨️ प्रिंट निकालें
+        </button>
+        <a href="quiz-center.html" class="secondary-button" style="text-decoration:none;">
+          🔄 अन्य क्विज़ दें
+        </a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("quiz-center");
+      const res = ExamSuite.getLatestResult();
+
+      if (!res) {
+        document.getElementById("resTitle").textContent = "कोई हालिया परिणाम नहीं मिला";
+        document.getElementById("resSubtitle").innerHTML = '<a href="quiz-center.html">क्विज़ सेंटर पर जाएँ और टेस्ट शुरू करें</a>';
+        return;
+      }
+
+      document.getElementById("resTitle").textContent = res.title;
+      document.getElementById("resScore").textContent = res.correct;
+      document.getElementById("resTotal").textContent = `/ ${res.total} (${res.percentage}%)`;
+
+      document.getElementById("statCorrect").textContent = res.correct;
+      document.getElementById("statWrong").textContent = res.wrong;
+      document.getElementById("statUnanswered").textContent = res.unanswered;
+
+      const m = Math.floor(res.timeSpent / 60);
+      const s = res.timeSpent % 60;
+      document.getElementById("statTime").textContent = `${m}m ${s}s`;
+
+      const gradeBadge = document.getElementById("gradeBadge");
+      const p = res.percentage;
+      if (p >= 90) {
+        gradeBadge.className = "grade-pill grade-a-plus";
+        gradeBadge.textContent = "🏆 A+ ग्रेड (उत्कृष्ट प्रदर्शन)";
+      } else if (p >= 75) {
+        gradeBadge.className = "grade-pill grade-a";
+        gradeBadge.textContent = "🥇 A ग्रेड (बहुत अच्छा)";
+      } else if (p >= 60) {
+        gradeBadge.className = "grade-pill grade-b";
+        gradeBadge.textContent = "🥈 B ग्रेड (अच्छा प्रयास)";
+      } else {
+        gradeBadge.className = "grade-pill grade-c";
+        gradeBadge.textContent = "🥉 सुधार अपेक्षित (अभ्यास जारी रखें)";
+      }
+
+      document.getElementById("btnShareWhatsApp").addEventListener("click", () => {
+        const text = `मैंने I_Mentor_99 पर कक्षा 10 गणित "${res.title}" में ${res.correct}/${res.total} (${res.percentage}%) अंक प्राप्त किए! 🎯\nआप भी अपनी बोर्ड तैयारी परखें: ${window.location.origin}/quiz-center.html`;
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+      });
+
+      document.getElementById("btnPrintReport").addEventListener("click", () => {
+        window.print();
+      });
+    });
+  </script>
+</body>
+</html>
+

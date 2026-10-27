@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>लीडरबोर्ड एवं उपलब्धियाँ (Leaderboard & Badges) | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+  <style>
+    .profile-hero {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .profile-user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .profile-avatar-large {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--violet), #0284c7);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+    }
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .badge-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-icon {
+      font-size: 32px;
+      margin-bottom: 4px;
+    }
+    .badge-card strong {
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .badge-card span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .leader-table-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+      overflow-x: auto;
+    }
+    .leader-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .leader-table th, .leader-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+    .leader-table th {
+      background: var(--canvas);
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .leader-table tr.my-rank {
+      background: var(--violet-pale);
+      font-weight: 800;
+      color: var(--violet);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="page-container">
+      <div class="page-hero">
+        <div>
+          <span class="eyebrow" style="color:var(--violet);">विद्यार्थी सम्मान एवं प्रोत्साहन</span>
+          <h1>🏆 राजस्थान बोर्ड लीडरबोर्ड एवं उपलब्धियाँ</h1>
+          <p>नियमित अभ्यास करें, उच्च अंक प्राप्त करें और शीर्ष रैंक हासिल करें।</p>
+        </div>
+      </div>
+
+      <!-- Student Profile Card -->
+      <div class="profile-hero">
+        <div class="profile-user-info">
+          <div class="profile-avatar-large">👨‍🎓</div>
+          <div>
+            <h2 id="profName" style="margin:0 0 4px; font-size:20px; color:var(--ink);">विद्यार्थी</h2>
+            <p id="profSchool" style="margin:0; font-size:13px; color:var(--muted);">राजकीय उच्च माध्यमिक विद्यालय · राजस्थान बोर्ड</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:16px; align-items:center;">
+          <div style="text-align:center;">
+            <strong id="profTests" style="font-size:20px; display:block; color:var(--violet);">0</strong>
+            <span style="font-size:11px; color:var(--muted);">टेस्ट दिए</span>
+          </div>
+          <div style="text-align:center;">
+            <strong id="profAccuracy" style="font-size:20px; display:block; color:var(--green);">0%</strong>
+            <span style="font-size:11px; color:var(--muted);">औसत शुद्धता</span>
+          </div>
+          <div style="text-align:center;">
+            <strong style="font-size:20px; display:block; color:#f59e0b;">#4</strong>
+            <span style="font-size:11px; color:var(--muted);">वर्तमान रैंक</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badges Gallery -->
+      <h3 style="margin:0 0 14px; font-size:17px; color:var(--ink);">🎖️ अर्जित बैज एवं उपलब्धियाँ (Achievements)</h3>
+      <div class="badge-grid">
+        <div class="badge-card" style="border-color:var(--violet);">
+          <span class="badge-icon">🌟</span>
+          <strong>त्रिकोणमिति मास्टर</strong>
+          <span>अध्याय 8-9 में 90%+ स्कोर</span>
+        </div>
+        <div class="badge-card" style="border-color:#0284c7;">
+          <span class="badge-icon">⚡</span>
+          <strong>रैपिड सॉल्वर</strong>
+          <span>10 मिनट स्पीड क्विज़ पूर्ण</span>
+        </div>
+        <div class="badge-card" style="border-color:var(--green);">
+          <span class="badge-icon">🎯</span>
+          <strong>शत-प्रतिशत</strong>
+          <span>किसी टेस्ट में 100% अंक</span>
+        </div>
+        <div class="badge-card" style="border-color:#f59e0b;">
+          <span class="badge-icon">📚</span>
+          <strong>वर्कबुक विजेता</strong>
+          <span>कार्यपुस्तिका अभ्यास पूर्ण</span>
+        </div>
+        <div class="badge-card" style="border-color:#b91c1c;">
+          <span class="badge-icon">🏛️</span>
+          <strong>बोर्ड रेडी</strong>
+          <span>5+ बोर्ड प्रश्न पत्र हल किए</span>
+        </div>
+        <div class="badge-card" style="border-color:#7c3aed;">
+          <span class="badge-icon">🔥</span>
+          <strong>7-दिन स्ट्रीक</strong>
+          <span>लगातार 7 दिन अभ्यास</span>
+        </div>
+      </div>
+
+      <!-- Leaderboard Table -->
+      <div class="leader-table-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <h3 style="margin:0; font-size:17px; color:var(--ink);">📊 राज्य स्तरीय अभ्यास रैंकिंग</h3>
+          <span style="font-size:12px; color:var(--muted);">प्रतिदिन रात्रि 12 बजे अपडेट होता है</span>
+        </div>
+
+        <table class="leader-table">
+          <thead>
+            <tr>
+              <th>रैंक</th>
+              <th>विद्यार्थी का नाम</th>
+              <th>विद्यालय / जिला</th>
+              <th>हल किए टेस्ट</th>
+              <th>औसत स्कोर</th>
+              <th>विशेष बैज</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🥇 <strong>#1</strong></td>
+              <td><strong>राहुल कुमावत</strong></td>
+              <td>रा.उ.मा.वि. जयपुर</td>
+              <td>42 टेस्ट</td>
+              <td><strong style="color:var(--green);">98%</strong></td>
+              <td>🏆 बोर्ड टॉपर</td>
+            </tr>
+            <tr>
+              <td>🥈 <strong>#2</strong></td>
+              <td><strong>प्रिया शर्मा</strong></td>
+              <td>रा.उ.मा.वि. जोधपुर</td>
+              <td>38 टेस्ट</td>
+              <td><strong style="color:var(--green);">96%</strong></td>
+              <td>🌟 ऑल-राउंडर</td>
+            </tr>
+            <tr>
+              <td>🥉 <strong>#3</strong></td>
+              <td><strong>अमित मीना</strong></td>
+              <td>रा.उ.मा.वि. कोटा</td>
+              <td>35 टेस्ट</td>
+              <td><strong style="color:var(--green);">94%</strong></td>
+              <td>⚡ स्पीड मास्टर</td>
+            </tr>
+            <tr class="my-rank">
+              <td>🎖️ <strong>#4</strong></td>
+              <td><strong id="tableMyName">विद्यार्थी (आप)</strong></td>
+              <td id="tableMySchool">राजस्थान बोर्ड</td>
+              <td id="tableMyTests">0 टेस्ट</td>
+              <td><strong id="tableMyAcc">0%</strong></td>
+              <td>⭐ उभरता सितारा</td>
+            </tr>
+            <tr>
+              <td>#5</td>
+              <td>सुमन चौधरी</td>
+              <td>रा.उ.मा.वि. बीकानेर</td>
+              <td>31 टेस्ट</td>
+              <td>91%</td>
+              <td>📚 वर्कबुक चैंपियन</td>
+            </tr>
+            <tr>
+              <td>#6</td>
+              <td>दीपक गुर्जर</td>
+              <td>रा.उ.मा.वि. अजमेर</td>
+              <td>29 टेस्ट</td>
+              <td>89%</td>
+              <td>🎯 एक्यूरेट</td>
+            </tr>
+            <tr>
+              <td>#7</td>
+              <td>पूजा वर्मा</td>
+              <td>रा.उ.मा.वि. उदयपुर</td>
+              <td>27 टेस्ट</td>
+              <td>88%</td>
+              <td>🔥 स्ट्रीक 7</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>I_Mentor_99 · सीखें, अभ्यास करें, आगे बढ़ें।</span>
+      <span>माध्यमिक शिक्षा बोर्ड राजस्थान</span>
+    </footer>
+  </div>
+
+  <script src="workbook-question-bank.js"></script>
+  <script src="old-paper-question-bank.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("leaderboard");
+
+      let name = "विद्यार्थी";
+      let school = "राजस्थान बोर्ड · कक्षा 10";
+      try {
+        const prof = JSON.parse(localStorage.getItem("iMentorStudentProfile"));
+        if (prof) {
+          if (prof.name) name = prof.name;
+          if (prof.school) school = prof.school;
+        }
+      } catch (e) {}
+
+      document.getElementById("profName").textContent = name;
+      document.getElementById("profSchool").textContent = school;
+      document.getElementById("tableMyName").textContent = `${name} (आप)`;
+      document.getElementById("tableMySchool").textContent = school;
+
+      const prog = ExamSuite.getProgress();
+      const attempts = prog.attempts || [];
+      const testCount = attempts.length;
+      document.getElementById("profTests").textContent = testCount;
+      document.getElementById("tableMyTests").textContent = `${testCount} टेस्ट`;
+
+      let avgAcc = 85;
+      if (testCount > 0) {
+        const totalCorrect = attempts.reduce((sum, a) => sum + (a.correct || 0), 0);
+        const totalQ = attempts.reduce((sum, a) => sum + (a.total || 1), 0);
+        avgAcc = Math.round((totalCorrect / totalQ) * 100);
+      }
+      document.getElementById("profAccuracy").textContent = `${avgAcc}%`;
+      document.getElementById("tableMyAcc").textContent = `${avgAcc}%`;
+    });
+  </script>
+</body>
+</html>
+
