@@ -23,17 +23,22 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Prepare static site
         run: |
           mkdir -p _site/assets
-          cp index.html styles.css app.js admin.html admin.js api-config.js workbook-question-bank.js old-paper-question-bank.js question-bank-overrides.js workbook-quiz.html board-exam-papers.html manifest.webmanifest icon.svg sw.js _site/
           cp -R assets/. _site/assets/
+          cp -f *.html *.css *.js *.json *.svg *.webmanifest _site/ 2>/dev/null || true
+          touch _site/.nojekyll
+
       - name: Upload site files
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
