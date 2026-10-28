@@ -133,6 +133,26 @@
           card.style.setProperty("--tile-accent", subj.accent || "#6558df");
           card.style.setProperty("--tile-bg", `${subj.accent || '#6558df'}14`);
 
+                    let diagStrip = "";
+          if (isMaths) {
+            diagStrip = `
+              <div style="display:flex; gap:6px; margin: 8px 0 12px; background:#0f172a; padding:6px 10px; border-radius:8px; align-items:center;">
+                <img src="assets/diagrams/thales-triangle.svg" alt="थेल्स" style="height:32px; width:44px; object-fit:contain;">
+                <img src="assets/diagrams/trigonometry.svg" alt="त्रिकोणमिति" style="height:32px; width:44px; object-fit:contain;">
+                <img src="assets/diagrams/solids-3d.svg" alt="3D" style="height:32px; width:44px; object-fit:contain;">
+                <span style="font-size:11px; color:#38bdf8; font-weight:bold; margin-left:auto;">📐 5+ आरेख शामिल</span>
+              </div>
+            `;
+          } else if (isScience) {
+            diagStrip = `
+              <div style="display:flex; gap:6px; margin: 8px 0 12px; background:#0f172a; padding:6px 10px; border-radius:8px; align-items:center;">
+                <img src="assets/diagrams/circuit-diagram.svg" alt="परिपथ" style="height:32px; width:44px; object-fit:contain;">
+                <img src="assets/diagrams/optics-ray.svg" alt="किरण" style="height:32px; width:44px; object-fit:contain;">
+                <span style="font-size:11px; color:#34d399; font-weight:bold; margin-left:auto;">🔬 परिपथ व किरण आरेख</span>
+              </div>
+            `;
+          }
+
           card.innerHTML = `
             <div class="subject-tile-top">
               <div class="subject-tile-icon">${subj.icon || '📚'}</div>
@@ -143,6 +163,7 @@
             <h3>${subj.name} (${classData.name})</h3>
             <span class="subject-tile-english">${subj.englishName || ''}</span>
             <p class="subject-tile-desc">${subj.description || 'पाठ्यक्रम, अभ्यास एवं परीक्षा प्रश्नोत्तरी'}</p>
+            ${diagStrip}
             
             <div style="margin-bottom: 16px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font-size: 12px;">
               <strong>📑 कुल अध्याय:</strong> ${chapCount} अध्याय

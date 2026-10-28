@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgBlueprint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" rx="16" fill="url(#bgBlueprint)" stroke="#312e81" stroke-width="2"/>
+  
+  <text x="400" y="38" fill="#f8fafc" font-size="20" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">बोर्ड परीक्षा अंक विभाजन ब्लूप्रिंट (RBSE / CBSE Board Blueprint)</text>
+  <text x="400" y="62" fill="#a5b4fc" font-size="13" text-anchor="middle" font-family="system-ui, sans-serif">Class 10 &amp; 9: Theory (80 Marks) + Sessional (20 Marks) = 100 Marks Structure</text>
+
+  <!-- 4 Type Sections Cards -->
+  <!-- 1. MCQs -->
+  <g transform="translate(40, 95)">
+    <rect width="160" height="230" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <rect width="160" height="40" rx="10" fill="#0284c7"/>
+    <text x="80" y="25" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">1. वस्तुनिष्ठ (MCQ)</text>
+    <text x="80" y="80" fill="#38bdf8" font-size="36" font-weight="bold" text-anchor="middle">16</text>
+    <text x="80" y="105" fill="#94a3b8" font-size="12" text-anchor="middle">अंक (16 प्रश्न × 1 अंक)</text>
+    <line x1="20" y1="125" x2="140" y2="125" stroke="#334155"/>
+    <text x="80" y="150" fill="#f8fafc" font-size="12" text-anchor="middle">समय: 25 मिनट</text>
+    <text x="80" y="175" fill="#f8fafc" font-size="12" text-anchor="middle">सटीकता: 100%</text>
+    <rect x="25" y="195" width="110" height="22" rx="4" fill="#0369a1"/>
+    <text x="80" y="210" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">20% कुल भार</text>
+  </g>
+
+  <!-- 2. Very Short Answer (VSA) -->
+  <g transform="translate(225, 95)">
+    <rect width="160" height="230" rx="10" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+    <rect width="160" height="40" rx="10" fill="#059669"/>
+    <text x="80" y="25" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">2. अतिलघूत्तरात्मक</text>
+    <text x="80" y="80" fill="#34d399" font-size="36" font-weight="bold" text-anchor="middle">16</text>
+    <text x="80" y="105" fill="#94a3b8" font-size="12" text-anchor="middle">अंक (8 प्रश्न × 2 अंक)</text>
+    <line x1="20" y1="125" x2="140" y2="125" stroke="#334155"/>
+    <text x="80" y="150" fill="#f8fafc" font-size="12" text-anchor="middle">शब्द: 20-30 शब्द</text>
+    <text x="80" y="175" fill="#f8fafc" font-size="12" text-anchor="middle">सूत्र व परिभाषाएँ</text>
+    <rect x="25" y="195" width="110" height="22" rx="4" fill="#047857"/>
+    <text x="80" y="210" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">20% कुल भार</text>
+  </g>
+
+  <!-- 3. Short Answer (SA) -->
+  <g transform="translate(410, 95)">
+    <rect width="160" height="230" rx="10" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+    <rect width="160" height="40" rx="10" fill="#d97706"/>
+    <text x="80" y="25" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">3. लघूत्तरात्मक</text>
+    <text x="80" y="80" fill="#fbbf24" font-size="36" font-weight="bold" text-anchor="middle">24</text>
+    <text x="80" y="105" fill="#94a3b8" font-size="12" text-anchor="middle">अंक (8 प्रश्न × 3 अंक)</text>
+    <line x1="20" y1="125" x2="140" y2="125" stroke="#334155"/>
+    <text x="80" y="150" fill="#f8fafc" font-size="12" text-anchor="middle">हल व प्रमेय सत्यापन</text>
+    <text x="80" y="175" fill="#f8fafc" font-size="12" text-anchor="middle">आरेख एवं गणना</text>
+    <rect x="25" y="195" width="110" height="22" rx="4" fill="#b45309"/>
+    <text x="80" y="210" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">30% कुल भार</text>
+  </g>
+
+  <!-- 4. Long / Essay (LA) -->
+  <g transform="translate(595, 95)">
+    <rect width="160" height="230" rx="10" fill="#1e293b" stroke="#f43f5e" stroke-width="2"/>
+    <rect width="160" height="40" rx="10" fill="#e11d48"/>
+    <text x="80" y="25" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">4. दीर्घ/निबंधात्मक</text>
+    <text x="80" y="80" fill="#f43f5e" font-size="36" font-weight="bold" text-anchor="middle">24</text>
+    <text x="80" y="105" fill="#94a3b8" font-size="12" text-anchor="middle">अंक (6 प्रश्न × 4 अंक)</text>
+    <line x1="20" y1="125" x2="140" y2="125" stroke="#334155"/>
+    <text x="80" y="150" fill="#f8fafc" font-size="12" text-anchor="middle">विकल्प सहित (OR)</text>
+    <text x="80" y="175" fill="#f8fafc" font-size="12" text-anchor="middle">विस्तृत चरणबद्ध हल</text>
+    <rect x="25" y="195" width="110" height="22" rx="4" fill="#be123c"/>
+    <text x="80" y="210" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">30% कुल भार</text>
+  </g>
+
+  <!-- Total Summary Bar at bottom -->
+  <g transform="translate(40, 355)">
+    <rect width="715" height="100" rx="12" fill="#1e293b" stroke="#4338ca" stroke-width="1.5"/>
+    <text x="30" y="32" fill="#a5b4fc" font-size="14" font-weight="bold">कुल सैद्धांतिक प्रश्न पत्र: 80 अंक | सत्रांक: 20 अंक | कुल पूर्णांक: 100 अंक</text>
+    
+    <!-- Progress Bar Segments -->
+    <rect x="30" y="50" width="143" height="18" rx="4" fill="#0284c7"/>
+    <rect x="175" y="50" width="143" height="18" rx="4" fill="#059669"/>
+    <rect x="320" y="50" width="214" height="18" rx="4" fill="#d97706"/>
+    <rect x="536" y="50" width="179" height="18" rx="4" fill="#e11d48"/>
+    
+    <text x="30" y="88" fill="#94a3b8" font-size="12">समय प्रबंधन: 3 घंटे 15 मिनट (15 मिनट प्रश्न पत्र पाठन + 180 मिनट लेखन व पुनरावलोकन)</text>
+  </g>
+</svg>

@@ -186,6 +186,41 @@
         </a>
       </div>
 
+            <!-- Board Exam Blueprint Infographic & Diagram Card -->
+      <div style="background: var(--paper); border: 1.5px solid var(--line); border-radius: 18px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.5px;">📋 परीक्षा संरचना (Exam Blueprint)</span>
+            <h3 style="margin: 4px 0 0; font-size: 18px; color: var(--ink);">बोर्ड परीक्षा 2026 प्रश्न पत्र ब्लूप्रिंट एवं अंक आरेख</h3>
+          </div>
+          <button class="primary-button" id="toggleBlueprintBtn" type="button" style="padding: 6px 14px; font-size: 12px; border-radius: 8px;">
+            📊 ब्लूप्रिंट आरेख ▾
+          </button>
+        </div>
+        
+        <div id="blueprintContainer" style="display: block; margin-top: 10px; text-align: center; background: #0f172a; padding: 14px; border-radius: 14px; border: 1px solid #1e293b;">
+          <img src="assets/diagrams/exam-blueprint.svg" alt="बोर्ड परीक्षा ब्लूप्रिंट" style="max-width: 100%; height: auto; max-height: 400px; border-radius: 10px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 14px; text-align: left;">
+            <div style="background: #1e293b; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">खंड अ (Section A)</span>
+              <strong style="font-size: 13px; color: #f8fafc;">16 MCQ प्रश्न (16 अंक)</strong>
+            </div>
+            <div style="background: #1e293b; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #34d399;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">खंड ब (Section B)</span>
+              <strong style="font-size: 13px; color: #f8fafc;">8 अतिलघु प्रश्न (16 अंक)</strong>
+            </div>
+            <div style="background: #1e293b; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #fbbf24;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">खंड स (Section C)</span>
+              <strong style="font-size: 13px; color: #f8fafc;">8 लघु उत्तरीय (24 अंक)</strong>
+            </div>
+            <div style="background: #1e293b; padding: 10px 14px; border-radius: 8px; border-left: 3px solid #f43f5e;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">खंड द (Section D)</span>
+              <strong style="font-size: 13px; color: #f8fafc;">6 दीर्घ/निबंधात्मक (24 अंक)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Filter and Search -->
       <div class="quiz-filter-bar">
         <div class="quiz-tabs" id="quizTabs">
@@ -215,6 +250,15 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       ExamSuite.renderNavbar("quiz-center");
+      const toggleBtn = document.getElementById("toggleBlueprintBtn");
+      const blueprintBox = document.getElementById("blueprintContainer");
+      if (toggleBtn && blueprintBox) {
+        toggleBtn.addEventListener("click", () => {
+          const isHidden = blueprintBox.style.display === "none";
+          blueprintBox.style.display = isHidden ? "block" : "none";
+          toggleBtn.textContent = isHidden ? "📊 ब्लूप्रिंट आरेख ▾" : "📊 ब्लूप्रिंट आरेख ▸";
+        });
+      }
       const questions = ExamSuite.getAllQuestions();
       document.getElementById("statTotalQuestions").textContent = questions.length + "+";
 

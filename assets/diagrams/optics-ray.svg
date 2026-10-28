@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgOptics" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" rx="16" fill="url(#bgOptics)" stroke="#334155" stroke-width="2"/>
+  
+  <text x="400" y="38" fill="#f8fafc" font-size="20" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">प्रकाश: परावर्तन तथा अपवर्तन (Ray Optics Diagram)</text>
+  <text x="400" y="62" fill="#94a3b8" font-size="13" text-anchor="middle" font-family="system-ui, sans-serif">Class 10 Science Chapter 10 - अवतल दर्पण द्वारा प्रतिबिम्ब बनना (Concave Mirror)</text>
+
+  <!-- Principal Axis -->
+  <line x1="50" y1="240" x2="720" y2="240" stroke="#64748b" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="730" y="244" fill="#94a3b8" font-size="11">मुख्य अक्ष (Principal Axis)</text>
+
+  <!-- Concave Mirror Arc -->
+  <path d="M 620 90 A 300 300 0 0 0 620 390" fill="none" stroke="#38bdf8" stroke-width="4"/>
+  <!-- Mirror Silvering dashes on back -->
+  <path d="M 622 95 L 632 90 M 625 125 L 635 120 M 628 155 L 638 150 M 630 185 L 640 180 M 631 215 L 641 210 M 631 245 L 641 240 M 630 275 L 640 270 M 628 305 L 638 300 M 625 335 L 635 330 M 622 365 L 632 360 M 619 385 L 629 380" stroke="#64748b" stroke-width="2"/>
+
+  <!-- Pole P -->
+  <circle cx="630" cy="240" r="4" fill="#38bdf8"/>
+  <text x="640" y="255" fill="#38bdf8" font-size="14" font-weight="bold">P (ध्रुव)</text>
+
+  <!-- Focus F (f = 160 px -> x = 470) -->
+  <circle cx="470" cy="240" r="4" fill="#f59e0b"/>
+  <text x="470" y="265" fill="#f59e0b" font-size="14" font-weight="bold" text-anchor="middle">F (फोकस)</text>
+
+  <!-- Center of Curvature C (R = 320 px -> x = 310) -->
+  <circle cx="310" cy="240" r="4" fill="#ec4899"/>
+  <text x="310" y="265" fill="#ec4899" font-size="14" font-weight="bold" text-anchor="middle">C (वक्रता केंद्र)</text>
+
+  <!-- Object AB beyond C (at x = 200, height = 90) -->
+  <line x1="200" y1="240" x2="200" y2="150" stroke="#22c55e" stroke-width="4"/>
+  <polygon points="200,140 193,155 207,155" fill="#22c55e"/>
+  <text x="180" y="145" fill="#22c55e" font-size="14" font-weight="bold">A</text>
+  <text x="185" y="255" fill="#22c55e" font-size="14" font-weight="bold">B</text>
+  <text x="200" y="125" fill="#22c55e" font-size="12" font-weight="bold" text-anchor="middle">वस्तु (Object)</text>
+
+  <!-- Ray 1: Parallel to axis from A(200, 150) to Mirror M1(625, 150) -->
+  <line x1="200" y1="150" x2="625" y2="150" stroke="#facc15" stroke-width="2"/>
+  <polygon points="380,150 370,145 370,155" fill="#facc15"/>
+  <!-- Ray 1 Reflected: From (625, 150) through F(470, 240) to (180, 408) -->
+  <line x1="625" y1="150" x2="250" y2="368" stroke="#facc15" stroke-width="2"/>
+  <polygon points="400,281 390,274 397,286" fill="#facc15"/>
+
+  <!-- Ray 2: From A(200, 150) through C(310, 240) to Mirror M2(500, 395) -->
+  <line x1="200" y1="150" x2="530" y2="420" stroke="#ec4899" stroke-width="2"/>
+  <polygon points="260,199 250,190 256,203" fill="#ec4899"/>
+
+  <!-- Intersection (Image A') at x=365, y=300 approx (between C and F, inverted) -->
+  <line x1="365" y1="240" x2="365" y2="295" stroke="#38bdf8" stroke-width="3"/>
+  <polygon points="365,305 358,290 372,290" fill="#38bdf8"/>
+  <text x="385" y="305" fill="#38bdf8" font-size="13" font-weight="bold">A'</text>
+  <text x="385" y="235" fill="#38bdf8" font-size="13" font-weight="bold">B'</text>
+  <text x="365" y="325" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">प्रतिबिम्ब (वास्तविक, उल्टा, छोटा)</text>
+
+  <!-- Mirror Formula Box -->
+  <g transform="translate(60, 395)">
+    <rect width="680" height="65" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="30" y="26" fill="#f8fafc" font-size="13" font-weight="bold">दर्पण सूत्र (Mirror Formula): <tspan fill="#38bdf8">1/f = 1/v + 1/u</tspan> | आवर्धन: <tspan fill="#facc15">m = h'/h = -v/u</tspan></text>
+    <text x="30" y="48" fill="#94a3b8" font-size="12">u = बिम्ब दूरी (हमेशा -ve) | v = प्रतिबिम्ब दूरी | f = फोकस दूरी (अवतल: -ve, उत्तल: +ve)</text>
+  </g>
+</svg>

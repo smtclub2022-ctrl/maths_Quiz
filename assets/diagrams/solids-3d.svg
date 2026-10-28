@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgSolids" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cylGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="coneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.4"/>
+    </linearGradient>
+    <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#be185d" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#831843" stop-opacity="0.9"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="480" rx="16" fill="url(#bgSolids)" stroke="#334155" stroke-width="2"/>
+  
+  <text x="400" y="38" fill="#f8fafc" font-size="20" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">पृष्ठीय क्षेत्रफल एवं आयतन (Surface Areas &amp; Volumes)</text>
+  <text x="400" y="62" fill="#94a3b8" font-size="13" text-anchor="middle" font-family="system-ui, sans-serif">Class 10 Chapter 12 &amp; Class 9 Chapter 11 - NCERT / RBSE / CBSE</text>
+
+  <!-- 1. CYLINDER -->
+  <g transform="translate(40, 90)">
+    <rect width="210" height="340" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" opacity="0.6"/>
+    <text x="105" y="30" fill="#38bdf8" font-size="16" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">1. बेलन (Cylinder)</text>
+    
+    <!-- Cylinder Shape -->
+    <!-- Body -->
+    <path d="M 60 90 L 60 180 A 45 15 0 0 0 150 180 L 150 90 Z" fill="url(#cylGrad)" />
+    <!-- Bottom dashed ellipse -->
+    <ellipse cx="105" cy="180" rx="45" ry="14" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <!-- Top ellipse -->
+    <ellipse cx="105" cy="90" rx="45" ry="14" fill="#38bdf8" fill-opacity="0.6" stroke="#0284c7" stroke-width="2"/>
+    <!-- Dimensions -->
+    <line x1="105" y1="90" x2="150" y2="90" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="128" y="84" fill="#f1f5f9" font-size="11" font-weight="bold">r</text>
+    <line x1="50" y1="90" x2="50" y2="180" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="36" y="140" fill="#f1f5f9" font-size="11" font-weight="bold">h</text>
+    
+    <!-- Formulas -->
+    <rect x="15" y="215" width="180" height="105" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="25" y="238" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">वक्र पृष्ठ = <tspan fill="#38bdf8" font-weight="bold">2πrh</tspan></text>
+    <text x="25" y="265" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">कुल पृष्ठ = <tspan fill="#38bdf8" font-weight="bold">2πr(r + h)</tspan></text>
+    <text x="25" y="295" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">आयतन (V) = <tspan fill="#38bdf8" font-weight="bold">πr²h</tspan></text>
+  </g>
+
+  <!-- 2. CONE -->
+  <g transform="translate(295, 90)">
+    <rect width="210" height="340" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" opacity="0.6"/>
+    <text x="105" y="30" fill="#f59e0b" font-size="16" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">2. शंकु (Cone)</text>
+    
+    <!-- Cone Shape -->
+    <path d="M 105 75 L 55 180 A 50 14 0 0 0 155 180 Z" fill="url(#coneGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+    <ellipse cx="105" cy="180" rx="50" ry="14" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3"/>
+    
+    <!-- Dimensions -->
+    <line x1="105" y1="75" x2="105" y2="180" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <line x1="105" y1="180" x2="155" y2="180" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="128" y="174" fill="#f1f5f9" font-size="11" font-weight="bold">r</text>
+    <text x="94" y="135" fill="#f1f5f9" font-size="11" font-weight="bold">h</text>
+    <text x="138" y="125" fill="#fbbf24" font-size="12" font-weight="bold">l</text>
+    
+    <!-- Formulas -->
+    <rect x="15" y="215" width="180" height="105" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="25" y="238" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">तिर्यक ऊँचाई l = <tspan fill="#f59e0b" font-weight="bold">√(r² + h²)</tspan></text>
+    <text x="25" y="265" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">वक्र पृष्ठ = <tspan fill="#f59e0b" font-weight="bold">πrl</tspan></text>
+    <text x="25" y="295" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">आयतन (V) = <tspan fill="#f59e0b" font-weight="bold">⅓ πr²h</tspan></text>
+  </g>
+
+  <!-- 3. SPHERE & HEMISPHERE -->
+  <g transform="translate(550, 90)">
+    <rect width="210" height="340" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" opacity="0.6"/>
+    <text x="105" y="30" fill="#ec4899" font-size="16" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">3. गोला (Sphere)</text>
+    
+    <!-- Sphere Shape -->
+    <circle cx="105" cy="130" r="48" fill="url(#sphereGrad)" stroke="#ec4899" stroke-width="1.5"/>
+    <ellipse cx="105" cy="130" rx="48" ry="14" fill="none" stroke="#f472b6" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="105" y1="130" x2="153" y2="130" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="105" cy="130" r="3" fill="#ffffff"/>
+    <text x="125" y="124" fill="#ffffff" font-size="11" font-weight="bold">r</text>
+    
+    <!-- Formulas -->
+    <rect x="15" y="215" width="180" height="105" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="25" y="238" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">गोला पृष्ठ = <tspan fill="#ec4899" font-weight="bold">4πr²</tspan></text>
+    <text x="25" y="265" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">गोला आयतन = <tspan fill="#ec4899" font-weight="bold">⁴⁄₃ πr³</tspan></text>
+    <text x="25" y="295" fill="#94a3b8" font-size="12" font-family="system-ui, sans-serif">अर्द्धगोला कुल = <tspan fill="#ec4899" font-weight="bold">3πr²</tspan></text>
+  </g>
+</svg>

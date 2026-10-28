@@ -70,6 +70,155 @@
           </div>
         </section>
 
+        <!-- VISUAL PERFORMANCE & ANALYTICS SECTION -->
+        <section style="background: var(--paper); border: 1.5px solid var(--line); border-radius: 20px; padding: 24px; margin-bottom: 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 14px;">
+            <div>
+              <span style="font-size: 11px; font-weight: 800; color: #6558df; text-transform: uppercase; letter-spacing: 0.5px;">प्रगति ट्रैकर (Live Progress)</span>
+              <h2 style="margin: 4px 0 0; font-size: 20px; color: var(--ink);">📊 प्रदर्शन विश्लेषण एवं अभ्यास ग्राफ़</h2>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 6px 12px; border-radius: 20px; border: 1px solid #a7f3d0;">
+                ● दैनिक लक्ष्य: 85% पूर्ण
+              </span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+            <!-- Chart 1: Subject Mastery Horizontal Bar Chart -->
+            <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px;">
+              <h3 style="margin: 0 0 12px; font-size: 15px; color: var(--ink); display: flex; align-items: center; justify-content: space-between;">
+                <span>📚 विषयवार तैयारी एवं दक्षता</span>
+                <span style="font-size: 11px; color: var(--muted); font-weight: normal;">औसत: 84%</span>
+              </h3>
+              
+              <!-- SVG Horizontal Bar Graph -->
+              <svg viewBox="0 0 400 240" width="100%" height="auto" style="overflow: visible;">
+                <!-- Math -->
+                <text x="0" y="24" fill="var(--ink)" font-size="12" font-weight="600">गणित (Maths)</text>
+                <text x="395" y="24" fill="#6558df" font-size="12" font-weight="bold" text-anchor="end">88%</text>
+                <rect x="0" y="32" width="395" height="10" rx="5" fill="var(--line)"/>
+                <rect x="0" y="32" width="347" height="10" rx="5" fill="#6558df"/>
+
+                <!-- Science -->
+                <text x="0" y="64" fill="var(--ink)" font-size="12" font-weight="600">विज्ञान (Science)</text>
+                <text x="395" y="64" fill="#0d9488" font-size="12" font-weight="bold" text-anchor="end">82%</text>
+                <rect x="0" y="72" width="395" height="10" rx="5" fill="var(--line)"/>
+                <rect x="0" y="72" width="324" height="10" rx="5" fill="#0d9488"/>
+
+                <!-- Social -->
+                <text x="0" y="104" fill="var(--ink)" font-size="12" font-weight="600">सामाजिक विज्ञान (SST)</text>
+                <text x="395" y="104" fill="#d97706" font-size="12" font-weight="bold" text-anchor="end">78%</text>
+                <rect x="0" y="112" width="395" height="10" rx="5" fill="var(--line)"/>
+                <rect x="0" y="112" width="308" height="10" rx="5" fill="#d97706"/>
+
+                <!-- English -->
+                <text x="0" y="144" fill="var(--ink)" font-size="12" font-weight="600">अंग्रेजी (English)</text>
+                <text x="395" y="144" fill="#2563eb" font-size="12" font-weight="bold" text-anchor="end">85%</text>
+                <rect x="0" y="152" width="395" height="10" rx="5" fill="var(--line)"/>
+                <rect x="0" y="152" width="335" height="10" rx="5" fill="#2563eb"/>
+
+                <!-- Hindi -->
+                <text x="0" y="184" fill="var(--ink)" font-size="12" font-weight="600">हिन्दी (Hindi)</text>
+                <text x="395" y="184" fill="#e11d48" font-size="12" font-weight="bold" text-anchor="end">92%</text>
+                <rect x="0" y="192" width="395" height="10" rx="5" fill="var(--line)"/>
+                <rect x="0" y="192" width="363" height="10" rx="5" fill="#e11d48"/>
+
+                <!-- Sanskrit -->
+                <text x="0" y="224" fill="var(--ink)" font-size="12" font-weight="600">संस्कृत (Sanskrit)</text>
+                <text x="395" y="224" fill="#7c3aed" font-size="12" font-weight="bold" text-anchor="end">80%</text>
+                <rect x="0" y="232" width="395" height="10" rx="5" fill="var(--line)"/>
+                <rect x="0" y="232" width="316" height="10" rx="5" fill="#7c3aed"/>
+              </svg>
+            </div>
+
+            <!-- Chart 2: 7-Day Performance & Score Trend Curve -->
+            <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px;">
+              <h3 style="margin: 0 0 12px; font-size: 15px; color: var(--ink); display: flex; align-items: center; justify-content: space-between;">
+                <span>📈 7-दिवसीय टेस्ट स्कोर वक्र (Trend Curve)</span>
+                <span style="font-size: 11px; color: #059669; font-weight: bold;">+14% सुधार ↑</span>
+              </h3>
+
+              <svg viewBox="0 0 400 240" width="100%" height="auto" style="overflow: visible;">
+                <defs>
+                  <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#6558df" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#6558df" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Grid horizontal lines -->
+                <line x1="30" y1="40" x2="385" y2="40" stroke="var(--line)" stroke-dasharray="3,3"/>
+                <text x="22" y="44" fill="var(--muted)" font-size="10" text-anchor="end">100%</text>
+
+                <line x1="30" y1="90" x2="385" y2="90" stroke="var(--line)" stroke-dasharray="3,3"/>
+                <text x="22" y="94" fill="var(--muted)" font-size="10" text-anchor="end">75%</text>
+
+                <line x1="30" y1="140" x2="385" y2="140" stroke="var(--line)" stroke-dasharray="3,3"/>
+                <text x="22" y="144" fill="var(--muted)" font-size="10" text-anchor="end">50%</text>
+
+                <line x1="30" y1="190" x2="385" y2="190" stroke="var(--line)"/>
+                <text x="22" y="194" fill="var(--muted)" font-size="10" text-anchor="end">0%</text>
+
+                <!-- Area Fill under curve -->
+                <polygon points="50,150 100,135 150,110 200,120 250,85 300,75 365,55 365,190 50,190" fill="url(#curveGrad)"/>
+
+                <!-- Smooth Score Line -->
+                <polyline points="50,150 100,135 150,110 200,120 250,85 300,75 365,55" fill="none" stroke="#6558df" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <!-- Dots on points -->
+                <circle cx="50" cy="150" r="4.5" fill="#6558df" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="100" cy="135" r="4.5" fill="#6558df" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="150" cy="110" r="4.5" fill="#6558df" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="200" cy="120" r="4.5" fill="#6558df" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="250" cy="85" r="4.5" fill="#6558df" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="300" cy="75" r="4.5" fill="#6558df" stroke="#ffffff" stroke-width="2"/>
+                <circle cx="365" cy="55" r="6" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                <text x="365" y="42" fill="#10b981" font-size="11" font-weight="bold" text-anchor="middle">92%</text>
+
+                <!-- X Axis Labels (Days) -->
+                <text x="50" y="210" fill="var(--muted)" font-size="11" text-anchor="middle">सोम</text>
+                <text x="100" y="210" fill="var(--muted)" font-size="11" text-anchor="middle">मंगल</text>
+                <text x="150" y="210" fill="var(--muted)" font-size="11" text-anchor="middle">बुध</text>
+                <text x="200" y="210" fill="var(--muted)" font-size="11" text-anchor="middle">गुरु</text>
+                <text x="250" y="210" fill="var(--muted)" font-size="11" text-anchor="middle">शुक्र</text>
+                <text x="300" y="210" fill="var(--muted)" font-size="11" text-anchor="middle">शनि</text>
+                <text x="365" y="210" fill="#6558df" font-size="11" font-weight="bold" text-anchor="middle">आज (रवि)</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Quick Diagram Strip -->
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 13px; font-weight: 700; color: var(--ink);">📐 त्वरित आरेख एवं फॉर्मूला रिवीजन स्ट्रिप:</span>
+              <a href="notes.html" style="font-size: 12px; font-weight: 700; color: #6558df; text-decoration: none;">सभी आरेख देखें →</a>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;">
+              <a href="notes.html" style="background: #0f172a; padding: 10px; border-radius: 10px; text-decoration: none; text-align: center; border: 1px solid #1e293b; display: block;">
+                <img src="assets/diagrams/trigonometry.svg" alt="त्रिकोणमिति" style="height: 60px; max-width: 100%; object-fit: contain;">
+                <span style="display: block; font-size: 11px; color: #38bdf8; font-weight: bold; margin-top: 4px;">त्रिकोणमिति अनुपात</span>
+              </a>
+              <a href="notes.html" style="background: #0f172a; padding: 10px; border-radius: 10px; text-decoration: none; text-align: center; border: 1px solid #1e293b; display: block;">
+                <img src="assets/diagrams/thales-triangle.svg" alt="थेल्स प्रमेय" style="height: 60px; max-width: 100%; object-fit: contain;">
+                <span style="display: block; font-size: 11px; color: #38bdf8; font-weight: bold; margin-top: 4px;">थेल्स प्रमेय (BPT)</span>
+              </a>
+              <a href="notes.html" style="background: #0f172a; padding: 10px; border-radius: 10px; text-decoration: none; text-align: center; border: 1px solid #1e293b; display: block;">
+                <img src="assets/diagrams/circuit-diagram.svg" alt="विद्युत परिपथ" style="height: 60px; max-width: 100%; object-fit: contain;">
+                <span style="display: block; font-size: 11px; color: #34d399; font-weight: bold; margin-top: 4px;">विद्युत परिपथ (Science)</span>
+              </a>
+              <a href="notes.html" style="background: #0f172a; padding: 10px; border-radius: 10px; text-decoration: none; text-align: center; border: 1px solid #1e293b; display: block;">
+                <img src="assets/diagrams/optics-ray.svg" alt="किरण आरेख" style="height: 60px; max-width: 100%; object-fit: contain;">
+                <span style="display: block; font-size: 11px; color: #fbbf24; font-weight: bold; margin-top: 4px;">अवतल दर्पण आरेख</span>
+              </a>
+              <a href="notes.html" style="background: #0f172a; padding: 10px; border-radius: 10px; text-decoration: none; text-align: center; border: 1px solid #1e293b; display: block;">
+                <img src="assets/diagrams/solids-3d.svg" alt="3D ठोस" style="height: 60px; max-width: 100%; object-fit: contain;">
+                <span style="display: block; font-size: 11px; color: #f472b6; font-weight: bold; margin-top: 4px;">पृष्ठीय क्षेत्रफल 3D</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
         <!-- Dashboard Core Modules Hub -->
         <h2 style="font-size: 20px; margin-bottom: 16px; color: var(--ink);">📚 अध्ययन एवं परीक्षा टूल्स (Learning & Exam Suite)</h2>
         

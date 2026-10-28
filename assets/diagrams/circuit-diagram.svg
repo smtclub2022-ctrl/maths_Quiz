@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgCircuit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091428"/>
+      <stop offset="100%" stop-color="#14284b"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="480" rx="16" fill="url(#bgCircuit)" stroke="#1e3a8a" stroke-width="2"/>
+  
+  <text x="400" y="38" fill="#f8fafc" font-size="20" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">विद्युत परिपथ आरेख (Electric Circuit Diagram)</text>
+  <text x="400" y="62" fill="#93c5fd" font-size="13" text-anchor="middle" font-family="system-ui, sans-serif">Class 10 Science Chapter 12 (विद्युत / Electricity) - Ohm's Law Circuit</text>
+
+  <!-- Circuit Loop -->
+  <!-- Main wire path -->
+  <path d="M 160 140 L 640 140 L 640 340 L 160 340 Z" fill="none" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Battery at bottom center (340 y) -->
+  <g transform="translate(360, 340)">
+    <rect x="-40" y="-15" width="80" height="30" fill="#091428"/>
+    <!-- Long bar (positive) -->
+    <line x1="-15" y1="-20" x2="-15" y2="20" stroke="#f59e0b" stroke-width="4"/>
+    <text x="-25" y="-12" fill="#f59e0b" font-size="14" font-weight="bold">+</text>
+    <!-- Short thick bar (negative) -->
+    <line x1="0" y1="-12" x2="0" y2="12" stroke="#94a3b8" stroke-width="6"/>
+    <!-- Second cell -->
+    <line x1="12" y1="-20" x2="12" y2="20" stroke="#f59e0b" stroke-width="4"/>
+    <line x1="25" y1="-12" x2="25" y2="12" stroke="#94a3b8" stroke-width="6"/>
+    <text x="32" y="-12" fill="#94a3b8" font-size="14" font-weight="bold">-</text>
+    <text x="5" y="38" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">बैटरी (Battery, V)</text>
+  </g>
+
+  <!-- Current flow arrow I -->
+  <polygon points="260,135 275,140 260,145" fill="#fbbf24"/>
+  <text x="268" y="125" fill="#fbbf24" font-size="14" font-weight="bold">I (धारा)</text>
+
+  <!-- Plug key K at bottom right -->
+  <g transform="translate(540, 340)">
+    <rect x="-30" y="-15" width="60" height="30" fill="#091428"/>
+    <circle cx="-12" cy="0" r="4" fill="#60a5fa"/>
+    <circle cx="12" cy="0" r="4" fill="#60a5fa"/>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="#60a5fa" stroke-width="3"/>
+    <circle cx="0" cy="0" r="2.5" fill="#22c55e"/>
+    <text x="0" y="32" fill="#94a3b8" font-size="11" text-anchor="middle">प्लग कुंजी (K - बन्द)</text>
+  </g>
+
+  <!-- Ammeter A on right side wire (x=640, y=240) -->
+  <g transform="translate(640, 240)">
+    <circle cx="0" cy="0" r="22" fill="#0f172a" stroke="#ef4444" stroke-width="2.5"/>
+    <text x="0" y="7" fill="#ef4444" font-size="18" font-weight="bold" text-anchor="middle">A</text>
+    <text x="-12" y="-26" fill="#f59e0b" font-size="11" font-weight="bold">+</text>
+    <text x="-12" y="35" fill="#94a3b8" font-size="11" font-weight="bold">-</text>
+    <text x="40" y="5" fill="#ef4444" font-size="12" font-weight="bold">एमीटर (श्रेणीक्रम)</text>
+  </g>
+
+  <!-- Resistor R on top wire (y=140, x=340 to 460) -->
+  <g transform="translate(400, 140)">
+    <rect x="-65" y="-18" width="130" height="36" fill="#091428"/>
+    <!-- Zigzag resistor symbol -->
+    <path d="M -60 0 L -45 -12 L -30 12 L -15 -12 L 0 12 L 15 -12 L 30 12 L 45 -12 L 60 0" fill="none" stroke="#10b981" stroke-width="3.5" stroke-linejoin="round"/>
+    <text x="0" y="-22" fill="#10b981" font-size="14" font-weight="bold" text-anchor="middle">प्रतिरोधक R (Resistor)</text>
+  </g>
+
+  <!-- Voltmeter V in parallel with Resistor -->
+  <g transform="translate(400, 70)">
+    <!-- Parallel wire leads -->
+    <line x1="-50" y1="70" x2="-50" y2="15" stroke="#a855f7" stroke-width="2" stroke-dasharray="2,2"/>
+    <line x1="50" y1="70" x2="50" y2="15" stroke="#a855f7" stroke-width="2" stroke-dasharray="2,2"/>
+    <line x1="-50" y1="15" x2="-22" y2="15" stroke="#a855f7" stroke-width="2"/>
+    <line x1="22" y1="15" x2="50" y2="15" stroke="#a855f7" stroke-width="2"/>
+    <!-- Meter circle -->
+    <circle cx="0" cy="15" r="22" fill="#0f172a" stroke="#a855f7" stroke-width="2.5"/>
+    <text x="0" y="22" fill="#a855f7" font-size="18" font-weight="bold" text-anchor="middle">V</text>
+    <text x="0" y="-15" fill="#a855f7" font-size="12" font-weight="bold" text-anchor="middle">वोल्टमीटर (समान्तर क्रम)</text>
+  </g>
+
+  <!-- Rheostat (Variable Resistance Rh) on left side wire (x=160, y=240) -->
+  <g transform="translate(160, 240)">
+    <rect x="-18" y="-40" width="36" height="80" fill="#091428"/>
+    <path d="M 0 -35 L -10 -25 L 10 -15 L -10 -5 L 10 5 L -10 15 L 10 25 L 0 35" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+    <!-- Diagonal arrow -->
+    <line x1="-25" y1="25" x2="25" y2="-25" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow)"/>
+    <polygon points="25,-25 15,-22 22,-15" fill="#ef4444"/>
+    <text x="-40" y="5" fill="#f59e0b" font-size="12" font-weight="bold" text-anchor="end">धारा नियंत्रक (Rh)</text>
+  </g>
+
+  <!-- Formula Summary Box at bottom left -->
+  <g transform="translate(60, 390)">
+    <rect width="680" height="70" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <text x="30" y="28" fill="#38bdf8" font-size="14" font-weight="bold">ओम का नियम (Ohm's Law): <tspan fill="#facc15">V = I × R</tspan></text>
+    <text x="30" y="52" fill="#94a3b8" font-size="12">श्रेणीक्रम प्रतिरोध: <tspan fill="#34d399" font-weight="bold">R_s = R₁ + R₂ + R₃</tspan> | समान्तर क्रम प्रतिरोध: <tspan fill="#ec4899" font-weight="bold">1/R_p = 1/R₁ + 1/R₂</tspan></text>
+  </g>
+</svg>

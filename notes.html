@@ -4,30 +4,256 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#6558df">
-  <title>नोट्स एवं पीडीएफ (Notes & Study Material) | KakshaGyan EduSmart99</title>
+  <title>नोट्स, सूत्र एवं आरेख (Notes, Formulas & Diagrams) | KakshaGyan EduSmart99</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=2.2">
+  <style>
+    .diagram-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .diagram-card {
+      background: var(--paper);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .diagram-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      border-color: var(--violet);
+    }
+    .diagram-thumb-wrap {
+      background: #0f172a;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--line);
+      min-height: 160px;
+    }
+    .diagram-thumb-wrap img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .diagram-card-info {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .diagram-card-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--violet);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 4px;
+    }
+    .diagram-card h4 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .diagram-card p {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+    
+    /* Lightbox modal */
+    .lightbox-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox-backdrop.active {
+      display: flex;
+    }
+    .lightbox-box {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      max-width: 950px;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+    .lightbox-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .lightbox-body {
+      padding: 20px;
+      overflow-y: auto;
+      text-align: center;
+      background: #0b1120;
+    }
+    .lightbox-body img {
+      max-width: 100%;
+      max-height: 65vh;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+    }
+  </style>
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar" id="examTopNav"></header>
 
     <main class="main-content">
-      <div class="notes-page-wrap" style="width: min(100%, 1100px); margin: 0 auto; padding-bottom: 40px;">
+      <div class="notes-page-wrap" style="width: min(100%, 1100px); margin: 0 auto; padding-bottom: 50px;">
         
         <!-- Header Banner -->
         <section class="banner" style="margin-bottom: 24px;">
           <div class="banner-content">
-            <p class="eyebrow">STUDENT PORTAL · अध्ययन सामग्री एवं सूत्र</p>
-            <h1>कक्षा 9 व 10 — अध्यायवार नोट्स एवं फॉर्मूला शीट</h1>
-            <p>गणित एवं विज्ञान के संक्षिप्त रिवीजन नोट्स, महत्वपूर्ण परिभाषाएँ, सूत्र सारणी और परीक्षा उपयोगी बिंदु।</p>
+            <p class="eyebrow">STUDENT PORTAL · अध्ययन सामग्री, सूत्र एवं आरेख</p>
+            <h1>कक्षा 9 व 10 — अध्यायवार नोट्स, सूत्र एवं विज्ञान आरेख</h1>
+            <p>गणित के प्रमेय रेखाचित्र, विज्ञान के परिपथ व किरण आरेख, संक्षिप्त रिवीजन नोट्स और परीक्षा उपयोगी फॉर्मूला शीट।</p>
           </div>
         </section>
 
-        <!-- Filter & Search Bar -->
+        <!-- VISUAL DIAGRAMS & SKETCHES SECTION -->
+        <div style="background: var(--paper); border: 1.5px solid var(--line); border-radius: 20px; padding: 22px; margin-bottom: 28px; box-shadow: 0 6px 18px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 6px;">
+            <div>
+              <span style="font-size: 11px; font-weight: 800; color: #6558df; text-transform: uppercase; letter-spacing: 0.5px;">दृश्य शिक्षण (Visual Learning)</span>
+              <h2 style="margin: 4px 0 0; font-size: 20px; color: var(--ink);">📐 मुख्य रेखाचित्र, ग्राफ एवं वैज्ञानिक आरेख गैलरी</h2>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="class-tab-btn active" id="btnFilterDiagAll" type="button" style="padding: 6px 12px; font-size: 12px;">सभी आरेख</button>
+              <button class="class-tab-btn" id="btnFilterDiagMath" type="button" style="padding: 6px 12px; font-size: 12px;">गणित</button>
+              <button class="class-tab-btn" id="btnFilterDiagSci" type="button" style="padding: 6px 12px; font-size: 12px;">विज्ञान</button>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">
+            किसी भी आरेख पर क्लिक करके उसे बड़ा (HD Zoom) देखें और परीक्षा में पूरे अंक प्राप्त करने हेतु अभ्यास करें:
+          </p>
+
+          <div class="diagram-gallery-grid" id="diagramGrid">
+            <!-- Diagram 1: Trigonometry -->
+            <div class="diagram-card" data-category="math" onclick="openDiagramLightbox('assets/diagrams/trigonometry.svg', 'त्रिकोणमिति अनुपात एवं पाइथागोरस प्रमेय', 'कर्ण, लम्ब, आधार, sin/cos/tan एवं पाइथागोरस प्रमेय (H² = B² + P²)')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/trigonometry.svg" alt="त्रिकोणमिति आरेख">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">गणित · अध्याय 8 &amp; 9</span>
+                <h4>त्रिकोणमिति अनुपात व पाइथागोरस</h4>
+                <p>समकोण त्रिभुज, न्यूनकोण θ, लम्ब, आधार, कर्ण एवं 6 मुख्य अनुपातों के संबंध।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 2: Thales Theorem -->
+            <div class="diagram-card" data-category="math" onclick="openDiagramLightbox('assets/diagrams/thales-triangle.svg', 'थेल्स प्रमेय (आधारभूत आनुपातिकता प्रमेय - BPT)', 'Theorem 6.1: यदि किसी त्रिभुज की एक भुजा के समान्तर अन्य दो भुजाओं को भिन्न-भिन्न बिन्दुओं पर प्रतिच्छेद करने के लिए रेखा खींची जाए...')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/thales-triangle.svg" alt="थेल्स प्रमेय">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">गणित · अध्याय 6 (त्रिभुज)</span>
+                <h4>थेल्स प्रमेय (BPT Triangle)</h4>
+                <p>ΔABC में DE ∥ BC रेखा द्वारा AD/DB = AE/EC अनुपात और समरूपता ΔADE ~ ΔABC।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 3: Cartesian Plane -->
+            <div class="diagram-card" data-category="math" onclick="openDiagramLightbox('assets/diagrams/cartesian-plane.svg', 'कार्तीय निर्देशांक तल एवं दूरी सूत्र', 'X-अक्ष, Y-अक्ष, 4 चतुर्थांश, मूल बिन्दु (0,0), दूरी सूत्र एवं विभाजन सूत्र')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/cartesian-plane.svg" alt="कार्तीय तल">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">गणित · अध्याय 7 (निर्देशांक)</span>
+                <h4>कार्तीय निर्देशांक तल (Coordinate Grid)</h4>
+                <p>दूरी सूत्र, मूल बिन्दु से दूरी, एवं विभाजन सूत्र (m₁:m₂) का पूर्ण आरेख।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 4: Circle Theorems -->
+            <div class="diagram-card" data-category="math" onclick="openDiagramLightbox('assets/diagrams/circle-theorems.svg', 'वृत्त की स्पर्श रेखा प्रमेय 10.1 व 10.2', 'बाह्य बिन्दु P से वृत्त पर खींची गई स्पर्श रेखाओं की लम्बाइयाँ समान होती हैं (PA = PB)')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/circle-theorems.svg" alt="वृत्त प्रमेय">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">गणित · अध्याय 10 (वृत्त)</span>
+                <h4>वृत्त की स्पर्श रेखा प्रमेय (PA = PB)</h4>
+                <p>स्पर्श बिन्दु पर त्रिज्या लम्ब होती है (90°) और बाह्य बिन्दु से स्पर्श रेखाएँ बराबर होती हैं।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 5: Solids 3D -->
+            <div class="diagram-card" data-category="math" onclick="openDiagramLightbox('assets/diagrams/solids-3d.svg', '3D ठोस आकृतियाँ: पृष्ठीय क्षेत्रफल एवं आयतन', 'बेलन (Cylinder), शंकु (Cone), गोला (Sphere) व अर्द्धगोला के सभी सूत्र व रेखाचित्र')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/solids-3d.svg" alt="3D ठोस">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">गणित · अध्याय 12/13 (क्षेत्रमिति)</span>
+                <h4>3D ठोस: बेलन, शंकु एवं गोला</h4>
+                <p>वक्र पृष्ठ, कुल पृष्ठीय क्षेत्रफल और आयतन के सभी सूत्र सचित्र।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 6: Circuit Diagram -->
+            <div class="diagram-card" data-category="sci" onclick="openDiagramLightbox('assets/diagrams/circuit-diagram.svg', 'विद्युत परिपथ आरेख एवं ओम का नियम', 'बैटरी, कुंजी, एमीटर (श्रेणीक्रम), वोल्टमीटर (समान्तर क्रम), प्रतिरोधक R एवं ओम का नियम V = IR')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/circuit-diagram.svg" alt="विद्युत परिपथ">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">विज्ञान · अध्याय 12 (विद्युत)</span>
+                <h4>विद्युत परिपथ एवं ओम का नियम</h4>
+                <p>A (एमीटर), V (वोल्टमीटर), प्लग कुंजी, धारा दिशा और R श्रेणी/समान्तर सूत्र।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 7: Optics Ray -->
+            <div class="diagram-card" data-category="sci" onclick="openDiagramLightbox('assets/diagrams/optics-ray.svg', 'प्रकाश: परावर्तन एवं अवतल दर्पण किरण आरेख', 'मुख्य अक्ष, ध्रुव P, फोकस F, वक्रता केंद्र C, दर्पण सूत्र 1/f = 1/v + 1/u')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/optics-ray.svg" alt="किरण आरेख">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">विज्ञान · अध्याय 10 (प्रकाश)</span>
+                <h4>अवतल दर्पण किरण आरेख (Ray Optics)</h4>
+                <p>वास्तविक एवं उल्टा प्रतिबिम्ब निर्माण, फोकस F और दर्पण सूत्र 1/f = 1/v + 1/u।</p>
+              </div>
+            </div>
+
+            <!-- Diagram 8: Exam Blueprint -->
+            <div class="diagram-card" data-category="math" onclick="openDiagramLightbox('assets/diagrams/exam-blueprint.svg', 'बोर्ड परीक्षा 80 अंक प्रश्न पत्र ब्लूप्रिंट', 'वस्तुनिष्ठ (16 अंक), अतिलघु (16 अंक), लघु (24 अंक), दीर्घ उत्तरीय (24 अंक) = 80 अंक')">
+              <div class="diagram-thumb-wrap">
+                <img src="assets/diagrams/exam-blueprint.svg" alt="बोर्ड ब्लूप्रिंट">
+              </div>
+              <div class="diagram-card-info">
+                <span class="diagram-card-tag">परीक्षा मार्गदर्शन · RBSE / CBSE</span>
+                <h4>बोर्ड परीक्षा 80 अंक ब्लूप्रिंट</h4>
+                <p>प्रश्नों के 4 खंड, समय प्रबंधन और अंक विभाजन की सम्पूर्ण योजना।</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar for Chapter Notes -->
         <div class="subjects-header-bar" style="margin-bottom: 24px;">
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <div class="sidebar-class-tabs" style="margin: 0;">
@@ -49,13 +275,35 @@
           </div>
         </div>
 
-        <!-- Notes Cards List -->
-        <div id="notesContainer" style="display: grid; gap: 18px;">
+        <!-- Chapter Notes Cards List -->
+        <div id="notesContainer" style="display: grid; gap: 20px;">
           <!-- Dynamically populated from curriculum-data.js -->
         </div>
 
       </div>
     </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-backdrop" id="diagramLightbox" onclick="closeDiagramLightbox(event)">
+      <div class="lightbox-box" onclick="event.stopPropagation()">
+        <div class="lightbox-header">
+          <div>
+            <h3 id="lightboxTitle" style="margin: 0; font-size: 17px; color: var(--ink);">आरेख पूर्वावलोकन</h3>
+            <span id="lightboxDesc" style="font-size: 12px; color: var(--muted);"></span>
+          </div>
+          <button class="sidebar-close-btn" onclick="closeDiagramLightbox(event)" type="button" aria-label="बंद करें">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="lightbox-body">
+          <img id="lightboxImg" src="" alt="आरेख">
+        </div>
+        <div style="padding: 12px 20px; background: var(--surface); border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <span style="font-size: 12px; color: var(--muted);">💡 यह आरेख NCERT / RBSE / CBSE बोर्ड परीक्षा के लिए अनिवार्य है।</span>
+          <button class="primary-button" onclick="window.print()" style="padding: 6px 14px; font-size: 12px; border-radius: 8px;">🖨️ प्रिंट / सुरक्षित करें</button>
+        </div>
+      </div>
+    </div>
 
     <div id="uFooterContainer"></div>
   </div>
@@ -63,8 +311,56 @@
   <script src="curriculum-data.js"></script>
   <script src="exam-suite.js"></script>
   <script>
+    // Lightbox helper
+    function openDiagramLightbox(src, title, desc) {
+      document.getElementById("lightboxImg").src = src;
+      document.getElementById("lightboxTitle").textContent = title;
+      document.getElementById("lightboxDesc").textContent = desc || "";
+      document.getElementById("diagramLightbox").classList.add("active");
+    }
+
+    function closeDiagramLightbox(e) {
+      if (e) e.preventDefault();
+      document.getElementById("diagramLightbox").classList.remove("active");
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       ExamSuite.renderNavbar("notes");
+
+      // Diagram filter tabs
+      const btnAll = document.getElementById("btnFilterDiagAll");
+      const btnMath = document.getElementById("btnFilterDiagMath");
+      const btnSci = document.getElementById("btnFilterDiagSci");
+      const diagCards = document.querySelectorAll(".diagram-card");
+
+      function filterDiagrams(cat) {
+        diagCards.forEach(card => {
+          if (cat === "all" || card.dataset.category === cat) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+
+      btnAll.addEventListener("click", () => {
+        btnAll.classList.add("active");
+        btnMath.classList.remove("active");
+        btnSci.classList.remove("active");
+        filterDiagrams("all");
+      });
+      btnMath.addEventListener("click", () => {
+        btnMath.classList.add("active");
+        btnAll.classList.remove("active");
+        btnSci.classList.remove("active");
+        filterDiagrams("math");
+      });
+      btnSci.addEventListener("click", () => {
+        btnSci.classList.add("active");
+        btnAll.classList.remove("active");
+        btnMath.classList.remove("active");
+        filterDiagrams("sci");
+      });
 
       const urlParams = new URLSearchParams(window.location.search);
       let activeClass = urlParams.get("class") || localStorage.getItem("iMentorClass") || "class10";
@@ -108,6 +404,26 @@
       searchInput.addEventListener("input", () => {
         renderNotes();
       });
+
+      // Chapter to diagram mapper
+      function getChapterDiagram(chNum, subject, cl) {
+        if (cl === "class10" && subject === "maths") {
+          if (chNum === 6) return { src: "assets/diagrams/thales-triangle.svg", title: "थेल्स प्रमेय रेखाचित्र" };
+          if (chNum === 7) return { src: "assets/diagrams/cartesian-plane.svg", title: "कार्तीय निर्देशांक तल व दूरी सूत्र" };
+          if (chNum === 8 || chNum === 9) return { src: "assets/diagrams/trigonometry.svg", title: "त्रिकोणमिति अनुपात समकोण आरेख" };
+          if (chNum === 10) return { src: "assets/diagrams/circle-theorems.svg", title: "वृत्त स्पर्श रेखा प्रमेय आरेख" };
+          if (chNum === 12 || chNum === 13) return { src: "assets/diagrams/solids-3d.svg", title: "3D ठोस आकृतियाँ आरेख" };
+        } else if (cl === "class10" && subject === "science") {
+          if (chNum === 10 || chNum === 11) return { src: "assets/diagrams/optics-ray.svg", title: "अवतल दर्पण प्रकाश किरण आरेख" };
+          if (chNum === 12 || chNum === 13) return { src: "assets/diagrams/circuit-diagram.svg", title: "विद्युत परिपथ आरेख (Ohm's Law)" };
+        } else if (cl === "class9" && subject === "maths") {
+          if (chNum === 3) return { src: "assets/diagrams/cartesian-plane.svg", title: "निर्देशांक ज्यामिति आरेख" };
+          if (chNum === 6 || chNum === 7) return { src: "assets/diagrams/thales-triangle.svg", title: "त्रिभुज ज्यामिति आरेख" };
+          if (chNum === 9 || chNum === 10) return { src: "assets/diagrams/circle-theorems.svg", title: "वृत्त प्रमेय आरेख" };
+          if (chNum === 11 || chNum === 12) return { src: "assets/diagrams/solids-3d.svg", title: "ठोस आकृतियों का पृष्ठीय क्षेत्रफल" };
+        }
+        return null;
+      }
 
       function renderNotes() {
         if (!container) return;
@@ -153,6 +469,20 @@
             </div>
           `).join("");
 
+          const diag = getChapterDiagram(ch.number, activeSubject, activeClass);
+          let diagHTML = "";
+          if (diag) {
+            diagHTML = `
+              <div style="margin-top: 14px; background: #0b1120; border-radius: 12px; padding: 12px; border: 1px solid #1e293b; text-align: center; cursor: pointer;" onclick="openDiagramLightbox('${diag.src}', 'अध्याय ${ch.number}: ${diag.title}', '${ch.title}')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
+                  <span style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">🔍 सचित्र आरेख (Click to Zoom)</span>
+                  <span style="font-size: 11px; color: #94a3b8;">${diag.title}</span>
+                </div>
+                <img src="${diag.src}" alt="${diag.title}" style="max-height: 200px; max-width: 100%; border-radius: 8px; object-fit: contain;">
+              </div>
+            `;
+          }
+
           card.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
               <div>
@@ -163,7 +493,7 @@
                 <span style="font-size: 12px; color: var(--muted);">${ch.englishTitle || ''}</span>
               </div>
               <div style="display: flex; gap: 8px;">
-                <a href="quiz-center.html" class="primary-button" style="padding: 6px 14px; font-size: 12px; text-decoration: none; border-radius: 8px;">
+                <a href="${activeSubject === 'maths' ? 'index.html' : 'quiz-center.html'}" class="primary-button" style="padding: 6px 14px; font-size: 12px; text-decoration: none; border-radius: 8px;">
                   🎯 अध्याय टेस्ट दें
                 </a>
               </div>
@@ -186,6 +516,8 @@
                 </ul>
               </div>
             </div>
+
+            ${diagHTML}
           `;
           container.appendChild(card);
         });
