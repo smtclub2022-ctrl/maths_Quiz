@@ -337,7 +337,7 @@ function renderStudentLogin() {
   app.innerHTML = `
     <section class="student-login" aria-labelledby="studentLoginTitle">
       <div class="student-login-brand"><img src="assets/mentor-logo.png" alt="I_Mentor_99"></div>
-      <p class="eyebrow">I_MENTOR_99 · RAJASTHAN BOARD CLASS 10 MATHS</p>
+      <p class="eyebrow">I_MENTOR_99 · छात्र पोर्टल (STUDENT PORTAL)</p>
       <h1 id="studentLoginTitle">STUDENT DETAILS / विद्यार्थी विवरण</h1>
       <p class="subheading">पोर्टल पर अभ्यास परीक्षा शुरू करने के लिए अपना विवरण दर्ज करें।</p>
       <form id="studentLoginForm" class="student-login-form">
