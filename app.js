@@ -398,6 +398,7 @@ function renderStudentLogin() {
             </span>
           </div>
           <div class="login-api-actions">
+            <a href="https://docs.google.com/spreadsheets/d/1JSU4Jm6wEFqxSn84MMs0FuqhkjPPRcvOgqz1yZ9YvNU/edit?usp=sharing" target="_blank" rel="noopener noreferrer">📊 Google Sheet खोलें</a>
             <button type="button" id="exportCsvBtn">📥 डाउनलोड डेटा (Excel/CSV)</button>
             <a href="assets/login_Data_Imentor_students.xlsx" download="login_Data_Imentor_students.xlsx" id="downloadTemplateBtn">📄 मूल एक्सेल टेम्पलेट</a>
           </div>

@@ -37,6 +37,10 @@ window.STUDENT_DATA_COLUMNS = [
   "Mobile Number"
 ];
 
+// Connected Google Sheet details
+window.STUDENT_GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1JSU4Jm6wEFqxSn84MMs0FuqhkjPPRcvOgqz1yZ9YvNU/edit?usp=sharing";
+window.STUDENT_SPREADSHEET_ID = "1JSU4Jm6wEFqxSn84MMs0FuqhkjPPRcvOgqz1yZ9YvNU";
+
 // Path to sample Excel template file
 window.STUDENT_DATA_TEMPLATE_FILE = "assets/login_Data_Imentor_students.xlsx";
 

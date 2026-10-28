@@ -122,3 +122,4 @@ When configured with a custom API URL (e.g. `https://api.yourdomain.com`), the a
 - If no API URL is configured or if the student has no internet, all login records are automatically stored in browser storage (`localStorage`).
 - Teachers and admins can click **📥 डाउनलोड डेटा (Excel/CSV)** on the Login page or in the Admin Dashboard to download the complete CSV file with UTF-8 BOM encoding for seamless opening in Microsoft Excel.
 - The template file is always accessible at `assets/login_Data_Imentor_students.xlsx`.
+
