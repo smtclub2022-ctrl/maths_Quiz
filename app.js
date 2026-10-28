@@ -116,6 +116,8 @@ const studentSessionKey = "iMentorStudentSession";
 let studentSessionActive = false;
 try {
   studentSessionActive = sessionStorage.getItem(studentSessionKey) === "active";
+  if (document.documentElement) document.documentElement.classList.toggle("is-login-screen", !studentSessionActive);
+  if (document.body) document.body.classList.toggle("is-login-screen", !studentSessionActive);
 } catch (error) {
   console.error("Student session could not be read:", error);
 }
@@ -1334,6 +1336,13 @@ function renderMistakes() {
 }
 
 function render() {
+  if (document.documentElement) document.documentElement.classList.toggle("is-login-screen", !studentSessionActive);
+  if (document.body) document.body.classList.toggle("is-login-screen", !studentSessionActive);
+  const topbar = document.querySelector(".topbar");
+  if (topbar) topbar.style.display = studentSessionActive ? "" : "none";
+  const bottomNav = document.getElementById("bottomNav");
+  if (bottomNav) bottomNav.style.display = studentSessionActive ? "" : "none";
+
   const switchButton = document.getElementById("studentSwitch");
   if (switchButton) {
     switchButton.hidden = !studentSessionActive;

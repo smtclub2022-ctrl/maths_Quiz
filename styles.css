@@ -255,6 +255,18 @@ button { color: inherit; font: inherit; }
 body.muted .sound-icon-on { display: none; }
 body.muted .sound-icon-off { display: inline-block; }
 
+/* Hide Navigation Bar on Login Page */
+body.is-login-screen .topbar,
+html.is-login-screen .topbar,
+body.is-login-screen .bottom-nav,
+html.is-login-screen .bottom-nav {
+  display: none !important;
+}
+body.is-login-screen .main-content,
+html.is-login-screen .main-content {
+  padding-top: 30px;
+}
+
 /* Student Login */
 .student-login {
   width: min(100%, 520px);
