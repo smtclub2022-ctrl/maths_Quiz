@@ -85,7 +85,7 @@ function doPost(e) {
 - Paste your Web App URL into the input field and click **सेव करें (Save)**.
 - *Alternatively*: open `api-config.js` and set:
   ```javascript
-  window.STUDENT_API_BASE_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+  window.STUDENT_API_BASE_URL = "https://script.google.com/macros/s/AKfycbyjOs5M0iRvTGdcr91pQWqRsJ_yO0sgPQRqAy1mJp0bBStsIHx4VXKtLKtnyLj2UAud/exec";
   ```
 
 ---

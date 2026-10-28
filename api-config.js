@@ -16,13 +16,16 @@
  *  8. Mobile Number
  */
 
-// Priority: Local override in localStorage, then window config, then empty string (offline mode)
+// Default Live Google Apps Script Web App Endpoint for Google Sheets
+const DEFAULT_GOOGLE_SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbyjOs5M0iRvTGdcr91pQWqRsJ_yO0sgPQRqAy1mJp0bBStsIHx4VXKtLKtnyLj2UAud/exec";
+
+// Priority: Local override in localStorage, then window config, then live default Webhook
 window.STUDENT_API_BASE_URL = (function() {
   try {
     const stored = localStorage.getItem("iMentorApiUrl");
     if (stored && stored.trim()) return stored.trim();
   } catch (e) {}
-  return window.STUDENT_API_BASE_URL || "";
+  return window.STUDENT_API_BASE_URL || DEFAULT_GOOGLE_SHEETS_WEBHOOK;
 })();
 
 // Exact 8 Columns matching login_Data_Imentor_students.xlsx
@@ -52,7 +55,7 @@ window.getStudentApiUrl = function() {
     const local = localStorage.getItem("iMentorApiUrl");
     if (local && local.trim()) return local.trim();
   } catch (e) {}
-  return String(window.STUDENT_API_BASE_URL || "").trim();
+  return String(window.STUDENT_API_BASE_URL || DEFAULT_GOOGLE_SHEETS_WEBHOOK).trim();
 };
 
 /**
