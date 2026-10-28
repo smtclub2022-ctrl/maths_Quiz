@@ -33,6 +33,7 @@
 
   const ALL_PAGES = [
     { id: "home", href: "index.html", label: "⌂ होम (Home)", icon: "⌂", group: "main" },
+    { id: "subjects", href: "subjects.html", label: "📚 विषय सूची (Subjects)", icon: "📚", group: "main" },
     { id: "quiz-center", href: "quiz-center.html", label: "🎯 क्विज़ सेंटर (Quiz Center)", icon: "🎯", group: "exam" },
     { id: "chapter-tests", href: "chapter-tests.html", label: "📚 अध्यायवार टेस्ट (Chapter Tests)", icon: "📚", group: "exam" },
     { id: "mock-exams", href: "mock-exams.html", label: "📝 संपूर्ण मॉक परीक्षा (Mock Exams)", icon: "📝", group: "exam" },

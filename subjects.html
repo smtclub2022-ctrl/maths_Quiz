@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>सभी विषय (Class 9 & 10 Subjects) | I_Mentor_99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body>
+  <div class="app-shell">
+    <div id="uNavbarContainer"></div>
+
+    <main class="main-content">
+      <div class="subjects-page-wrap">
+        <!-- Top Selection Meta Bar -->
+        <div class="subjects-header-bar">
+          <div class="subjects-pills-wrap">
+            <span class="subjects-meta-pill" id="dispBoardPill">🏛️ RBSE (राजस्थान बोर्ड)</span>
+            <span class="subjects-meta-pill" id="dispMediumPill">🌐 हिंदी माध्यम</span>
+            <span class="subjects-meta-pill" id="dispClassPill">📚 कक्षा 10</span>
+          </div>
+          <button type="button" class="subjects-change-btn" id="openChangeModalBtn">
+            ⚙️ बोर्ड / माध्यम / कक्षा बदलें
+          </button>
+        </div>
+
+        <section class="banner" style="margin-bottom: 24px;">
+          <div class="banner-content">
+            <p class="eyebrow">I_MENTOR_99 · संपूर्ण पाठ्यक्रम एवं अभ्यास</p>
+            <h1 id="subjectsPageTitle">कक्षा 10 — सभी विषय</h1>
+            <p id="subjectsPageSub">अपने विषय का चयन करें और अध्यायवार अभ्यास, प्रश्न बैंक व बोर्ड परीक्षा तैयारी शुरू करें।</p>
+          </div>
+        </section>
+
+        <!-- Subjects Grid -->
+        <div class="subjects-grid" id="subjectsGrid">
+          <!-- Populated dynamically via JavaScript -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Selection Modal (Change Board, Medium, Class) -->
+    <div class="formula-backdrop" id="selectionBackdrop" aria-hidden="true" style="display: none;"></div>
+    <div class="formula-modal" id="selectionModal" role="dialog" aria-modal="true" aria-labelledby="selModalTitle" style="display: none; max-width: 520px;">
+      <div class="formula-modal-header">
+        <div class="formula-modal-title" id="selModalTitle">
+          <span class="fmodal-icon">⚙️</span>
+          <div>
+            <strong>बोर्ड, माध्यम व कक्षा बदलें</strong>
+            <span>अपनी आवश्यकता अनुसार चयन करें</span>
+          </div>
+        </div>
+        <button class="formula-close-btn" id="closeSelectionModalBtn" type="button" aria-label="बंद करें">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="formula-modal-body" style="padding: 24px;">
+        <form id="modalSelectionForm" class="selection-form">
+          <div class="selection-field-group">
+            <label for="modalSelBoard">बोर्ड (Board)</label>
+            <select id="modalSelBoard" name="board" required>
+              <option value="rbse">RBSE — माध्यमिक शिक्षा बोर्ड राजस्थान (अजमेर)</option>
+              <option value="cbse">CBSE — केंद्रीय माध्यमिक शिक्षा बोर्ड</option>
+            </select>
+          </div>
+
+          <div class="selection-field-group">
+            <label for="modalSelMedium">माध्यम (Medium)</label>
+            <select id="modalSelMedium" name="medium" required>
+              <option value="hindi">हिंदी माध्यम (Hindi Medium)</option>
+              <option value="english">English Medium (अंग्रेजी माध्यम)</option>
+            </select>
+          </div>
+
+          <div class="selection-field-group">
+            <label for="modalSelClass">कक्षा (Class)</label>
+            <select id="modalSelClass" name="class" required>
+              <option value="class10">कक्षा 10 (Class 10)</option>
+              <option value="class9">कक्षा 9 (Class 9)</option>
+            </select>
+          </div>
+
+          <div class="selection-actions" style="margin-top: 18px;">
+            <button type="submit" class="primary-button selection-btn-primary">अपडेट करें एवं विषय देखें →</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Subject Detail Modal (Chapters & Exercises) -->
+    <div class="formula-backdrop" id="subjDetailBackdrop" aria-hidden="true" style="display: none;"></div>
+    <div class="formula-modal" id="subjDetailModal" role="dialog" aria-modal="true" aria-labelledby="subjDetailTitle" style="display: none; max-width: 720px;">
+      <div class="formula-modal-header">
+        <div class="formula-modal-title" id="subjDetailTitle">
+          <span class="fmodal-icon" id="detailIcon">📚</span>
+          <div>
+            <strong id="detailHeading">विषय विवरण</strong>
+            <span id="detailSub">अध्यायवार पाठ्यक्रम व अभ्यास</span>
+          </div>
+        </div>
+        <button class="formula-close-btn" id="closeDetailModalBtn" type="button" aria-label="बंद करें">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="formula-modal-body" id="detailBody" style="padding: 24px;">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+
+    <div id="uFooterContainer"></div>
+  </div>
+
+  <script src="curriculum-data.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Render Universal Navigation Bar
+      ExamSuite.renderNavbar("subjects");
+
+      // 2. State Management for Board, Medium, Class
+      let currentBoard = localStorage.getItem("iMentorBoard") || "rbse";
+      let currentMedium = localStorage.getItem("iMentorMedium") || "hindi";
+      let currentClass = localStorage.getItem("iMentorClass") || "class10";
+
+      const dispBoard = document.getElementById("dispBoardPill");
+      const dispMedium = document.getElementById("dispMediumPill");
+      const dispClass = document.getElementById("dispClassPill");
+      const titleEl = document.getElementById("subjectsPageTitle");
+      const gridEl = document.getElementById("subjectsGrid");
+
+      // Modals
+      const selBackdrop = document.getElementById("selectionBackdrop");
+      const selModal = document.getElementById("selectionModal");
+      const openModalBtn = document.getElementById("openChangeModalBtn");
+      const closeModalBtn = document.getElementById("closeSelectionModalBtn");
+      const selForm = document.getElementById("modalSelectionForm");
+
+      const detBackdrop = document.getElementById("subjDetailBackdrop");
+      const detModal = document.getElementById("subjDetailModal");
+      const closeDetBtn = document.getElementById("closeDetailModalBtn");
+      const detIcon = document.getElementById("detailIcon");
+      const detHeading = document.getElementById("detailHeading");
+      const detSub = document.getElementById("detailSub");
+      const detBody = document.getElementById("detailBody");
+
+      function updateUI() {
+        const boardLabel = currentBoard === "cbse" ? "🏛️ CBSE बोर्ड" : "🏛️ RBSE (राजस्थान बोर्ड)";
+        const medLabel = currentMedium === "english" ? "🌐 English Medium" : "🌐 हिंदी माध्यम";
+        const classLabel = currentClass === "class9" ? "📚 कक्षा 9" : "📚 कक्षा 10";
+
+        if (dispBoard) dispBoard.textContent = boardLabel;
+        if (dispMedium) dispMedium.textContent = medLabel;
+        if (dispClass) dispClass.textContent = classLabel;
+        if (titleEl) titleEl.textContent = `${classLabel} — सभी विषय (${currentBoard.toUpperCase()})`;
+
+        renderSubjects();
+      }
+
+      function renderSubjects() {
+        if (!gridEl) return;
+        gridEl.innerHTML = "";
+
+        const classData = (window.curriculumData && window.curriculumData[currentClass]) 
+          ? window.curriculumData[currentClass]
+          : (window.curriculumData ? window.curriculumData.class10 : null);
+
+        if (!classData || !classData.subjects) {
+          gridEl.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 30px;">पाठ्यक्रम लोड हो रहा है...</p>`;
+          return;
+        }
+
+        classData.subjects.forEach(subj => {
+          const isMaths = subj.id === "maths";
+          const card = document.createElement("div");
+          card.className = "subject-tile";
+          card.style.setProperty("--tile-accent", subj.accent || "#6558df");
+          card.style.setProperty("--tile-bg", `${subj.accent || '#6558df'}14`);
+
+          const chapCount = subj.chapters ? subj.chapters.length : 0;
+          const badgeHtml = isMaths
+            ? `<span class="subject-tile-badge active-badge">● क्विज़ पोर्टल सक्रिय</span>`
+            : `<span class="subject-tile-badge">NCERT / बोर्ड पाठ्यक्रम</span>`;
+
+          const btnText = isMaths
+            ? `📐 क्विज़ व टेस्ट पोर्टल शुरू करें →`
+            : `📖 अध्याय व नोट्स देखें →`;
+
+          card.innerHTML = `
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">${subj.icon || '📚'}</div>
+              ${badgeHtml}
+            </div>
+            <h3>${subj.name}</h3>
+            <span class="subject-tile-english">${subj.englishName || ''}</span>
+            <p class="subject-tile-desc">${subj.description || 'पाठ्यक्रम, अभ्यास एवं परीक्षा प्रश्नोत्तरी'}</p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">📑 कुल ${chapCount} अध्याय</span>
+              <button type="button" class="subject-tile-btn" data-subj="${subj.id}">
+                ${btnText}
+              </button>
+            </div>
+          `;
+
+          const actionBtn = card.querySelector(".subject-tile-btn");
+          actionBtn.addEventListener("click", () => {
+            if (isMaths) {
+              // Direct access to Mathematics Quiz & Exam Engine
+              localStorage.setItem("iMentorClass", currentClass);
+              window.location.href = "index.html";
+            } else {
+              // Show subject chapters modal
+              openSubjectDetail(subj);
+            }
+          });
+
+          gridEl.appendChild(card);
+        });
+      }
+
+      function openSubjectDetail(subj) {
+        if (!detModal) return;
+        detIcon.textContent = subj.icon || "📚";
+        detHeading.textContent = `${subj.name} (${currentClass === "class9" ? "कक्षा 9" : "कक्षा 10"})`;
+        detSub.textContent = `${subj.description || ''} · कुल ${subj.chapters ? subj.chapters.length : 0} अध्याय`;
+
+        let chaptersHtml = "";
+        if (subj.chapters && subj.chapters.length) {
+          chaptersHtml = subj.chapters.map(ch => {
+            const exList = (ch.exercises || []).map(ex => `<li>${ex}</li>`).join("");
+            const keyPts = (ch.keyPoints || []).map(kp => `<span style="display:inline-block; margin: 3px 4px 3px 0; padding: 2px 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 11px;">📌 ${kp}</span>`).join("");
+            return `
+              <div style="margin-bottom: 16px; padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                  <strong style="color: var(--ink); font-size: 14px;">अध्याय ${ch.number}: ${ch.title}</strong>
+                  <span style="font-size: 11px; color: var(--muted);">${ch.englishTitle || ''}</span>
+                </div>
+                ${exList ? `<ul style="margin: 6px 0 8px 18px; font-size: 12px; color: var(--muted); line-height: 1.6;">${exList}</ul>` : ''}
+                ${keyPts ? `<div>${keyPts}</div>` : ''}
+              </div>
+            `;
+          }).join("");
+        } else {
+          chaptersHtml = `<p style="color: var(--muted); text-align: center;">इस विषय के अध्याय जल्द ही उपलब्ध होंगे।</p>`;
+        }
+
+        detBody.innerHTML = chaptersHtml;
+        detBackdrop.style.display = "block";
+        detModal.style.display = "block";
+      }
+
+      function closeSubjectDetail() {
+        if (detBackdrop) detBackdrop.style.display = "none";
+        if (detModal) detModal.style.display = "none";
+      }
+
+      if (closeDetBtn) closeDetBtn.addEventListener("click", closeSubjectDetail);
+      if (detBackdrop) detBackdrop.addEventListener("click", closeSubjectDetail);
+
+      // Change Modal Handling
+      if (openModalBtn) {
+        openModalBtn.addEventListener("click", () => {
+          document.getElementById("modalSelBoard").value = currentBoard;
+          document.getElementById("modalSelMedium").value = currentMedium;
+          document.getElementById("modalSelClass").value = currentClass;
+          selBackdrop.style.display = "block";
+          selModal.style.display = "block";
+        });
+      }
+
+      function closeSelModal() {
+        if (selBackdrop) selBackdrop.style.display = "none";
+        if (selModal) selModal.style.display = "none";
+      }
+
+      if (closeModalBtn) closeModalBtn.addEventListener("click", closeSelModal);
+      if (selBackdrop) selBackdrop.addEventListener("click", closeSelModal);
+
+      if (selForm) {
+        selForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          currentBoard = document.getElementById("modalSelBoard").value;
+          currentMedium = document.getElementById("modalSelMedium").value;
+          currentClass = document.getElementById("modalSelClass").value;
+
+          localStorage.setItem("iMentorBoard", currentBoard);
+          localStorage.setItem("iMentorMedium", currentMedium);
+          localStorage.setItem("iMentorClass", currentClass);
+
+          closeSelModal();
+          updateUI();
+        });
+      }
+
+      // Initial Render
+      updateUI();
+    });
+  </script>
+</body>
+</html>

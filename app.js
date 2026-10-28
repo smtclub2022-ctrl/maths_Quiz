@@ -465,6 +465,7 @@ function renderStudentLogin() {
   if (guestBtn) {
     guestBtn.addEventListener("click", () => {
       studentSessionActive = true;
+      screen = "selection";
       try {
         sessionStorage.setItem(studentSessionKey, "active");
       } catch (error) {
@@ -539,6 +540,7 @@ function renderStudentLogin() {
       }
 
       studentSessionActive = true;
+      screen = "selection";
       try {
         sessionStorage.setItem(studentSessionKey, "active");
       } catch (error) {
@@ -566,6 +568,104 @@ function renderStudentLogin() {
       }
     }
   });
+}
+
+function renderCourseSelection() {
+  let studentName = "विद्यार्थी";
+  let studentSchool = "";
+  try {
+    const prof = JSON.parse(localStorage.getItem("iMentorStudentProfile") || "{}");
+    if (prof.name || prof.studentName) studentName = prof.name || prof.studentName;
+    if (prof.school) studentSchool = prof.school;
+  } catch (e) {}
+
+  const currentBoard = localStorage.getItem("iMentorBoard") || "rbse";
+  const currentMedium = localStorage.getItem("iMentorMedium") || "hindi";
+  const currentClass = localStorage.getItem("iMentorClass") || "class10";
+
+  app.innerHTML = `
+    <section class="course-selection-card" aria-labelledby="courseSelectionTitle">
+      <div class="selection-welcome">
+        <div class="selection-welcome-avatar">👨‍🎓</div>
+        <div class="selection-welcome-text">
+          <strong id="welcomeStudentName">नमस्ते, ${escapeHTML(studentName)}!</strong>
+          <span id="welcomeStudentSchool">${escapeHTML(studentSchool || 'I_Mentor_99 परीक्षा पोर्टल')}</span>
+        </div>
+      </div>
+      
+      <p class="eyebrow">I_MENTOR_99 · कक्षा, बोर्ड व माध्यम चयन</p>
+      <h1 id="courseSelectionTitle" style="font-size: 24px; margin-bottom: 6px;">अपनी अध्ययन कक्षा व बोर्ड चुनें</h1>
+      <p class="subheading" style="margin-bottom: 18px;">अपनी आवश्यकतानुसार बोर्ड, माध्यम और कक्षा का चयन करें:</p>
+
+      <form id="courseSelectionForm" class="selection-form">
+        <div class="selection-field-group">
+          <label for="selectBoard">1. बोर्ड चुनें (Select Board)</label>
+          <select id="selectBoard" name="board" required>
+            <option value="rbse" ${currentBoard === "rbse" ? "selected" : ""}>RBSE — राजस्थान बोर्ड (माध्यमिक शिक्षा बोर्ड राजस्थान, अजमेर)</option>
+            <option value="cbse" ${currentBoard === "cbse" ? "selected" : ""}>CBSE — केंद्रीय माध्यमिक शिक्षा बोर्ड (Central Board of Secondary Education)</option>
+          </select>
+        </div>
+
+        <div class="selection-field-group">
+          <label for="selectMedium">2. माध्यम चुनें (Select Medium)</label>
+          <select id="selectMedium" name="medium" required>
+            <option value="hindi" ${currentMedium === "hindi" ? "selected" : ""}>हिंदी माध्यम (Hindi Medium)</option>
+            <option value="english" ${currentMedium === "english" ? "selected" : ""}>English Medium (अंग्रेजी माध्यम)</option>
+          </select>
+        </div>
+
+        <div class="selection-field-group">
+          <label for="selectClass">3. कक्षा चुनें (Select Class)</label>
+          <select id="selectClass" name="class" required>
+            <option value="class10" ${currentClass === "class10" ? "selected" : ""}>कक्षा 10 (Class 10)</option>
+            <option value="class9" ${currentClass === "class9" ? "selected" : ""}>कक्षा 9 (Class 9)</option>
+          </select>
+        </div>
+
+        <div class="selection-actions">
+          <button type="submit" class="primary-button selection-btn-primary">
+            विषय सूची देखें (View Subjects of Class 9 & 10) →
+          </button>
+          <button type="button" class="selection-btn-secondary" id="directMathsBtn">
+            📐 सीधे गणित क्विज़ पोर्टल शुरू करें (Start Maths Quiz) →
+          </button>
+        </div>
+      </form>
+    </section>
+  `;
+
+  const form = app.querySelector("#courseSelectionForm");
+  const directBtn = app.querySelector("#directMathsBtn");
+
+  function saveSelections() {
+    const board = form.board.value;
+    const medium = form.medium.value;
+    const cls = form.class.value;
+    try {
+      localStorage.setItem("iMentorBoard", board);
+      localStorage.setItem("iMentorMedium", medium);
+      localStorage.setItem("iMentorClass", cls);
+    } catch (e) {}
+    if (window.iMentor && typeof window.iMentor.refreshNav === "function") {
+      window.iMentor.refreshNav();
+    }
+    return { board, medium, cls };
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    saveSelections();
+    window.location.href = "subjects.html";
+  });
+
+  if (directBtn) {
+    directBtn.addEventListener("click", () => {
+      saveSelections();
+      screen = "home";
+      render();
+      window.scrollTo(0, 0);
+    });
+  }
 }
 
 function renderHome() {
@@ -1358,6 +1458,7 @@ function render() {
     };
   }
   if (!studentSessionActive) renderStudentLogin();
+  else if (screen === "selection") renderCourseSelection();
   else if (screen === "home") renderHome();
   else if (screen === "chapter") renderChapter();
   else if (screen === "bank") renderExamBank();
@@ -1395,6 +1496,12 @@ window.iMentor = {
   getCurrentScreen: () => screen,
   isSessionActive: () => studentSessionActive,
   getMistakesCount: () => (progress && Array.isArray(progress.mistakes)) ? progress.mistakes.length : 0,
+  goToSelection: () => {
+    stopQuizTimer();
+    screen = "selection";
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
   goToScreen: (newScreen, chapterIdx = null) => {
     stopQuizTimer();
     if (!studentSessionActive) {
