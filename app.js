@@ -316,9 +316,11 @@ function bankBreadcrumb(current = "") {
 }
 
 function renderStudentLogin() {
-  const classOptions = Array.from({ length: 12 }, (_, index) =>
-    `<option value="CLASS ${index + 1}" ${index + 1 === 10 ? "selected" : ""}>CLASS ${index + 1}</option>`
-  ).join("");
+  const isClass9 = (typeof currentClassId !== "undefined" && currentClassId === "class9") || (window.currentClassId === "class9");
+  const classOptions = `
+    <option value="CLASS 10" ${!isClass9 ? "selected" : ""}>CLASS 10 (कक्षा 10)</option>
+    <option value="CLASS 9" ${isClass9 ? "selected" : ""}>CLASS 9 (कक्षा 9)</option>
+  `;
 
   const currentApiUrl = (typeof window.getStudentApiUrl === "function")
     ? window.getStudentApiUrl()
@@ -344,7 +346,6 @@ function renderStudentLogin() {
           <div>
             <label for="studentClass">CLASS / कक्षा</label>
             <select id="studentClass" name="class" required>
-              <option value="" disabled>SELECT CLASS</option>
               ${classOptions}
             </select>
           </div>
