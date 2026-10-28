@@ -878,3 +878,21 @@
     window.syncNavUI();
   }, 100);
 })();
+
+
+// Global Water Button Ripple Engine
+document.addEventListener("click", function(e) {
+  const btn = e.target.closest("button, .primary-button, .secondary-button, .subject-tile-btn, .exam-nav-pill, .board-chip.topbar-btn, .topbar-arrow-btn, .class-tab-btn, .page-nav-home");
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  
+  const ripple = document.createElement("span");
+  ripple.className = "water-ripple-wave";
+  ripple.style.left = `${x}px`;
+  ripple.style.top = `${y}px`;
+  btn.appendChild(ripple);
+  
+  setTimeout(() => ripple.remove(), 700);
+});
