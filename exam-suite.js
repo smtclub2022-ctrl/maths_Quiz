@@ -1,5 +1,5 @@
 /**
- * I_Mentor_99 / KakshaGyan EduSmart99 - Examination & Educational Portal Shared Engine
+ * I_Mentor_99 - Examination & Educational Portal Shared Engine
  * Provides Universal Inter-Page Navigation, Drawer, Question Bank Engine, Audio & Theming.
  */
 (function(window) {
@@ -307,7 +307,7 @@
             <a class="brand" href="index.html" aria-label="मुख्य पृष्ठ पर जाएँ">
               <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
               <span class="home-label">⌂ होम</span>
-              <span class="brand-title">KakshaGyan EduSmart99</span>
+              <span class="brand-title">I_Mentor_99</span>
             </a>
           </div>
 
@@ -431,7 +431,7 @@
             <div class="sidebar-brand">
               <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
               <div class="sidebar-brand-text">
-                <strong>KakshaGyan EduSmart99</strong>
+                <strong>I_Mentor_99</strong>
                 <span>कक्षा 9 व 10 ई-लर्निंग</span>
               </div>
             </div>
@@ -577,7 +577,7 @@
           </div>
           
           <div class="sidebar-footer">
-            <span>KakshaGyan EduSmart99</span>
+            <span>I_Mentor_99</span>
             <span>कक्षा 9 व 10</span>
           </div>
         `;
@@ -674,7 +674,7 @@
               <div class="u-footer-col">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
                   <img src="assets/mentor-logo-header.png" alt="Logo" style="height: 32px;">
-                  <strong style="font-size: 16px; color: var(--ink);">KakshaGyan EduSmart99</strong>
+                  <strong style="font-size: 16px; color: var(--ink);">I_Mentor_99</strong>
                 </div>
                 <p style="font-size: 13px; color: var(--muted); line-height: 1.6;">
                   कक्षा 9 और 10 के विद्यार्थियों के लिए समर्पित ई-लर्निंग एवं परीक्षा पोर्टल। RBSE एवं CBSE बोर्ड के नवीनतम NCERT पाठ्यक्रम के अनुसार तैयारी।
@@ -716,7 +716,7 @@
             </div>
 
             <div style="max-width: 1100px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted);">
-              <span>© 2026 KakshaGyan EduSmart99 (I_Mentor_99). सर्वाधिकार सुरक्षित।</span>
+              <span>© 2026 I_Mentor_99. सर्वाधिकार सुरक्षित।</span>
               <span>RBSE & CBSE Class 9 & 10 E-Learning Suite</span>
             </div>
           </footer>
