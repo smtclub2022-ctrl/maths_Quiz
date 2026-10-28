@@ -14,14 +14,27 @@
 <body class="is-login-screen">
   <div class="app-shell" style="min-height: 100vh; display: flex; flex-direction: column;">
     
-    <header style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line);">
-      <a class="brand" href="index.html" style="text-decoration: none;">
-        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
-        <span class="home-label">⌂ मुख्य पृष्ठ</span>
-        <span class="brand-title">KakshaGyan EduSmart99</span>
-      </a>
+    <header style="padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); background: var(--paper);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="topbar-nav-arrows">
+          <button class="topbar-arrow-btn" onclick="window.location.href='index.html'" type="button" title="पीछे (मुख्य पृष्ठ)" aria-label="पिछला पृष्ठ">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="topbar-arrow-btn" onclick="window.location.href='dashboard.html'" type="button" title="आगे (छात्र डैशबोर्ड)" aria-label="अगला पृष्ठ">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <a class="brand" href="index.html" style="text-decoration: none;">
+          <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+          <span class="home-label">⌂ मुख्य पृष्ठ</span>
+          <span class="brand-title">KakshaGyan EduSmart99</span>
+        </a>
+      </div>
       <div style="display: flex; gap: 8px;">
-        <a href="admin.html" class="secondary-button" style="font-size: 12px; padding: 6px 12px; text-decoration: none;">
+        <a href="dashboard.html" class="primary-button" style="font-size: 12px; padding: 6px 14px; text-decoration: none; border-radius: 8px;">
+          छात्र डैशबोर्ड ▶
+        </a>
+        <a href="admin.html" class="secondary-button" style="font-size: 12px; padding: 6px 12px; text-decoration: none; border-radius: 8px;">
           ⚙️ एडमिन
         </a>
       </div>

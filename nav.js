@@ -166,6 +166,24 @@
   }
 
   if (toggleBtn) toggleBtn.addEventListener("click", openSidebar);
+  // Topbar Back and Forward Button Handlers
+  const idxBack = document.getElementById("indexBackBtn");
+  const idxFwd = document.getElementById("indexFwdBtn");
+  if (idxBack) {
+    idxBack.addEventListener("click", () => {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    });
+  }
+  if (idxFwd) {
+    idxFwd.addEventListener("click", () => {
+      window.location.href = "courses.html";
+    });
+  }
+
   if (closeBtn) closeBtn.addEventListener("click", closeSidebar);
   if (backdrop) backdrop.addEventListener("click", closeSidebar);
 

@@ -259,6 +259,33 @@
 
     // Injects Universal Navigation Bar, Sidebar Drawer, Bottom Nav, and Footer
     renderNavbar: function(activePage) {
+
+  // Page Flow Definition for Forward & Backward Navigation
+  const PAGE_FLOW = {
+    "home": { prev: null, next: { title: "पाठ्यक्रम (Courses)", url: "courses.html" } },
+    "courses": { prev: { title: "मुख्य पृष्ठ (Home)", url: "index.html" }, next: { title: "विषय सूची (Subjects)", url: "subjects.html" } },
+    "subjects": { prev: { title: "पाठ्यक्रम (Courses)", url: "courses.html" }, next: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" } },
+    "dashboard": { prev: { title: "विषय सूची (Subjects)", url: "subjects.html" }, next: { title: "क्विज़ सेंटर (Quiz Hub)", url: "quiz-center.html" } },
+    "quiz-center": { prev: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" }, next: { title: "अध्यायवार टेस्ट (Chapter Tests)", url: "chapter-tests.html" } },
+    "chapter-tests": { prev: { title: "क्विज़ सेंटर (Quiz Hub)", url: "quiz-center.html" }, next: { title: "मॉक परीक्षा (Mock Exams)", url: "mock-exams.html" } },
+    "mock-exams": { prev: { title: "अध्यायवार टेस्ट (Chapter Tests)", url: "chapter-tests.html" }, next: { title: "बोर्ड पेपर्स (Previous Papers)", url: "previous-papers.html" } },
+    "previous-papers": { prev: { title: "मॉक परीक्षा (Mock Exams)", url: "mock-exams.html" }, next: { title: "मॉडल पेपर्स (Sample Papers)", url: "sample-papers.html" } },
+    "sample-papers": { prev: { title: "बोर्ड पेपर्स (Previous Papers)", url: "previous-papers.html" }, next: { title: "कार्यपत्रक (Workbook Quiz)", url: "workbook-quiz.html" } },
+    "workbook": { prev: { title: "मॉडल पेपर्स (Sample Papers)", url: "sample-papers.html" }, next: { title: "सर्च प्रश्न बैंक (Question Bank)", url: "question-bank.html" } },
+    "question-bank": { prev: { title: "कार्यपत्रक (Workbook Quiz)", url: "workbook-quiz.html" }, next: { title: "नोट्स एवं सूत्र (Notes & PDFs)", url: "notes.html" } },
+    "notes": { prev: { title: "सर्च प्रश्न बैंक (Question Bank)", url: "question-bank.html" }, next: { title: "वीडियो लेक्चर्स (Videos)", url: "videos.html" } },
+    "videos": { prev: { title: "नोट्स एवं सूत्र (Notes & PDFs)", url: "notes.html" }, next: { title: "भूल सुधार पुस्तिका (Mistake Book)", url: "mistake-book.html" } },
+    "mistake-book": { prev: { title: "वीडियो लेक्चर्स (Videos)", url: "videos.html" }, next: { title: "रिवीजन प्लानर (Planner)", url: "revision-planner.html" } },
+    "revision-planner": { prev: { title: "भूल सुधार (Mistake Book)", url: "mistake-book.html" }, next: { title: "लीडरबोर्ड एवं रैंक (Leaderboard)", url: "leaderboard.html" } },
+    "leaderboard": { prev: { title: "रिवीजन प्लानर (Planner)", url: "revision-planner.html" }, next: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" } },
+    "result": { prev: { title: "क्विज़ सेंटर (Quiz Hub)", url: "quiz-center.html" }, next: { title: "भूल सुधार पुस्तिका (Mistake Book)", url: "mistake-book.html" } },
+    "answer-review": { prev: { title: "परीक्षा परिणाम (Result)", url: "result.html" }, next: { title: "भूल सुधार (Mistake Book)", url: "mistake-book.html" } },
+    "about": { prev: { title: "मुख्य पृष्ठ (Home)", url: "index.html" }, next: { title: "संपर्क एवं सहायता (Contact)", url: "contact.html" } },
+    "contact": { prev: { title: "हमारे बारे में (About Us)", url: "about.html" }, next: { title: "पाठ्यक्रम (Courses)", url: "courses.html" } },
+    "login": { prev: { title: "मुख्य पृष्ठ (Home)", url: "index.html" }, next: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" } },
+    "admin": { prev: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" }, next: { title: "क्विज़ सेंटर (Quiz Hub)", url: "quiz-center.html" } }
+  };
+
       const topbar = document.getElementById("examTopNav");
       const curTheme = document.documentElement.getAttribute("data-theme") || "light";
 
@@ -269,6 +296,14 @@
             <button class="exam-menu-btn" id="examMenuToggleBtn" type="button" aria-label="नेविगेशन मेनू खोलें" title="सभी पेज खोलें">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
             </button>
+            <div class="topbar-nav-arrows">
+              <button class="topbar-arrow-btn" id="topbarBackBtn" type="button" title="पीछे जाएँ (Previous Page)" aria-label="पिछला पृष्ठ">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <button class="topbar-arrow-btn" id="topbarFwdBtn" type="button" title="आगे बढ़ें (Next Step)" aria-label="अगला पृष्ठ">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
             <a class="brand" href="index.html" aria-label="मुख्य पृष्ठ पर जाएँ">
               <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
               <span class="home-label">⌂ होम</span>
@@ -337,6 +372,37 @@
         // Handle Theme Toggle
         const tBtn = document.getElementById("examThemeToggle");
         if (tBtn) tBtn.addEventListener("click", () => ExamSuite.toggleTheme());
+
+        // Handle Forward and Backward Buttons
+        const backBtn = document.getElementById("topbarBackBtn");
+        const fwdBtn = document.getElementById("topbarFwdBtn");
+        const curFlow = PAGE_FLOW[activePage] || { prev: { title: "डैशबोर्ड", url: "dashboard.html" }, next: { title: "क्विज़ सेंटर", url: "quiz-center.html" } };
+
+        if (backBtn) {
+          if (!curFlow.prev) {
+            backBtn.title = "पीछे (इतिहास)";
+            backBtn.addEventListener("click", () => {
+              if (window.history.length > 1) window.history.back();
+              else window.location.href = "index.html";
+            });
+          } else {
+            backBtn.title = `पीछे: ${curFlow.prev.title}`;
+            backBtn.addEventListener("click", () => {
+              window.location.href = curFlow.prev.url;
+            });
+          }
+        }
+
+        if (fwdBtn) {
+          if (!curFlow.next) {
+            fwdBtn.disabled = true;
+          } else {
+            fwdBtn.title = `आगे: ${curFlow.next.title}`;
+            fwdBtn.addEventListener("click", () => {
+              window.location.href = curFlow.next.url;
+            });
+          }
+        }
       }
 
       // 2. Inject Universal Sidebar Drawer if not already on page
@@ -572,9 +638,36 @@
         document.body.appendChild(bNav);
       }
 
-      // 4. Inject Universal Footer
+      // 4. Inject Universal Forward/Backward Navigation Strip and Footer
       const footerContainer = document.getElementById("uFooterContainer");
       if (footerContainer) {
+        const curFlow = PAGE_FLOW[activePage] || { prev: { title: "डैशबोर्ड", url: "dashboard.html" }, next: { title: "क्विज़ सेंटर", url: "quiz-center.html" } };
+        
+        const navStripHtml = `
+          <div class="page-navigation-strip">
+            ${curFlow.prev ? `
+              <a href="${curFlow.prev.url}" class="page-nav-link prev-link">
+                <span class="nav-dir">◀ पिछला पृष्ठ (Previous)</span>
+                <strong class="nav-title">${curFlow.prev.title}</strong>
+              </a>
+            ` : `
+              <div style="visibility:hidden;" class="page-nav-link"></div>
+            `}
+            <a href="dashboard.html" class="page-nav-home" title="छात्र डैशबोर्ड">
+              <span>👨‍🎓 डैशबोर्ड</span>
+            </a>
+            ${curFlow.next ? `
+              <a href="${curFlow.next.url}" class="page-nav-link next-link">
+                <span class="nav-dir">अगला कदम (Next Step) ▶</span>
+                <strong class="nav-title">${curFlow.next.title}</strong>
+              </a>
+            ` : `
+              <div style="visibility:hidden;" class="page-nav-link"></div>
+            `}
+          </div>
+        `;
+        
+        footerContainer.insertAdjacentHTML("beforebegin", navStripHtml);
         footerContainer.innerHTML = `
           <footer class="universal-footer" style="margin-top: 40px; padding: 40px 24px 24px; border-top: 1px solid var(--line); background: var(--paper);">
             <div class="u-footer-grid" style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px;">
