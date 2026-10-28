@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>नोट्स एवं पीडीएफ (Notes & Study Material) | KakshaGyan EduSmart99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="main-content">
+      <div class="notes-page-wrap" style="width: min(100%, 1100px); margin: 0 auto; padding-bottom: 40px;">
+        
+        <!-- Header Banner -->
+        <section class="banner" style="margin-bottom: 24px;">
+          <div class="banner-content">
+            <p class="eyebrow">STUDENT PORTAL · अध्ययन सामग्री एवं सूत्र</p>
+            <h1>कक्षा 9 व 10 — अध्यायवार नोट्स एवं फॉर्मूला शीट</h1>
+            <p>गणित एवं विज्ञान के संक्षिप्त रिवीजन नोट्स, महत्वपूर्ण परिभाषाएँ, सूत्र सारणी और परीक्षा उपयोगी बिंदु।</p>
+          </div>
+        </section>
+
+        <!-- Filter & Search Bar -->
+        <div class="subjects-header-bar" style="margin-bottom: 24px;">
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div class="sidebar-class-tabs" style="margin: 0;">
+              <button class="class-tab-btn active" id="btnNotesClass10" type="button">कक्षा 10</button>
+              <button class="class-tab-btn" id="btnNotesClass9" type="button">कक्षा 9</button>
+            </div>
+            <select id="notesSubjectSelect" class="exam-quick-select" style="min-height: 40px; font-size: 13px; font-weight: 600;">
+              <option value="maths" selected>📐 गणित (Mathematics)</option>
+              <option value="science">🔬 विज्ञान (Science)</option>
+              <option value="social">🌍 सामाजिक विज्ञान</option>
+              <option value="english">📖 English</option>
+              <option value="hindi">📝 हिन्दी</option>
+              <option value="sanskrit">📿 संस्कृत</option>
+            </select>
+          </div>
+
+          <div style="flex: 1; min-width: 240px; max-width: 400px;">
+            <input type="search" id="notesSearchInput" class="admin-form input" placeholder="🔍 अध्याय या सूत्र खोजें (उदा. त्रिकोणमिति, प्रकाश)..." style="width: 100%; min-height: 40px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px;">
+          </div>
+        </div>
+
+        <!-- Notes Cards List -->
+        <div id="notesContainer" style="display: grid; gap: 18px;">
+          <!-- Dynamically populated from curriculum-data.js -->
+        </div>
+
+      </div>
+    </main>
+
+    <div id="uFooterContainer"></div>
+  </div>
+
+  <script src="curriculum-data.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("notes");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      let activeClass = urlParams.get("class") || localStorage.getItem("iMentorClass") || "class10";
+      let activeSubject = urlParams.get("subject") || "maths";
+
+      const btn10 = document.getElementById("btnNotesClass10");
+      const btn9 = document.getElementById("btnNotesClass9");
+      const subjSelect = document.getElementById("notesSubjectSelect");
+      const searchInput = document.getElementById("notesSearchInput");
+      const container = document.getElementById("notesContainer");
+
+      subjSelect.value = activeSubject;
+
+      function updateClassButtons() {
+        if (activeClass === "class9") {
+          btn9.classList.add("active");
+          btn10.classList.remove("active");
+        } else {
+          btn10.classList.add("active");
+          btn9.classList.remove("active");
+        }
+      }
+
+      btn10.addEventListener("click", () => {
+        activeClass = "class10";
+        updateClassButtons();
+        renderNotes();
+      });
+
+      btn9.addEventListener("click", () => {
+        activeClass = "class9";
+        updateClassButtons();
+        renderNotes();
+      });
+
+      subjSelect.addEventListener("change", (e) => {
+        activeSubject = e.target.value;
+        renderNotes();
+      });
+
+      searchInput.addEventListener("input", () => {
+        renderNotes();
+      });
+
+      function renderNotes() {
+        if (!container) return;
+        container.innerHTML = "";
+
+        const query = searchInput.value.trim().toLowerCase();
+        const classData = window.curriculumData ? window.curriculumData[activeClass] : null;
+        if (!classData || !classData.subjects) {
+          container.innerHTML = `<p style="text-align: center; padding: 40px;">पाठ्यक्रम उपलब्ध नहीं है।</p>`;
+          return;
+        }
+
+        const subj = classData.subjects.find(s => s.id === activeSubject) || classData.subjects[0];
+        const chapters = subj.chapters || [];
+
+        const filtered = chapters.filter(ch => {
+          if (!query) return true;
+          return ch.title.toLowerCase().includes(query) ||
+                 (ch.englishTitle && ch.englishTitle.toLowerCase().includes(query)) ||
+                 (ch.keyPoints && ch.keyPoints.some(kp => kp.toLowerCase().includes(query))) ||
+                 (ch.exercises && ch.exercises.some(ex => ex.toLowerCase().includes(query)));
+        });
+
+        if (!filtered.length) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 50px 20px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px;">
+              <p style="font-size: 16px; font-weight: 700; color: var(--ink);">कोई परिणाम नहीं मिला</p>
+              <p style="font-size: 13px; color: var(--muted);">"${query}" के लिए कोई नोट्स नहीं मिले। कृपया कोई अन्य शब्द खोजें।</p>
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach(ch => {
+          const card = document.createElement("div");
+          card.style.cssText = "background: var(--paper); border: 1.5px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);";
+          
+          const exList = (ch.exercises || []).map(ex => `<li style="margin-bottom: 4px;">${ex}</li>`).join("");
+          const keyPts = (ch.keyPoints || []).map(kp => `
+            <div style="display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; font-size: 13px; color: var(--ink);">
+              <span style="color: ${subj.accent || 'var(--violet)'}; font-weight: bold;">✔</span>
+              <span>${kp}</span>
+            </div>
+          `).join("");
+
+          card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
+              <div>
+                <span style="font-size: 11px; font-weight: 800; color: ${subj.accent || 'var(--violet)'}; text-transform: uppercase; letter-spacing: 0.5px;">
+                  ${classData.name} · ${subj.name}
+                </span>
+                <h3 style="margin: 4px 0 2px; font-size: 19px; color: var(--ink);">अध्याय ${ch.number}: ${ch.title}</h3>
+                <span style="font-size: 12px; color: var(--muted);">${ch.englishTitle || ''}</span>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <a href="quiz-center.html" class="primary-button" style="padding: 6px 14px; font-size: 12px; text-decoration: none; border-radius: 8px;">
+                  🎯 अध्याय टेस्ट दें
+                </a>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 14px;">
+              <div>
+                <strong style="display: block; font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.4px;">
+                  📌 महत्वपूर्ण सूत्र एवं मुख्य बिंदु (Key Formulae & Concepts)
+                </strong>
+                ${keyPts || '<p style="font-size: 12px; color: var(--muted);">मुख्य बिंदु जल्द जोड़े जाएँगे।</p>'}
+              </div>
+
+              <div style="background: var(--surface); padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line);">
+                <strong style="display: block; font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.4px;">
+                  📑 प्रश्नावली एवं अभ्यास सूची (NCERT Exercises)
+                </strong>
+                <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: var(--muted); line-height: 1.6;">
+                  ${exList || '<li>अध्याय अभ्यास</li>'}
+                </ul>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      updateClassButtons();
+      renderNotes();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>संपर्क एवं सहायता (Contact & Support) | KakshaGyan EduSmart99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="main-content">
+      <div class="contact-page-wrap" style="width: min(100%, 960px); margin: 0 auto; padding-bottom: 50px;">
+        
+        <!-- Header Banner -->
+        <section class="banner" style="margin-bottom: 26px;">
+          <div class="banner-content">
+            <p class="eyebrow">HELP & SUPPORT · हम आपकी सहायता के लिए सदैव तत्पर हैं</p>
+            <h1>संपर्क करें एवं प्रतिक्रिया (Contact & Feedback)</h1>
+            <p>पोर्टल, पाठ्यक्रम, क्विज़ या किसी भी तकनीकी सहायता के लिए हमसे संपर्क करें।</p>
+          </div>
+        </section>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          
+          <!-- Contact Form Card -->
+          <div class="course-selection-card" style="width: 100%;">
+            <h2 style="font-size: 20px; margin-bottom: 6px; color: var(--ink);">संदेश भेजें (Send a Message)</h2>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: 18px;">अपना विवरण भरें, हम जल्द ही आपसे संपर्क करेंगे।</p>
+
+            <form id="contactForm" class="selection-form">
+              <div class="selection-field-group">
+                <label for="cName">आपका नाम</label>
+                <input id="cName" type="text" class="admin-form input" placeholder="पूरा नाम दर्ज करें" required style="width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px;">
+              </div>
+
+              <div class="selection-field-group">
+                <label for="cMobile">मोबाइल नंबर</label>
+                <input id="cMobile" type="tel" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-अंकीय मोबाइल नंबर" required style="width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px;">
+              </div>
+
+              <div class="form-row-2col">
+                <div class="selection-field-group">
+                  <label for="cClass">कक्षा</label>
+                  <select id="cClass" style="width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px;">
+                    <option value="class10">कक्षा 10</option>
+                    <option value="class9">कक्षा 9</option>
+                    <option value="teacher">शिक्षक / अभिभावक</option>
+                  </select>
+                </div>
+                <div class="selection-field-group">
+                  <label for="cTopic">विषय / कारण</label>
+                  <select id="cTopic" style="width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px;">
+                    <option value="general">सामान्य जानकारी</option>
+                    <option value="quiz">क्विज़ / प्रश्नों में संशय</option>
+                    <option value="notes">नोट्स व वीडियो सुझाव</option>
+                    <option value="technical">तकनीकी समस्या</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="selection-field-group">
+                <label for="cMessage">आपका संदेश</label>
+                <textarea id="cMessage" rows="4" placeholder="अपना प्रश्न या सुझाव यहाँ लिखें..." required style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px; font-family: inherit; resize: vertical;"></textarea>
+              </div>
+
+              <p id="contactStatus" role="status" style="font-size: 13px; color: var(--violet); font-weight: 600; min-height: 20px; margin: 0;"></p>
+
+              <button type="submit" class="primary-button selection-btn-primary" style="margin-top: 4px;">
+                संदेश भेजें (Submit Message) →
+              </button>
+            </form>
+          </div>
+
+          <!-- Info & FAQs -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <div style="background: var(--paper); border: 1.5px solid var(--line); border-radius: 18px; padding: 22px;">
+              <h3 style="font-size: 18px; margin-bottom: 12px; color: var(--ink);">संपर्क सूत्र (Direct Support)</h3>
+              <ul style="list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; font-size: 13px; color: var(--ink);">
+                <li style="display: flex; gap: 10px; align-items: center;">
+                  <span style="font-size: 18px;">📧</span>
+                  <div>
+                    <strong>ईमेल सहायता:</strong><br>
+                    <a href="mailto:smtclub2022@gmail.com" style="color: var(--violet); text-decoration: none;">smtclub2022@gmail.com</a>
+                  </div>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: center;">
+                  <span style="font-size: 18px;">🏛️</span>
+                  <div>
+                    <strong>क्षेत्रीय कार्यालय:</strong><br>
+                    राजस्थान राज्य शैक्षिक अनुसंधान एवं प्रशिक्षण केंद्र समर्थित
+                  </div>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: center;">
+                  <span style="font-size: 18px;">⏱️</span>
+                  <div>
+                    <strong>कार्य दिवस:</strong> सोम - शनि (प्रातः 9:00 से सायं 6:00)
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- FAQs Accordion -->
+            <div style="background: var(--paper); border: 1.5px solid var(--line); border-radius: 18px; padding: 22px; flex: 1;">
+              <h3 style="font-size: 18px; margin-bottom: 12px; color: var(--ink);">अक्सर पूछे जाने वाले प्रश्न (FAQ)</h3>
+              
+              <div style="display: grid; gap: 10px; font-size: 13px;">
+                <details style="padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;">
+                  <summary style="font-weight: 700; cursor: pointer; color: var(--ink);">क्या यह पोर्टल निःशुल्क है?</summary>
+                  <p style="margin: 6px 0 0; color: var(--muted); line-height: 1.5;">हाँ! कक्षा 9 व 10 के सभी अध्यायों के अभ्यास, नोट्स और क्विज़ विद्यार्थियों के लिए 100% निःशुल्क हैं।</p>
+                </details>
+
+                <details style="padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;">
+                  <summary style="font-weight: 700; cursor: pointer; color: var(--ink);">क्या छात्र बिना इंटरनेट के भी अभ्यास कर सकते हैं?</summary>
+                  <p style="margin: 6px 0 0; color: var(--muted); line-height: 1.5;">हाँ! एक बार लोड होने के बाद क्विज़ और फॉर्मूला शीट ऑफ़लाइन भी सुचारू रूप से कार्य करते हैं।</p>
+                </details>
+
+                <details style="padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;">
+                  <summary style="font-weight: 700; cursor: pointer; color: var(--ink);">छात्र लॉगिन डेटा कहाँ सुरक्षित होता है?</summary>
+                  <p style="margin: 6px 0 0; color: var(--muted); line-height: 1.5;">छात्रों का डेटा स्कूल की अधिकृत Google Sheet और क्लाउड स्टोरेज में 8-कॉलम संरचित प्रारूप में सुरक्षित रहता है।</p>
+                </details>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <div id="uFooterContainer"></div>
+  </div>
+
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("contact");
+
+      const form = document.getElementById("contactForm");
+      const status = document.getElementById("contactStatus");
+
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          status.style.color = "#166534";
+          status.textContent = "✔ धन्यवाद! आपका संदेश सफलतापूर्वक दर्ज कर लिया गया है।";
+          form.reset();
+          setTimeout(() => {
+            status.textContent = "";
+          }, 5000);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -14,12 +14,16 @@
 </head>
 <body>
   <div class="app-shell">
-    <header class="topbar">
+    <header class="topbar" style="display: flex; justify-content: space-between; align-items: center;">
       <a class="brand" href="./index.html" aria-label="Go to home page">
         <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
         <span class="home-label">⌂ HOME</span>
-        <span>ADMIN</span>
+        <span>ADMIN PANEL</span>
       </a>
+      <div style="display: flex; gap: 8px;">
+        <a href="dashboard.html" class="board-chip topbar-desktop-link" style="text-decoration: none;">👨‍🎓 छात्र डैशबोर्ड</a>
+        <a href="quiz-center.html" class="board-chip topbar-desktop-link" style="text-decoration: none;">🎯 क्विज़ हब</a>
+      </div>
     </header>
     <main class="main-content">
       <section id="adminLoginPanel" class="admin-panel" aria-labelledby="adminLoginTitle">

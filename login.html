@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>छात्र लॉगिन एवं पंजीकरण (Student Login) | KakshaGyan EduSmart99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body class="is-login-screen">
+  <div class="app-shell" style="min-height: 100vh; display: flex; flex-direction: column;">
+    
+    <header style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line);">
+      <a class="brand" href="index.html" style="text-decoration: none;">
+        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+        <span class="home-label">⌂ मुख्य पृष्ठ</span>
+        <span class="brand-title">KakshaGyan EduSmart99</span>
+      </a>
+      <div style="display: flex; gap: 8px;">
+        <a href="admin.html" class="secondary-button" style="font-size: 12px; padding: 6px 12px; text-decoration: none;">
+          ⚙️ एडमिन
+        </a>
+      </div>
+    </header>
+
+    <main class="main-content" style="flex: 1; display: grid; place-items: center; padding: 24px 16px;">
+      <section class="student-login" aria-labelledby="studentLoginTitle">
+        <div class="student-login-brand"><img src="assets/mentor-logo.png" alt="I_Mentor_99"></div>
+        <p class="eyebrow">KAKSHAGYAN · EDUSMART99 · छात्र पोर्टल</p>
+        <h1 id="studentLoginTitle">STUDENT DETAILS / विद्यार्थी विवरण</h1>
+        <p class="subheading">पोर्टल पर अभ्यास परीक्षा शुरू करने के लिए अपना विवरण दर्ज करें।</p>
+        
+        <form id="studentLoginForm" class="student-login-form">
+          <label for="studentName">STUDENT NAME / विद्यार्थी का नाम</label>
+          <input id="studentName" name="name" type="text" autocomplete="name" autocapitalize="characters" placeholder="उदा. RAHUL SHARMA" title="USE ENGLISH LETTERS, SPACES, APOSTROPHES, PERIODS OR HYPHENS." maxlength="80" required>
+          
+          <div class="form-row-2col">
+            <div>
+              <label for="studentClass">CLASS / कक्षा</label>
+              <select id="studentClass" name="class" required>
+                <option value="CLASS 10" selected>CLASS 10 (कक्षा 10)</option>
+                <option value="CLASS 9">CLASS 9 (कक्षा 9)</option>
+              </select>
+            </div>
+            <div>
+              <label for="studentSection">SECTION / वर्ग</label>
+              <select id="studentSection" name="section" required>
+                <option value="A" selected>SECTION A</option>
+                <option value="B">SECTION B</option>
+                <option value="C">SECTION C</option>
+                <option value="D">SECTION D</option>
+                <option value="E">SECTION E</option>
+                <option value="OTHER">OTHER</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="studentSchool">SCHOOL NAME / विद्यालय का नाम</label>
+          <input id="studentSchool" name="school" type="text" autocomplete="organization" autocapitalize="characters" placeholder="उदा. GOVT SR SEC SCHOOL" title="ENTER THE SCHOOL NAME USING ENGLISH LETTERS." maxlength="120" required>
+          
+          <label for="studentMobile">MOBILE NUMBER / मोबाइल नंबर</label>
+          <input id="studentMobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-अंकीय भारतीय मोबाइल नंबर" aria-describedby="studentMobileHelp" required>
+          <p id="studentMobileHelp" class="student-login-note">मोबाइल नंबर आपकी प्रोफाइल व परीक्षा प्रगति सुरक्षित रखने के लिए उपयोग किया जाता है।</p>
+          
+          <label class="student-consent">
+            <input name="consent" type="checkbox" required checked>
+            <span>मैं पुष्टि करता/करती हूँ कि विद्यार्थी विवरण सही है तथा पोर्टल पर अभ्यास हेतु सहमति है। (I confirm permission to submit these details.)</span>
+          </label>
+          <p class="student-login-note">📊 डेटा 8 कॉलम (S.No., Date, Time, Student Name, Class, Section, School, Mobile Number) प्रारूप में Google Sheet में सुरक्षित किया जाएगा।</p>
+          <p id="studentLoginStatus" class="student-login-status" role="status" aria-live="polite"></p>
+          
+          <button class="primary-button student-login-submit" type="submit">अभ्यास शुरू करें / CONTINUE →</button>
+          <button type="button" class="primary-button" id="guestLoginBtn" style="margin-top: 10px; background: #596176;">सीधे शुरू करें (Guest / Test Mode) →</button>
+        </form>
+
+        <div class="login-api-panel">
+          <button type="button" class="login-api-toggle" id="toggleApiPanelBtn">
+            ⚙️ डेटा API लिंक व एक्सेल रिकॉर्ड्स (Data API & Records) ▾
+          </button>
+          <div id="loginApiBox" class="login-api-box" style="display: none;">
+            <label for="apiUrlInput">Data API / Webhook Endpoint (Google Sheets या REST API)</label>
+            <div style="display: flex; gap: 8px;">
+              <input id="apiUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1;">
+              <button type="button" class="primary-button" id="saveApiUrlBtn" style="min-height: 38px; padding: 0 16px; font-size: 12px; white-space: nowrap;">सेव करें</button>
+            </div>
+            <p class="student-login-note" style="margin-top: 2px;">
+              💡 Google Sheets के लिए Web App URL यहाँ पेस्ट करें अथवा खाली छोड़ें (लोकल ऑफलाइन मोड हेतु)।
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); padding: 4px 0;">
+              <span>पंजीकृत विद्यार्थी: <strong id="localRecordsCount">0</strong></span>
+              <span id="apiStatusBadge" style="padding: 2px 8px; border-radius: 6px; font-weight: 600; background: #dcfce7; color: #166534;">
+                ● API लिंक सक्रिय
+              </span>
+            </div>
+            <div class="login-api-actions">
+              <a href="https://docs.google.com/spreadsheets/d/1JSU4Jm6wEFqxSn84MMs0FuqhkjPPRcvOgqz1yZ9YvNU/edit?usp=sharing" target="_blank" rel="noopener noreferrer">📊 Google Sheet खोलें</a>
+              <button type="button" id="exportCsvBtn">📥 डाउनलोड डेटा (Excel/CSV)</button>
+              <a href="assets/login_Data_Imentor_students.xlsx" download="login_Data_Imentor_students.xlsx" id="downloadTemplateBtn">📄 मूल एक्सेल टेम्पलेट</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" style="margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 12px; color: var(--muted);">
+      <span>KakshaGyan EduSmart99 · बोर्ड परीक्षा पोर्टल</span>
+      <a href="index.html" style="color: var(--violet); text-decoration: none;">मुख्य पृष्ठ (होम)</a>
+    </footer>
+  </div>
+
+  <script src="api-config.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const studentSessionKey = "iMentorStudentSession";
+      const form = document.getElementById("studentLoginForm");
+      const status = document.getElementById("studentLoginStatus");
+      const guestBtn = document.getElementById("guestLoginBtn");
+      const toggleApiBtn = document.getElementById("toggleApiPanelBtn");
+      const apiBox = document.getElementById("loginApiBox");
+      const saveApiUrlBtn = document.getElementById("saveApiUrlBtn");
+      const apiUrlInput = document.getElementById("apiUrlInput");
+      const exportCsvBtn = document.getElementById("exportCsvBtn");
+      const countEl = document.getElementById("localRecordsCount");
+
+      // Load counts
+      try {
+        const raw = localStorage.getItem("iMentorStudentLogins");
+        if (raw) countEl.textContent = JSON.parse(raw).length;
+      } catch (e) {}
+
+      if (apiUrlInput && typeof window.getStudentApiUrl === "function") {
+        apiUrlInput.value = window.getStudentApiUrl();
+      }
+
+      if (toggleApiBtn && apiBox) {
+        toggleApiBtn.addEventListener("click", () => {
+          const isHidden = apiBox.style.display === "none";
+          apiBox.style.display = isHidden ? "grid" : "none";
+          toggleApiBtn.textContent = isHidden
+            ? "⚙️ डेटा API लिंक व एक्सेल रिकॉर्ड्स (Data API & Records) ▴"
+            : "⚙️ डेटा API लिंक व एक्सेल रिकॉर्ड्स (Data API & Records) ▾";
+        });
+      }
+
+      if (saveApiUrlBtn && apiUrlInput) {
+        saveApiUrlBtn.addEventListener("click", () => {
+          const val = apiUrlInput.value.trim();
+          if (typeof window.setStudentApiUrl === "function") {
+            window.setStudentApiUrl(val);
+          } else {
+            localStorage.setItem("iMentorApiUrl", val);
+          }
+          alert("API URL सफलतापूर्वक अपडेट हो गया!");
+        });
+      }
+
+      if (exportCsvBtn) {
+        exportCsvBtn.addEventListener("click", () => {
+          if (typeof window.exportStudentLoginsCSV === "function") {
+            window.exportStudentLoginsCSV();
+          }
+        });
+      }
+
+      if (guestBtn) {
+        guestBtn.addEventListener("click", () => {
+          sessionStorage.setItem(studentSessionKey, "active");
+          window.location.href = "dashboard.html";
+        });
+      }
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        const submitButton = form.querySelector('[type="submit"]');
+        const formData = new FormData(form);
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString("en-GB");
+        const timeStr = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+
+        let existingLogins = [];
+        try {
+          const raw = localStorage.getItem("iMentorStudentLogins");
+          if (raw) existingLogins = JSON.parse(raw);
+        } catch (e) {}
+        const nextSno = existingLogins.length + 1;
+
+        const nameVal = String(formData.get("name") || "").trim().toUpperCase();
+        const classVal = String(formData.get("class") || "CLASS 10");
+        const sectionVal = String(formData.get("section") || "A").trim().toUpperCase();
+        const schoolVal = String(formData.get("school") || "").trim().toUpperCase();
+        const mobileVal = String(formData.get("mobile") || "").trim();
+
+        const student = {
+          sno: nextSno,
+          date: dateStr,
+          time: timeStr,
+          studentName: nameVal,
+          name: nameVal,
+          class: classVal,
+          section: sectionVal,
+          school: schoolVal,
+          mobile: mobileVal,
+          consent: formData.get("consent") === "on",
+          "S.No.": nextSno,
+          "Date": dateStr,
+          "Time": timeStr,
+          "Student Name": nameVal,
+          "Class": classVal,
+          "Section": sectionVal,
+          "School": schoolVal,
+          "Mobile Number": mobileVal
+        };
+
+        submitButton.disabled = true;
+        status.classList.remove("error");
+        status.textContent = "विवरण Google Sheet में सहेजा जा रहा है…";
+
+        try {
+          let dispatchResult = { success: true };
+          if (typeof window.submitStudentLoginRecord === "function") {
+            dispatchResult = await window.submitStudentLoginRecord(student);
+          } else {
+            localStorage.setItem("iMentorStudentProfile", JSON.stringify(student));
+            existingLogins.push(student);
+            localStorage.setItem("iMentorStudentLogins", JSON.stringify(existingLogins));
+          }
+
+          sessionStorage.setItem(studentSessionKey, "active");
+          status.textContent = dispatchResult.message || "सफलतापूर्वक प्रवेश! डैशबोर्ड लोड हो रहा है...";
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 400);
+        } catch (error) {
+          console.error("Login error:", error);
+          localStorage.setItem("iMentorStudentProfile", JSON.stringify(student));
+          sessionStorage.setItem(studentSessionKey, "active");
+          window.location.href = "dashboard.html";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

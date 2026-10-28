@@ -624,11 +624,16 @@ function renderCourseSelection() {
 
         <div class="selection-actions">
           <button type="submit" class="primary-button selection-btn-primary">
-            विषय सूची देखें (View Subjects of Class 9 & 10) →
+            👨‍🎓 छात्र डैशबोर्ड पर जाएँ (Go to Student Dashboard) →
           </button>
-          <button type="button" class="selection-btn-secondary" id="directMathsBtn">
-            📐 सीधे गणित क्विज़ पोर्टल शुरू करें (Start Maths Quiz) →
-          </button>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <a href="subjects.html" class="selection-btn-secondary" id="goSubjectsBtn">
+              📚 सभी विषय (Subjects)
+            </a>
+            <button type="button" class="selection-btn-secondary" id="directMathsBtn">
+              📐 गणित क्विज़ पोर्टल
+            </button>
+          </div>
         </div>
       </form>
     </section>
@@ -655,7 +660,7 @@ function renderCourseSelection() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     saveSelections();
-    window.location.href = "subjects.html";
+    window.location.href = "dashboard.html";
   });
 
   if (directBtn) {

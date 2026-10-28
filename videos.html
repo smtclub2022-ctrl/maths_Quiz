@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>वीडियो लेक्चर्स (Video Lectures) | KakshaGyan EduSmart99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="main-content">
+      <div class="videos-page-wrap" style="width: min(100%, 1100px); margin: 0 auto; padding-bottom: 40px;">
+        
+        <!-- Header Banner -->
+        <section class="banner" style="margin-bottom: 24px;">
+          <div class="banner-content">
+            <p class="eyebrow">STUDENT PORTAL · वीडियो पाठ एवं अवधारणाएँ</p>
+            <h1>कक्षा 9 व 10 — वीडियो लेक्चर्स (Video Lectures)</h1>
+            <p>गणित और विज्ञान के कठिन सिद्धांतों, सूत्रों और प्रमेय को सरल हिंदी व अंग्रेजी माध्यम में वीडियो के द्वारा समझें।</p>
+          </div>
+        </section>
+
+        <!-- Filter Toolbar -->
+        <div class="subjects-header-bar" style="margin-bottom: 24px;">
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div class="sidebar-class-tabs" style="margin: 0;">
+              <button class="class-tab-btn active" id="btnVidClass10" type="button">कक्षा 10</button>
+              <button class="class-tab-btn" id="btnVidClass9" type="button">कक्षा 9</button>
+            </div>
+            <select id="vidSubjectSelect" class="exam-quick-select" style="min-height: 40px; font-size: 13px; font-weight: 600;">
+              <option value="maths" selected>📐 गणित (Mathematics)</option>
+              <option value="science">🔬 विज्ञान (Science)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Video Player Modal / Active Video Player -->
+        <div id="videoPlayerBox" style="display: none; margin-bottom: 24px; background: var(--paper); border: 1.5px solid var(--violet); border-radius: 18px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <strong id="activeVideoTitle" style="font-size: 17px; color: var(--ink);">लेक्चर देख रहे हैं</strong>
+            <button id="closeVideoPlayerBtn" type="button" class="secondary-button" style="padding: 4px 12px; font-size: 12px;">✕ बंद करें</button>
+          </div>
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000;">
+            <iframe id="videoIframe" style="position: absolute; top:0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+          </div>
+        </div>
+
+        <!-- Videos Cards Grid -->
+        <div class="subjects-grid" id="videosGrid">
+          <!-- Dynamically populated -->
+        </div>
+
+      </div>
+    </main>
+
+    <div id="uFooterContainer"></div>
+  </div>
+
+  <script src="curriculum-data.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("videos");
+
+      let activeClass = "class10";
+      let activeSubject = "maths";
+
+      const btn10 = document.getElementById("btnVidClass10");
+      const btn9 = document.getElementById("btnVidClass9");
+      const subjSelect = document.getElementById("vidSubjectSelect");
+      const grid = document.getElementById("videosGrid");
+      const playerBox = document.getElementById("videoPlayerBox");
+      const iframe = document.getElementById("videoIframe");
+      const activeTitle = document.getElementById("activeVideoTitle");
+      const closePlayerBtn = document.getElementById("closeVideoPlayerBtn");
+
+      // Sample curated educational video playlist for NCERT / RBSE Class 9 & 10
+      const VIDEO_LIBRARY = {
+        class10: {
+          maths: [
+            { ch: 1, title: "वास्तविक संख्याएँ (Real Numbers) - यूक्लिड विभाजन प्रमेय व अपरिमेय संख्याएँ", duration: "25:40", ytId: "9k_h7Jp6J4U", thumb: "📐" },
+            { ch: 2, title: "बहुपद (Polynomials) - शून्यक, गुणांक व विभाजन एल्गोरिद्म", duration: "32:15", ytId: "5y_O2c4zZp8", thumb: "📊" },
+            { ch: 3, title: "दो चरों वाले रैखिक समीकरण - ग्राफीय विधि व विलोपन/प्रतिस्थापन", duration: "40:10", ytId: "k3p_P3E8M9A", thumb: "📈" },
+            { ch: 4, title: "द्विघात समीकरण (Quadratic Equations) - गुणनखंड व श्रीधराचार्य सूत्र", duration: "28:50", ytId: "7qJ4nQz3cVo", thumb: "🔢" },
+            { ch: 5, title: "समांतर श्रेढ़ियाँ (Arithmetic Progressions) - nवाँ पद व योगफल सूत्र", duration: "35:20", ytId: "L8m4bH6tP2s", thumb: "➕" },
+            { ch: 8, title: "त्रिकोणमिति का परिचय (Trigonometry) - त्रिकोणमितीय अनुपात व सर्वसमिकाएँ", duration: "45:00", ytId: "W9j4sE8bX3k", thumb: "📐" },
+            { ch: 14, title: "सांख्यिकी (Statistics) - माध्य, माध्यक एवं बहुलक", duration: "38:20", ytId: "R2v5xZ9nK7m", thumb: "📊" },
+            { ch: 15, title: "प्रायिकता (Probability) - मूल अवधारणाएँ व महत्वपूर्ण प्रश्न", duration: "22:10", ytId: "M4c8jP2qZ5r", thumb: "🎲" }
+          ],
+          science: [
+            { ch: 1, title: "रासायनिक अभिक्रियाएँ एवं समीकरण (Chemical Reactions & Equations)", duration: "30:45", ytId: "7L_8nK9mP4w", thumb: "⚗️" },
+            { ch: 2, title: "अम्ल, क्षारक एवं लवण (Acids, Bases and Salts)", duration: "27:15", ytId: "N3p7qJ9mZ2r", thumb: "🧪" },
+            { ch: 6, title: "जैव प्रक्रम (Life Processes) - पोषण, श्वसन व परिवहन", duration: "42:30", ytId: "K9s3mE8bX2v", thumb: "🫀" },
+            { ch: 10, title: "प्रकाश - परावर्तन तथा अपवर्तन (Light - Reflection & Refraction)", duration: "48:10", ytId: "P4m8xL2qZ9k", thumb: "💡" },
+            { ch: 12, title: "विद्युत (Electricity) - ओम का नियम, प्रतिरोध व विद्युत शक्ति", duration: "36:40", ytId: "X2r8mN4kP9j", thumb: "⚡" }
+          ]
+        },
+        class9: {
+          maths: [
+            { ch: 1, title: "संख्या पद्धति (Number Systems) - परिमेय व अपरिमेय संख्याएँ", duration: "28:10", ytId: "4J7mP9kL2xN", thumb: "🔢" },
+            { ch: 2, title: "बहुपद (Polynomials) - गुणनखंड प्रमेय व सर्वसमिकाएँ", duration: "31:40", ytId: "M2r5xK8nP9w", thumb: "📊" },
+            { ch: 3, title: "निर्देशांक ज्यामिति (Coordinate Geometry) - कार्तीय तल व भुज/कोटि", duration: "20:15", ytId: "P8k4mN2qZ5x", thumb: "📍" },
+            { ch: 6, title: "रेखाएँ और कोण (Lines and Angles) - तिर्यक रेखा व कोण युग्म", duration: "34:20", ytId: "N9m3kL8pX2r", thumb: "📐" }
+          ],
+          science: [
+            { ch: 1, title: "हमारे आस-पास के पदार्थ (Matter in Our Surroundings)", duration: "26:30", ytId: "K2p8mN4xZ9j", thumb: "🧊" },
+            { ch: 5, title: "जीवन की मौलिक इकाई (The Fundamental Unit of Life - Cell)", duration: "35:10", ytId: "L4m8xK2qZ9p", thumb: "🔬" },
+            { ch: 8, title: "गति (Motion) - वेग, त्वरण एवं गति के समीकरण", duration: "40:00", ytId: "X9r3kL8mP2v", thumb: "🚀" }
+          ]
+        }
+      };
+
+      function updateTabs() {
+        if (activeClass === "class9") {
+          btn9.classList.add("active");
+          btn10.classList.remove("active");
+        } else {
+          btn10.classList.add("active");
+          btn9.classList.remove("active");
+        }
+      }
+
+      btn10.addEventListener("click", () => {
+        activeClass = "class10";
+        updateTabs();
+        renderVideos();
+      });
+
+      btn9.addEventListener("click", () => {
+        activeClass = "class9";
+        updateTabs();
+        renderVideos();
+      });
+
+      subjSelect.addEventListener("change", (e) => {
+        activeSubject = e.target.value;
+        renderVideos();
+      });
+
+      function playVideo(vid) {
+        if (!playerBox) return;
+        activeTitle.textContent = `${vid.title} (${vid.duration})`;
+        // Use educational embed
+        iframe.src = `https://www.youtube-nocookie.com/embed/${vid.ytId}?autoplay=1&rel=0`;
+        playerBox.style.display = "block";
+        playerBox.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      closePlayerBtn.addEventListener("click", () => {
+        playerBox.style.display = "none";
+        iframe.src = "";
+      });
+
+      function renderVideos() {
+        if (!grid) return;
+        grid.innerHTML = "";
+
+        const list = (VIDEO_LIBRARY[activeClass] && VIDEO_LIBRARY[activeClass][activeSubject]) || [];
+        if (!list.length) {
+          grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px;">इस विषय के वीडियो लेक्चर्स जल्द जोड़े जा रहे हैं।</p>`;
+          return;
+        }
+
+        list.forEach(vid => {
+          const card = document.createElement("div");
+          card.className = "subject-tile";
+          card.style.setProperty("--tile-accent", activeSubject === "science" ? "#0d9488" : "#6558df");
+
+          card.innerHTML = `
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon" style="background: ${activeSubject === 'science' ? '#ccfbf1' : '#ede9fe'};">
+                ${vid.thumb}
+              </div>
+              <span class="subject-tile-badge active-badge">⏱️ ${vid.duration}</span>
+            </div>
+            <h3 style="font-size: 17px; margin-bottom: 6px;">${vid.title}</h3>
+            <p class="subject-tile-desc" style="font-size: 12px; margin-bottom: 14px;">
+              कक्षा ${activeClass === 'class9' ? '9' : '10'} NCERT/RBSE बोर्ड परीक्षा तैयारी हेतु संपूर्ण वीडियो व्याख्या।
+            </p>
+            <div class="subject-tile-footer" style="padding-top: 10px;">
+              <span style="font-size: 11px; color: var(--muted); font-weight: 600;">अध्याय ${vid.ch}</span>
+              <button type="button" class="subject-tile-btn play-btn" style="background: ${activeSubject === 'science' ? '#0d9488' : '#6558df'};">
+                ▶ वीडियो देखें
+              </button>
+            </div>
+          `;
+
+          const btn = card.querySelector(".play-btn");
+          btn.addEventListener("click", () => playVideo(vid));
+
+          grid.appendChild(card);
+        });
+      }
+
+      updateTabs();
+      renderVideos();
+    });
+  </script>
+</body>
+</html>

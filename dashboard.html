@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>विद्यार्थी डैशबोर्ड (Student Dashboard) | KakshaGyan EduSmart99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="main-content">
+      <div class="dashboard-wrap" style="width: min(100%, 1100px); margin: 0 auto; padding-bottom: 50px;">
+        
+        <!-- Student Profile Welcome Banner -->
+        <section class="banner" style="margin-bottom: 24px; background: linear-gradient(135deg, var(--violet) 0%, #3730a3 100%);">
+          <div class="banner-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <p class="eyebrow" style="color: #c7d2fe;">STUDENT DASHBOARD · केंद्रीय विद्यार्थी कार्यक्षेत्र</p>
+              <h1 id="dashStudentName">नमस्ते, विद्यार्थी!</h1>
+              <p id="dashStudentSchool" style="opacity: 0.9;">राजस्थान माध्यमिक शिक्षा बोर्ड · परीक्षा पोर्टल</p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button id="dashSwitchStudentBtn" type="button" class="secondary-button" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.3); font-size: 12px; padding: 8px 16px;">
+                🔄 विद्यार्थी बदलें
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Current Class & Board Status Bar -->
+        <div class="subjects-header-bar" style="margin-bottom: 24px;">
+          <div class="subjects-pills-wrap">
+            <span class="subjects-meta-pill" id="dashBoardBadge">🏛️ RBSE (राजस्थान बोर्ड)</span>
+            <span class="subjects-meta-pill" id="dashMediumBadge">🌐 हिंदी माध्यम</span>
+            <span class="subjects-meta-pill" id="dashClassBadge">📚 कक्षा 10</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <a href="subjects.html" class="subjects-change-btn">⚙️ बोर्ड/कक्षा बदलें</a>
+          </div>
+        </div>
+
+        <!-- Progress Overview Stats -->
+        <section class="stats" style="margin-bottom: 26px;">
+          <div class="stat-card">
+            <span class="stat-label">🎯 कुल दिए गए टेस्ट</span>
+            <strong class="stat-value" id="dashTestsCount">0</strong>
+            <span style="font-size: 11px; color: var(--muted); margin-top: 4px;">सफलतापूर्वक संपन्न</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">📈 औसत सटीकता (Accuracy)</span>
+            <strong class="stat-value" id="dashAccuracy">0%</strong>
+            <span style="font-size: 11px; color: var(--muted); margin-top: 4px;">प्रश्नोत्तरी में प्रदर्शन</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">❌ भूल सुधार प्रश्न</span>
+            <strong class="stat-value" id="dashMistakesCount">0</strong>
+            <span style="font-size: 11px; color: var(--muted); margin-top: 4px;">पुनः अभ्यास योग्य</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">🏆 राज्य स्तरीय रैंक</span>
+            <strong class="stat-value" id="dashRank">Top 5%</strong>
+            <span style="font-size: 11px; color: var(--muted); margin-top: 4px;">लीडरबोर्ड के अनुसार</span>
+          </div>
+        </section>
+
+        <!-- Dashboard Core Modules Hub -->
+        <h2 style="font-size: 20px; margin-bottom: 16px; color: var(--ink);">📚 अध्ययन एवं परीक्षा टूल्स (Learning & Exam Suite)</h2>
+        
+        <div class="subjects-grid">
+          
+          <!-- Module 1: Courses & Subjects -->
+          <div class="subject-tile" style="--tile-accent: #6558df;">
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">📚</div>
+              <span class="subject-tile-badge active-badge">सभी विषय</span>
+            </div>
+            <h3>मेरे विषय (My Courses)</h3>
+            <span class="subject-tile-english">Mathematics, Science, Social, English, Hindi</span>
+            <p class="subject-tile-desc">
+              कक्षा 9 व 10 के संपूर्ण 6 विषयों का अध्यायवार पाठ्यक्रम, अध्ययन सामग्री और प्रगति ट्रैक करें।
+            </p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">6 विषय उपलब्ध</span>
+              <a href="subjects.html" class="subject-tile-btn">विषय खोलें →</a>
+            </div>
+          </div>
+
+          <!-- Module 2: Quizzes & Practice -->
+          <div class="subject-tile" style="--tile-accent: #e11d48;">
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">🎯</div>
+              <span class="subject-tile-badge active-badge">185+ प्रश्न</span>
+            </div>
+            <h3>क्विज़ सेंटर (Quizzes & Tests)</h3>
+            <span class="subject-tile-english">Chapter Tests, Mock Exams, Board Papers</span>
+            <p class="subject-tile-desc">
+              अध्यायवार बहुविकल्पीय टेस्ट, विगत वर्षों के बोर्ड पेपर्स (2021-2026), और टाइमर युक्त मॉक परीक्षा।
+            </p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">लाइव टेस्ट इंजन</span>
+              <a href="quiz-center.html" class="subject-tile-btn" style="background: #e11d48;">क्विज़ शुरू करें →</a>
+            </div>
+          </div>
+
+          <!-- Module 3: Notes & PDFs -->
+          <div class="subject-tile" style="--tile-accent: #0d9488;">
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">📑</div>
+              <span class="subject-tile-badge active-badge">रिवीजन नोट्स</span>
+            </div>
+            <h3>नोट्स एवं सूत्र (Notes & PDFs)</h3>
+            <span class="subject-tile-english">Formula Sheets & Exercise Notes</span>
+            <p class="subject-tile-desc">
+              गणित के संपूर्ण सूत्र, विज्ञान की महत्वपूर्ण रासायनिक अभिक्रियाएँ, परिभाषाएँ और त्वरित रिवीजन नोट्स।
+            </p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">अध्यायवार सारांश</span>
+              <a href="notes.html" class="subject-tile-btn" style="background: #0d9488;">नोट्स पढ़ें →</a>
+            </div>
+          </div>
+
+          <!-- Module 4: Video Lectures -->
+          <div class="subject-tile" style="--tile-accent: #2563eb;">
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">🎥</div>
+              <span class="subject-tile-badge active-badge">वीडियो पाठ</span>
+            </div>
+            <h3>वीडियो लेक्चर्स (Video Lectures)</h3>
+            <span class="subject-tile-english">Concept Explanations & Walkthroughs</span>
+            <p class="subject-tile-desc">
+              कक्षा 9 व 10 के कठिन अध्यायों के वीडियो पाठ, प्रमेय के हल और स्पष्ट व्याख्या।
+            </p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">HD लेक्चर्स</span>
+              <a href="videos.html" class="subject-tile-btn" style="background: #2563eb;">वीडियो देखें →</a>
+            </div>
+          </div>
+
+          <!-- Module 5: Mistake Book -->
+          <div class="subject-tile" style="--tile-accent: #d97706;">
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">❌</div>
+              <span class="subject-tile-badge active-badge">स्मार्ट सुधार</span>
+            </div>
+            <h3>भूल सुधार पुस्तिका (Mistake Book)</h3>
+            <span class="subject-tile-english">Review & Master Incorrect Answers</span>
+            <p class="subject-tile-desc">
+              क्विज़ में गलत किए गए प्रश्नों को दोबारा हल करें ताकि मुख्य बोर्ड परीक्षा में शत-प्रतिशत अंक मिल सकें।
+            </p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">कमजोरी दूर करें</span>
+              <a href="mistake-book.html" class="subject-tile-btn" style="background: #d97706;">गलतियाँ देखें →</a>
+            </div>
+          </div>
+
+          <!-- Module 6: Revision Planner & Leaderboard -->
+          <div class="subject-tile" style="--tile-accent: #7c3aed;">
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">🏆</div>
+              <span class="subject-tile-badge active-badge">रैंक व प्लानर</span>
+            </div>
+            <h3>लीडरबोर्ड एवं प्लानर</h3>
+            <span class="subject-tile-english">Student Rankings & Study Schedule</span>
+            <p class="subject-tile-desc">
+              दैनिक अध्ययन समय-सारणी तैयार करें और राज्य के अन्य विद्यार्थियों के साथ अपनी रैंक व स्कोर देखें।
+            </p>
+            <div class="subject-tile-footer">
+              <span class="subject-tile-chapters">रैंक एवं बैज</span>
+              <a href="leaderboard.html" class="subject-tile-btn" style="background: #7c3aed;">लीडरबोर्ड देखें →</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <div id="uFooterContainer"></div>
+  </div>
+
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("dashboard");
+
+      // Load Profile
+      let studentName = "विद्यार्थी";
+      let studentSchool = "राजस्थान बोर्ड परीक्षा पोर्टल";
+      try {
+        const prof = JSON.parse(localStorage.getItem("iMentorStudentProfile") || "{}");
+        if (prof.name || prof.studentName) studentName = prof.name || prof.studentName;
+        if (prof.school) studentSchool = prof.school;
+      } catch (e) {}
+
+      document.getElementById("dashStudentName").textContent = `नमस्ते, ${studentName}!`;
+      document.getElementById("dashStudentSchool").textContent = studentSchool;
+
+      const currentClass = localStorage.getItem("iMentorClass") || "class10";
+      const currentBoard = localStorage.getItem("iMentorBoard") || "rbse";
+      const currentMedium = localStorage.getItem("iMentorMedium") || "hindi";
+
+      document.getElementById("dashClassBadge").textContent = currentClass === "class9" ? "📚 कक्षा 9" : "📚 कक्षा 10";
+      document.getElementById("dashBoardBadge").textContent = currentBoard === "cbse" ? "🏛️ CBSE बोर्ड" : "🏛️ RBSE (राजस्थान बोर्ड)";
+      document.getElementById("dashMediumBadge").textContent = currentMedium === "english" ? "🌐 English Medium" : "🌐 हिंदी माध्यम";
+
+      // Stats
+      const prog = ExamSuite.getProgress();
+      const attempts = prog.attempts || [];
+      const testCount = attempts.length;
+      document.getElementById("dashTestsCount").textContent = testCount;
+
+      let avgAcc = 85;
+      if (testCount > 0) {
+        const totalQ = attempts.reduce((acc, a) => acc + (a.answered || a.total || 1), 0);
+        const correctQ = attempts.reduce((acc, a) => acc + (a.correct || 0), 0);
+        avgAcc = totalQ > 0 ? Math.round((correctQ / totalQ) * 100) : 85;
+      }
+      document.getElementById("dashAccuracy").textContent = `${avgAcc}%`;
+      document.getElementById("dashMistakesCount").textContent = (prog.mistakes || []).length;
+
+      // Switch student
+      document.getElementById("dashSwitchStudentBtn").addEventListener("click", () => {
+        sessionStorage.removeItem("iMentorStudentSession");
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+</body>
+</html>

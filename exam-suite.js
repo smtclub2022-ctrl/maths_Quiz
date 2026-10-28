@@ -1,5 +1,5 @@
 /**
- * I_Mentor_99 - Examination & Practice Suite Shared Engine
+ * I_Mentor_99 / KakshaGyan EduSmart99 - Examination & Educational Portal Shared Engine
  * Provides Universal Inter-Page Navigation, Drawer, Question Bank Engine, Audio & Theming.
  */
 (function(window) {
@@ -32,8 +32,20 @@
   ];
 
   const ALL_PAGES = [
-    { id: "home", href: "index.html", label: "⌂ होम (Home)", icon: "⌂", group: "main" },
-    { id: "subjects", href: "subjects.html", label: "📚 विषय सूची (Subjects)", icon: "📚", group: "main" },
+    // 1. Public Website
+    { id: "home", href: "index.html", label: "⌂ होम (Home)", icon: "⌂", group: "public" },
+    { id: "courses", href: "courses.html", label: "📚 पाठ्यक्रम (Courses)", icon: "📚", group: "public" },
+    { id: "about", href: "about.html", label: "ℹ️ हमारे बारे में (About)", icon: "ℹ️", group: "public" },
+    { id: "contact", href: "contact.html", label: "📞 संपर्क (Contact)", icon: "📞", group: "public" },
+    { id: "login", href: "login.html", label: "🔐 छात्र लॉगिन (Login)", icon: "🔐", group: "public" },
+
+    // 2. Student Portal & Study Material
+    { id: "dashboard", href: "dashboard.html", label: "👨‍🎓 डैशबोर्ड (Dashboard)", icon: "👨‍🎓", group: "student" },
+    { id: "subjects", href: "subjects.html", label: "📖 विषय सूची (Subjects)", icon: "📖", group: "student" },
+    { id: "notes", href: "notes.html", label: "📑 नोट्स व सूत्र (Notes & PDFs)", icon: "📑", group: "student" },
+    { id: "videos", href: "videos.html", label: "🎥 वीडियो लेक्चर्स (Videos)", icon: "🎥", group: "student" },
+
+    // 3. Examination & Test Suite
     { id: "quiz-center", href: "quiz-center.html", label: "🎯 क्विज़ सेंटर (Quiz Center)", icon: "🎯", group: "exam" },
     { id: "chapter-tests", href: "chapter-tests.html", label: "📚 अध्यायवार टेस्ट (Chapter Tests)", icon: "📚", group: "exam" },
     { id: "mock-exams", href: "mock-exams.html", label: "📝 संपूर्ण मॉक परीक्षा (Mock Exams)", icon: "📝", group: "exam" },
@@ -42,11 +54,16 @@
     { id: "sample-papers", href: "sample-papers.html", label: "📑 मॉडल प्रश्न पत्र (Sample Papers)", icon: "📑", group: "exam" },
     { id: "workbook", href: "workbook-quiz.html", label: "📘 Workbook Quiz (कार्यपत्रक)", icon: "📘", group: "exam" },
     { id: "question-bank", href: "question-bank.html", label: "🔍 सर्च प्रश्न बैंक (Question Bank)", icon: "🔍", group: "exam" },
+
+    // 4. Student Tools & Progress
     { id: "mistake-book", href: "mistake-book.html", label: "❌ भूल सुधार पुस्तिका (Mistake Book)", icon: "❌", group: "tools" },
     { id: "revision-planner", href: "revision-planner.html", label: "📅 रिवीजन प्लानर (Study Planner)", icon: "📅", group: "tools" },
     { id: "leaderboard", href: "leaderboard.html", label: "🏆 लीडरबोर्ड एवं बैज (Leaderboard)", icon: "🏆", group: "tools" },
     { id: "result", href: "result.html", label: "📊 नवीनतम परिणाम (Latest Result)", icon: "📊", group: "tools" },
-    { id: "answer-review", href: "answer-review.html", label: "📝 उत्तर समीक्षा (Answer Review)", icon: "📝", group: "tools" }
+    { id: "answer-review", href: "answer-review.html", label: "📝 उत्तर समीक्षा (Answer Review)", icon: "📝", group: "tools" },
+
+    // 5. Admin Panel
+    { id: "admin", href: "admin.html", label: "⚙️ एडमिन पोर्टल (Admin Panel)", icon: "⚙️", group: "admin" }
   ];
 
   // Helper to collect all questions from all loaded banks
@@ -59,63 +76,80 @@
       window.oldPaperQuestionBank.forEach(paper => {
         const yr = paper.year;
         const sess = paper.session === "M" ? "मुख्य परीक्षा" : "पूरक परीक्षा";
-        (paper.questions || []).forEach(q => {
-          list.push({
-            id: `board_${yr}_${paper.session}_${idCounter++}`,
-            source: `RBSE ${yr} (${sess})`,
-            type: "board",
-            year: yr,
-            session: paper.session,
-            chapter: Number(q.chapter),
-            chapterName: CHAPTER_NAMES[Number(q.chapter)] || `अध्याय ${Number(q.chapter) + 1}`,
-            prompt: q.prompt,
-            options: q.options || [],
-            answer: typeof q.answer === "number" ? q.options[q.answer] : q.answer,
-            answerIndex: typeof q.answer === "number" ? q.answer : (q.options ? q.options.indexOf(q.answer) : 0),
-            solution: q.solution || "बोर्ड उत्तर कुंजी अनुसार सही विकल्प।",
-            hint: q.hint || "अध्याय के मूल सूत्र और परिभाषा का उपयोग करें।"
+        if (paper.sections) {
+          Object.keys(paper.sections).forEach(secKey => {
+            const sec = paper.sections[secKey];
+            if (sec.questions && Array.isArray(sec.questions)) {
+              sec.questions.forEach((q, qIdx) => {
+                list.push({
+                  id: `old_${yr}_${secKey}_${qIdx}`,
+                  globalId: idCounter++,
+                  source: `RBSE ${yr} (${sess}) - खण्ड ${secKey}`,
+                  year: yr,
+                  chapter: (q.chapter !== undefined && q.chapter !== null) ? Number(q.chapter) : -1,
+                  prompt: q.prompt || "",
+                  options: q.options || [],
+                  answer: (q.answer !== undefined && q.answer !== null) ? Number(q.answer) : 0,
+                  solution: q.solution || "समाधान उत्तर कुंजी में उपलब्ध है।",
+                  hint: q.hint || "प्रश्नावली के मूल सूत्रों का स्मरण करें।",
+                  marks: q.marks || 1,
+                  type: "board"
+                });
+              });
+            }
           });
-        });
+        }
       });
     }
 
     // 2. From workbookQuestionBank
     if (window.workbookQuestionBank && Array.isArray(window.workbookQuestionBank)) {
-      window.workbookQuestionBank.forEach(sheet => {
-        const ch = sheet.chapter;
-        (sheet.questions || []).forEach(q => {
-          list.push({
-            id: `wb_${ch}_${idCounter++}`,
-            source: `RBSE वर्कबुक (कार्यपत्रक ${sheet.sheet || sheet.worksheet || ch + 1})`,
-            type: "workbook",
-            year: 2024,
-            chapter: Number(ch),
-            chapterName: CHAPTER_NAMES[Number(ch)] || `अध्याय ${Number(ch) + 1}`,
-            prompt: q.prompt,
-            options: q.options || [],
-            answer: typeof q.answer === "number" ? q.options[q.answer] : q.answer,
-            answerIndex: typeof q.answer === "number" ? q.answer : (q.options ? q.options.indexOf(q.answer) : 0),
-            solution: q.solution || "वर्कबुक आधिकारिक समाधान।",
-            hint: q.hint || "कार्यपत्रक के अनुसार हल करें।"
+      window.workbookQuestionBank.forEach((ws, wsIdx) => {
+        const wsName = ws.name || `कार्यपत्रक ${ws.worksheet || wsIdx + 1}`;
+        if (ws.questions && Array.isArray(ws.questions)) {
+          ws.questions.forEach((q, qIdx) => {
+            list.push({
+              id: `wb_${ws.worksheet || wsIdx}_${qIdx}`,
+              globalId: idCounter++,
+              source: `उपचारात्मक शिक्षण कार्यपुस्तिका (${wsName})`,
+              year: 2026,
+              chapter: (q.chapter !== undefined && q.chapter !== null) ? Number(q.chapter) : (ws.chapter !== undefined ? Number(ws.chapter) : -1),
+              prompt: q.prompt || "",
+              options: q.options || [],
+              answer: (q.answer !== undefined && q.answer !== null) ? Number(q.answer) : 0,
+              solution: q.solution || "हल कार्यपुस्तिका में दिया गया है।",
+              hint: q.hint || "कार्यपुस्तिका के उदाहरण देखें।",
+              marks: 1,
+              type: "workbook"
+            });
           });
-        });
+        }
       });
     }
 
     return list;
   }
 
-  // Audio tone generator
+  // Audio Synthesizer
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioCtx;
+  }
+
   function playBeep(freq, type, duration) {
+    if (localStorage.getItem("iMentorSound") === "off") return;
     try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      if (ctx.state === "suspended") ctx.resume();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = type || "sine";
       osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
       osc.connect(gain);
       gain.connect(ctx.destination);
@@ -238,27 +272,41 @@
             <a class="brand" href="index.html" aria-label="मुख्य पृष्ठ पर जाएँ">
               <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
               <span class="home-label">⌂ होम</span>
-              <span class="brand-title">कक्षा 10 गणित</span>
+              <span class="brand-title">KakshaGyan EduSmart99</span>
             </a>
           </div>
 
           <div class="exam-subnav-scroll">
-            ${ALL_PAGES.filter(p => p.group === "exam" || p.id === "quiz-center").map(n => `
-              <a class="exam-nav-pill ${activePage === n.id ? "active" : ""}" href="${n.href}">
-                ${n.label}
-              </a>
-            `).join("")}
+            <a class="exam-nav-pill ${activePage === "courses" ? "active" : ""}" href="courses.html">📚 कोर्सेज</a>
+            <a class="exam-nav-pill ${activePage === "dashboard" ? "active" : ""}" href="dashboard.html">👨‍🎓 डैशबोर्ड</a>
+            <a class="exam-nav-pill ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">🎯 क्विज़ हब</a>
+            <a class="exam-nav-pill ${activePage === "notes" ? "active" : ""}" href="notes.html">📑 नोट्स व सूत्र</a>
+            <a class="exam-nav-pill ${activePage === "videos" ? "active" : ""}" href="videos.html">🎥 वीडियो</a>
+            <a class="exam-nav-pill ${activePage === "mistake-book" ? "active" : ""}" href="mistake-book.html">❌ भूल सुधार</a>
           </div>
 
           <div class="topbar-right" style="gap:8px;">
             <select class="exam-quick-select" id="examQuickPageSelect" aria-label="त्वरित पेज चुनें" title="सीधे किसी भी पेज पर जाएँ">
               <option value="" disabled selected>📑 त्वरित पेज...</option>
-              <optgroup label="मुख्य मेनू">
-                <option value="index.html">⌂ मुख्य पृष्ठ (होम)</option>
-                <option value="admin.html">⚙️ एडमिन पोर्टल</option>
+              <optgroup label="🌐 सार्वजनिक पृष्ठ (Public)">
+                <option value="index.html">⌂ मुख्य पृष्ठ (Home)</option>
+                <option value="courses.html">📚 पाठ्यक्रम (Courses)</option>
+                <option value="about.html">ℹ️ हमारे बारे में (About)</option>
+                <option value="contact.html">📞 संपर्क (Contact)</option>
+                <option value="login.html">🔐 छात्र लॉगिन (Login)</option>
               </optgroup>
-              <optgroup label="परीक्षा एवं टेस्ट पोर्टल">
-                <option value="quiz-center.html">🎯 क्विज़ सेंटर</option>
+              <optgroup label="👨‍🎓 विद्यार्थी पोर्टल (Dashboard)">
+                <option value="dashboard.html">👨‍🎓 छात्र डैशबोर्ड</option>
+                <option value="subjects.html">📖 विषय सूची (Subjects)</option>
+                <option value="notes.html">📑 नोट्स एवं सूत्र</option>
+                <option value="videos.html">🎥 वीडियो लेक्चर्स</option>
+                <option value="mistake-book.html">❌ भूल सुधार पुस्तिका</option>
+                <option value="revision-planner.html">📅 रिवीजन प्लानर</option>
+                <option value="leaderboard.html">🏆 लीडरबोर्ड एवं रैंक</option>
+                <option value="result.html">📊 परीक्षा परिणाम</option>
+              </optgroup>
+              <optgroup label="🎯 परीक्षा एवं टेस्ट हब">
+                <option value="quiz-center.html">🎯 क्विज़ सेंटर हब</option>
                 <option value="chapter-tests.html">📚 अध्यायवार टेस्ट</option>
                 <option value="mock-exams.html">📝 संपूर्ण मॉक परीक्षा</option>
                 <option value="exam-timer.html">⏱️ परीक्षा टाइमर मोड</option>
@@ -267,12 +315,8 @@
                 <option value="workbook-quiz.html">📘 Workbook Quiz</option>
                 <option value="question-bank.html">🔍 सर्च प्रश्न बैंक</option>
               </optgroup>
-              <optgroup label="विद्यार्थी प्रगति एवं टूल्स">
-                <option value="mistake-book.html">❌ भूल सुधार पुस्तिका</option>
-                <option value="revision-planner.html">📅 रिवीजन प्लानर</option>
-                <option value="leaderboard.html">🏆 लीडरबोर्ड एवं बैज</option>
-                <option value="result.html">📊 परीक्षा परिणाम</option>
-                <option value="answer-review.html">📝 उत्तर समीक्षा</option>
+              <optgroup label="⚙️ एडमिन पोर्टल">
+                <option value="admin.html">⚙️ एडमिन पैनल (Admin)</option>
               </optgroup>
             </select>
 
@@ -308,43 +352,88 @@
         drawer.setAttribute("aria-label", "यूनिवर्सल नेविगेशन");
         drawer.setAttribute("aria-hidden", "true");
 
+        let studentName = "विद्यार्थी";
+        let studentSchool = "कक्षा 10 गणित · RBSE";
+        try {
+          const prof = JSON.parse(localStorage.getItem("iMentorStudentProfile") || "{}");
+          if (prof.name || prof.studentName) studentName = prof.name || prof.studentName;
+          if (prof.school) studentSchool = prof.school;
+        } catch (e) {}
+
         drawer.innerHTML = `
           <div class="sidebar-header">
             <div class="sidebar-brand">
               <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
               <div class="sidebar-brand-text">
-                <strong>I_Mentor_99</strong>
-                <span>कक्षा 10 गणित (RBSE)</span>
+                <strong>KakshaGyan EduSmart99</strong>
+                <span>कक्षा 9 व 10 ई-लर्निंग</span>
               </div>
             </div>
-            <button class="sidebar-close-btn" id="examDrawerCloseBtn" type="button" aria-label="नेविगेशन बंद करें">
+            <button class="sidebar-close-btn" id="closeExamDrawerBtn" type="button" aria-label="मेनू बंद करें">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
 
+          <div class="sidebar-profile" style="margin: 12px 16px;">
+            <div class="profile-avatar">👨‍🎓</div>
+            <div class="profile-details">
+              <strong>${studentName}</strong>
+              <span style="font-size: 11px; color: var(--muted);">${studentSchool}</span>
+            </div>
+            <a href="login.html" class="profile-switch-btn" style="text-decoration: none; display: inline-block;">बदलें</a>
+          </div>
+
           <div class="sidebar-content">
-            <!-- 1. Main Menu -->
+            <!-- 1. Public Website -->
             <div class="sidebar-nav-group">
-              <span class="sidebar-group-title">मुख्य मेनू</span>
+              <span class="sidebar-group-title">🌐 सार्वजनिक वेबसाइट (Public)</span>
               <nav class="sidebar-nav">
                 <a class="sidebar-nav-item ${activePage === "home" ? "active" : ""}" href="index.html">
                   <span class="nav-icon">⌂</span>
-                  <span class="nav-text">मुख्य पृष्ठ (होम)</span>
+                  <span class="nav-text">मुख्य पृष्ठ (Home)</span>
                 </a>
-                <a class="sidebar-nav-item" href="index.html">
-                  <span class="nav-icon">📐</span>
-                  <span class="nav-text">गणित महत्वपूर्ण सूत्र (Formula Sheet)</span>
+                <a class="sidebar-nav-item ${activePage === "courses" ? "active" : ""}" href="courses.html">
+                  <span class="nav-icon">📚</span>
+                  <span class="nav-text">पाठ्यक्रम (Courses)</span>
                 </a>
-                <a class="sidebar-nav-item" href="admin.html">
-                  <span class="nav-icon">⚙️</span>
-                  <span class="nav-text">एडमिन पोर्टल (Admin Panel)</span>
+                <a class="sidebar-nav-item ${activePage === "about" ? "active" : ""}" href="about.html">
+                  <span class="nav-icon">ℹ️</span>
+                  <span class="nav-text">हमारे बारे में (About Us)</span>
+                </a>
+                <a class="sidebar-nav-item ${activePage === "contact" ? "active" : ""}" href="contact.html">
+                  <span class="nav-icon">📞</span>
+                  <span class="nav-text">संपर्क एवं सहायता (Contact)</span>
                 </a>
               </nav>
             </div>
 
-            <!-- 2. Exam Suite -->
+            <!-- 2. Student Portal -->
             <div class="sidebar-nav-group">
-              <span class="sidebar-group-title">परीक्षा एवं टेस्ट पोर्टल (Exam Suite)</span>
+              <span class="sidebar-group-title">👨‍🎓 विद्यार्थी कार्यक्षेत्र (Student Dashboard)</span>
+              <nav class="sidebar-nav">
+                <a class="sidebar-nav-item ${activePage === "dashboard" ? "active" : ""}" href="dashboard.html">
+                  <span class="nav-icon">👨‍🎓</span>
+                  <span class="nav-text">छात्र डैशबोर्ड (Dashboard)</span>
+                  <span class="nav-badge-pill">हब</span>
+                </a>
+                <a class="sidebar-nav-item ${activePage === "subjects" ? "active" : ""}" href="subjects.html">
+                  <span class="nav-icon">📖</span>
+                  <span class="nav-text">कक्षा 9 व 10 सभी विषय</span>
+                </a>
+                <a class="sidebar-nav-item ${activePage === "notes" ? "active" : ""}" href="notes.html">
+                  <span class="nav-icon">📑</span>
+                  <span class="nav-text">नोट्स एवं सूत्र (Notes & PDFs)</span>
+                </a>
+                <a class="sidebar-nav-item ${activePage === "videos" ? "active" : ""}" href="videos.html">
+                  <span class="nav-icon">🎥</span>
+                  <span class="nav-text">वीडियो लेक्चर्स (Videos)</span>
+                </a>
+              </nav>
+            </div>
+
+            <!-- 3. Exam Suite -->
+            <div class="sidebar-nav-group">
+              <span class="sidebar-group-title">🎯 परीक्षा एवं टेस्ट पोर्टल (Exam Suite)</span>
               <nav class="sidebar-nav">
                 <a class="sidebar-nav-item ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">
                   <span class="nav-icon">🎯</span>
@@ -382,9 +471,9 @@
               </nav>
             </div>
 
-            <!-- 3. Student Progress & Tools -->
+            <!-- 4. Student Progress & Tools -->
             <div class="sidebar-nav-group">
-              <span class="sidebar-group-title">विद्यार्थी प्रगति एवं टूल्स</span>
+              <span class="sidebar-group-title">📊 विद्यार्थी प्रगति एवं टूल्स</span>
               <nav class="sidebar-nav">
                 <a class="sidebar-nav-item ${activePage === "mistake-book" ? "active" : ""}" href="mistake-book.html">
                   <span class="nav-icon">❌</span>
@@ -396,150 +485,153 @@
                 </a>
                 <a class="sidebar-nav-item ${activePage === "leaderboard" ? "active" : ""}" href="leaderboard.html">
                   <span class="nav-icon">🏆</span>
-                  <span class="nav-text">लीडरबोर्ड एवं रैंक (Leaderboard)</span>
+                  <span class="nav-text">लीडरबोर्ड एवं बैज (Leaderboard)</span>
                 </a>
                 <a class="sidebar-nav-item ${activePage === "result" ? "active" : ""}" href="result.html">
                   <span class="nav-icon">📊</span>
-                  <span class="nav-text">परीक्षा परिणाम (Test Results)</span>
+                  <span class="nav-text">नवीनतम परिणाम (Latest Result)</span>
                 </a>
-                <a class="sidebar-nav-item ${activePage === "answer-review" ? "active" : ""}" href="answer-review.html">
-                  <span class="nav-icon">📝</span>
-                  <span class="nav-text">उत्तर समीक्षा (Answer Review)</span>
+              </nav>
+            </div>
+
+            <!-- 5. Admin & Logout -->
+            <div class="sidebar-nav-group">
+              <span class="sidebar-group-title">⚙️ प्रबंधन एवं लॉगआउट</span>
+              <nav class="sidebar-nav">
+                <a class="sidebar-nav-item ${activePage === "admin" ? "active" : ""}" href="admin.html">
+                  <span class="nav-icon">⚙️</span>
+                  <span class="nav-text">एडमिन पोर्टल (Admin Panel)</span>
+                </a>
+                <a class="sidebar-nav-item" href="login.html">
+                  <span class="nav-icon">🔄</span>
+                  <span class="nav-text">विद्यार्थी बदलें / लॉगिन</span>
                 </a>
               </nav>
             </div>
           </div>
-
+          
           <div class="sidebar-footer">
-            <span>सीखें, अभ्यास करें, आगे बढ़ें।</span>
-            <span>कक्षा 10 · गणित (RBSE)</span>
+            <span>KakshaGyan EduSmart99</span>
+            <span>कक्षा 9 व 10</span>
           </div>
         `;
 
         document.body.appendChild(backdrop);
         document.body.appendChild(drawer);
 
-        // Open/Close Drawer Logic
         function openDrawer() {
           drawer.classList.add("open");
           backdrop.classList.add("open");
           drawer.setAttribute("aria-hidden", "false");
-          document.body.classList.add("drawer-open");
+          backdrop.setAttribute("aria-hidden", "false");
         }
 
         function closeDrawer() {
           drawer.classList.remove("open");
           backdrop.classList.remove("open");
           drawer.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("drawer-open");
+          backdrop.setAttribute("aria-hidden", "true");
         }
 
-        const menuBtn = document.getElementById("examMenuToggleBtn");
-        const closeBtn = document.getElementById("examDrawerCloseBtn");
-
-        if (menuBtn) menuBtn.addEventListener("click", openDrawer);
-        if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
         backdrop.addEventListener("click", closeDrawer);
+        const closeBtn = document.getElementById("closeExamDrawerBtn");
+        if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeDrawer();
-        });
+        const openBtn = document.getElementById("examMenuToggleBtn");
+        if (openBtn) openBtn.addEventListener("click", openDrawer);
       }
 
-      // 3. Inject Universal Mobile Bottom Nav if not present
-      if (!document.getElementById("examUniversalBottomNav")) {
+      // 3. Inject Mobile Bottom Navigation Bar if not already present
+      if (!document.getElementById("examBottomNav")) {
         const bNav = document.createElement("nav");
-        bNav.id = "examUniversalBottomNav";
+        bNav.id = "examBottomNav";
         bNav.className = "bottom-nav";
         bNav.setAttribute("aria-label", "मोबाइल नेविगेशन");
-
         bNav.innerHTML = `
           <a class="bottom-nav-item ${activePage === "home" ? "active" : ""}" href="index.html">
             <span class="bnav-icon">⌂</span>
             <span class="bnav-label">होम</span>
           </a>
+          <a class="bottom-nav-item ${activePage === "courses" ? "active" : ""}" href="courses.html">
+            <span class="bnav-icon">📚</span>
+            <span class="bnav-label">कोर्सेज</span>
+          </a>
           <a class="bottom-nav-item ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">
             <span class="bnav-icon">🎯</span>
             <span class="bnav-label">क्विज़</span>
           </a>
-          <a class="bottom-nav-item ${activePage === "chapter-tests" ? "active" : ""}" href="chapter-tests.html">
-            <span class="bnav-icon">📚</span>
-            <span class="bnav-label">टेस्ट</span>
+          <a class="bottom-nav-item ${activePage === "notes" ? "active" : ""}" href="notes.html">
+            <span class="bnav-icon">📑</span>
+            <span class="bnav-label">नोट्स</span>
           </a>
-          <a class="bottom-nav-item ${activePage === "mistake-book" ? "active" : ""}" href="mistake-book.html">
-            <span class="bnav-icon">❌</span>
-            <span class="bnav-label">गलतियाँ</span>
+          <a class="bottom-nav-item ${activePage === "dashboard" ? "active" : ""}" href="dashboard.html">
+            <span class="bnav-icon">👨‍🎓</span>
+            <span class="bnav-label">डैशबोर्ड</span>
           </a>
-          <button class="bottom-nav-item" id="bnavMenuTrigger" type="button">
-            <span class="bnav-icon">☰</span>
-            <span class="bnav-label">मेनू</span>
-          </button>
         `;
-
         document.body.appendChild(bNav);
-
-        const bTrigger = document.getElementById("bnavMenuTrigger");
-        if (bTrigger) {
-          bTrigger.addEventListener("click", () => {
-            const drawer = document.getElementById("examUniversalDrawer");
-            const backdrop = document.getElementById("examDrawerBackdrop");
-            if (drawer && backdrop) {
-              drawer.classList.add("open");
-              backdrop.classList.add("open");
-              drawer.setAttribute("aria-hidden", "false");
-              document.body.classList.add("drawer-open");
-            }
-          });
-        }
       }
 
-      // 4. Inject Universal Footer Hub if container exists
-      const footerEl = document.querySelector(".footer");
-      if (footerEl && !document.getElementById("uFooterGrid")) {
-        const uGrid = document.createElement("div");
-        uGrid.id = "uFooterGrid";
-        uGrid.className = "universal-footer-grid";
-        uGrid.innerHTML = `
-          <div class="u-footer-col">
-            <h4>मुख्य मेनू</h4>
-            <ul>
-              <li><a href="index.html">⌂ मुख्य पृष्ठ (होम)</a></li>
-              <li><a href="admin.html">⚙️ एडमिन पोर्टल</a></li>
-              <li><a href="leaderboard.html">🏆 लीडरबोर्ड एवं रैंकिंग</a></li>
-            </ul>
-          </div>
-          <div class="u-footer-col">
-            <h4>परीक्षा एवं टेस्ट पोर्टल</h4>
-            <ul>
-              <li><a href="quiz-center.html">🎯 क्विज़ सेंटर</a></li>
-              <li><a href="chapter-tests.html">📚 अध्यायवार टेस्ट (1-15)</a></li>
-              <li><a href="mock-exams.html">📝 संपूर्ण मॉक परीक्षा (80 अंक)</a></li>
-              <li><a href="exam-timer.html">⏱️ परीक्षा टाइमर सिमुलेटर</a></li>
-            </ul>
-          </div>
-          <div class="u-footer-col">
-            <h4>बोर्ड पेपर्स व प्रश्न बैंक</h4>
-            <ul>
-              <li><a href="previous-papers.html">📜 विगत वर्षों के बोर्ड पेपर्स</a></li>
-              <li><a href="sample-papers.html">📑 मॉडल प्रश्न पत्र 2026</a></li>
-              <li><a href="workbook-quiz.html">📘 आधिकारिक वर्कबुक क्विज़</a></li>
-              <li><a href="question-bank.html">🔍 300+ सर्च प्रश्न बैंक</a></li>
-            </ul>
-          </div>
-          <div class="u-footer-col">
-            <h4>विद्यार्थी सहायता एवं टूल्स</h4>
-            <ul>
-              <li><a href="mistake-book.html">❌ भूल सुधार पुस्तिका</a></li>
-              <li><a href="revision-planner.html">📅 30-दिवसीय रिवीजन प्लानर</a></li>
-              <li><a href="result.html">📊 परीक्षा परिणाम व अंकतालिका</a></li>
-              <li><a href="answer-review.html">📝 उत्तर समीक्षा एवं हल</a></li>
-            </ul>
-          </div>
+      // 4. Inject Universal Footer
+      const footerContainer = document.getElementById("uFooterContainer");
+      if (footerContainer) {
+        footerContainer.innerHTML = `
+          <footer class="universal-footer" style="margin-top: 40px; padding: 40px 24px 24px; border-top: 1px solid var(--line); background: var(--paper);">
+            <div class="u-footer-grid" style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px;">
+              <div class="u-footer-col">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <img src="assets/mentor-logo-header.png" alt="Logo" style="height: 32px;">
+                  <strong style="font-size: 16px; color: var(--ink);">KakshaGyan EduSmart99</strong>
+                </div>
+                <p style="font-size: 13px; color: var(--muted); line-height: 1.6;">
+                  कक्षा 9 और 10 के विद्यार्थियों के लिए समर्पित ई-लर्निंग एवं परीक्षा पोर्टल। RBSE एवं CBSE बोर्ड के नवीनतम NCERT पाठ्यक्रम के अनुसार तैयारी।
+                </p>
+              </div>
+
+              <div class="u-footer-col">
+                <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.5px;">🌐 मुख्य पृष्ठ</h4>
+                <ul style="list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13px;">
+                  <li><a href="index.html" style="color: var(--muted); text-decoration: none;">⌂ मुख्य पृष्ठ (Home)</a></li>
+                  <li><a href="courses.html" style="color: var(--muted); text-decoration: none;">📚 पाठ्यक्रम (Courses)</a></li>
+                  <li><a href="about.html" style="color: var(--muted); text-decoration: none;">ℹ️ हमारे बारे में (About Us)</a></li>
+                  <li><a href="contact.html" style="color: var(--muted); text-decoration: none;">📞 संपर्क (Contact & Help)</a></li>
+                  <li><a href="login.html" style="color: var(--muted); text-decoration: none;">🔐 छात्र लॉगिन (Student Login)</a></li>
+                </ul>
+              </div>
+
+              <div class="u-footer-col">
+                <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.5px;">🎯 परीक्षा एवं क्विज़ हब</h4>
+                <ul style="list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13px;">
+                  <li><a href="quiz-center.html" style="color: var(--muted); text-decoration: none;">🎯 क्विज़ सेंटर (All Quizzes)</a></li>
+                  <li><a href="chapter-tests.html" style="color: var(--muted); text-decoration: none;">📚 अध्यायवार टेस्ट</a></li>
+                  <li><a href="mock-exams.html" style="color: var(--muted); text-decoration: none;">📝 संपूर्ण मॉक परीक्षा</a></li>
+                  <li><a href="previous-papers.html" style="color: var(--muted); text-decoration: none;">📜 बोर्ड पेपर्स (2021-2026)</a></li>
+                  <li><a href="question-bank.html" style="color: var(--muted); text-decoration: none;">🔍 सर्च प्रश्न बैंक</a></li>
+                </ul>
+              </div>
+
+              <div class="u-footer-col">
+                <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.5px;">👨‍🎓 विद्यार्थी कार्यक्षेत्र</h4>
+                <ul style="list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13px;">
+                  <li><a href="dashboard.html" style="color: var(--muted); text-decoration: none;">👨‍🎓 छात्र डैशबोर्ड</a></li>
+                  <li><a href="subjects.html" style="color: var(--muted); text-decoration: none;">📖 विषय सूची (Subjects)</a></li>
+                  <li><a href="notes.html" style="color: var(--muted); text-decoration: none;">📑 नोट्स एवं सूत्र (Notes & PDFs)</a></li>
+                  <li><a href="videos.html" style="color: var(--muted); text-decoration: none;">🎥 वीडियो लेक्चर्स</a></li>
+                  <li><a href="admin.html" style="color: var(--muted); text-decoration: none;">⚙️ एडमिन पोर्टल (Admin)</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div style="max-width: 1100px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted);">
+              <span>© 2026 KakshaGyan EduSmart99 (I_Mentor_99). सर्वाधिकार सुरक्षित।</span>
+              <span>RBSE & CBSE Class 9 & 10 E-Learning Suite</span>
+            </div>
+          </footer>
         `;
-        footerEl.parentNode.insertBefore(uGrid, footerEl);
       }
     }
   };
 
   window.ExamSuite = ExamSuite;
+
 })(window);

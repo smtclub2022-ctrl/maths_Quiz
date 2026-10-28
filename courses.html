@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6558df">
+  <title>पाठ्यक्रम एवं विषय सूची (Courses & Curriculum) | KakshaGyan EduSmart99</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.2">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
+
+    <main class="main-content">
+      <div class="courses-page-wrap" style="width: min(100%, 1100px); margin: 0 auto; padding-bottom: 40px;">
+        
+        <!-- Header Banner -->
+        <section class="banner" style="margin-bottom: 24px;">
+          <div class="banner-content">
+            <p class="eyebrow">KAKSHAGYAN · EDUSMART99 · संपूर्ण पाठ्यक्रम</p>
+            <h1>कक्षा 9 व 10 — पाठ्यक्रम एवं विषय सूची</h1>
+            <p>RBSE एवं CBSE बोर्ड के नवीनतम NCERT पाठ्यक्रम के अनुसार सभी विषयों के अध्याय, नोट्स, वीडियो और अभ्यास क्विज़।</p>
+          </div>
+        </section>
+
+        <!-- Course Filter Toolbar -->
+        <div class="subjects-header-bar" style="margin-bottom: 24px;">
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 13px; font-weight: 700; color: var(--muted);">कक्षा चुनें:</span>
+            <div class="sidebar-class-tabs" style="margin: 0;">
+              <button class="class-tab-btn active" id="btnClass10" type="button">कक्षा 10</button>
+              <button class="class-tab-btn" id="btnClass9" type="button">कक्षा 9</button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <select id="courseBoardSelect" class="exam-quick-select" style="min-height: 40px; font-size: 13px; font-weight: 600;">
+              <option value="rbse" selected>🏛️ RBSE (राजस्थान बोर्ड)</option>
+              <option value="cbse">🏛️ CBSE (केंद्रीय बोर्ड)</option>
+            </select>
+            <select id="courseMediumSelect" class="exam-quick-select" style="min-height: 40px; font-size: 13px; font-weight: 600;">
+              <option value="hindi" selected>🌐 हिंदी माध्यम</option>
+              <option value="english">🌐 English Medium</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Courses Cards Grid -->
+        <div class="subjects-grid" id="coursesGrid">
+          <!-- Populated dynamically via curriculum-data.js -->
+        </div>
+
+      </div>
+    </main>
+
+    <div id="uFooterContainer"></div>
+  </div>
+
+  <script src="curriculum-data.js"></script>
+  <script src="exam-suite.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("courses");
+
+      let activeClass = localStorage.getItem("iMentorClass") || "class10";
+      let activeBoard = localStorage.getItem("iMentorBoard") || "rbse";
+      let activeMedium = localStorage.getItem("iMentorMedium") || "hindi";
+
+      const btn10 = document.getElementById("btnClass10");
+      const btn9 = document.getElementById("btnClass9");
+      const boardSelect = document.getElementById("courseBoardSelect");
+      const mediumSelect = document.getElementById("courseMediumSelect");
+      const grid = document.getElementById("coursesGrid");
+
+      boardSelect.value = activeBoard;
+      mediumSelect.value = activeMedium;
+
+      function updateTabs() {
+        if (activeClass === "class9") {
+          btn9.classList.add("active");
+          btn10.classList.remove("active");
+        } else {
+          btn10.classList.add("active");
+          btn9.classList.remove("active");
+        }
+      }
+
+      btn10.addEventListener("click", () => {
+        activeClass = "class10";
+        localStorage.setItem("iMentorClass", "class10");
+        updateTabs();
+        renderCourses();
+      });
+
+      btn9.addEventListener("click", () => {
+        activeClass = "class9";
+        localStorage.setItem("iMentorClass", "class9");
+        updateTabs();
+        renderCourses();
+      });
+
+      boardSelect.addEventListener("change", (e) => {
+        activeBoard = e.target.value;
+        localStorage.setItem("iMentorBoard", activeBoard);
+      });
+
+      mediumSelect.addEventListener("change", (e) => {
+        activeMedium = e.target.value;
+        localStorage.setItem("iMentorMedium", activeMedium);
+      });
+
+      function renderCourses() {
+        if (!grid) return;
+        grid.innerHTML = "";
+
+        const classData = window.curriculumData ? window.curriculumData[activeClass] : null;
+        if (!classData || !classData.subjects) {
+          grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px;">पाठ्यक्रम लोड हो रहा है...</p>`;
+          return;
+        }
+
+        classData.subjects.forEach(subj => {
+          const isMaths = subj.id === "maths";
+          const isScience = subj.id === "science";
+          const chapCount = subj.chapters ? subj.chapters.length : 0;
+          
+          const card = document.createElement("div");
+          card.className = "subject-tile";
+          card.style.setProperty("--tile-accent", subj.accent || "#6558df");
+          card.style.setProperty("--tile-bg", `${subj.accent || '#6558df'}14`);
+
+          card.innerHTML = `
+            <div class="subject-tile-top">
+              <div class="subject-tile-icon">${subj.icon || '📚'}</div>
+              <span class="subject-tile-badge ${isMaths || isScience ? 'active-badge' : ''}">
+                ${isMaths ? '● लाइव क्विज़ पोर्टल' : (isScience ? '● नोट्स व वीडियो उपलब्ध' : 'NCERT पाठ्यक्रम')}
+              </span>
+            </div>
+            <h3>${subj.name} (${classData.name})</h3>
+            <span class="subject-tile-english">${subj.englishName || ''}</span>
+            <p class="subject-tile-desc">${subj.description || 'पाठ्यक्रम, अभ्यास एवं परीक्षा प्रश्नोत्तरी'}</p>
+            
+            <div style="margin-bottom: 16px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font-size: 12px;">
+              <strong>📑 कुल अध्याय:</strong> ${chapCount} अध्याय
+              <div style="color: var(--muted); margin-top: 4px; font-size: 11px;">
+                ${subj.chapters ? subj.chapters.slice(0, 3).map(c => `अध्याय ${c.number}: ${c.title}`).join(" • ") + (chapCount > 3 ? "..." : "") : ""}
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto;">
+              <a href="${isMaths ? 'index.html' : 'quiz-center.html'}" class="subject-tile-btn" style="justify-content: center; text-align: center;">
+                🎯 क्विज़ व टेस्ट
+              </a>
+              <a href="notes.html?subject=${subj.id}&class=${activeClass}" class="subject-tile-btn" style="background: var(--surface); color: var(--ink); border: 1px solid var(--line); justify-content: center;">
+                📑 नोट्स व सूत्र
+              </a>
+            </div>
+            <a href="videos.html?subject=${subj.id}&class=${activeClass}" style="margin-top: 8px; text-align: center; font-size: 12px; font-weight: 600; color: var(--violet); text-decoration: none; display: block; padding: 6px;">
+              🎥 वीडियो लेक्चर्स देखें →
+            </a>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      updateTabs();
+      renderCourses();
+    });
+  </script>
+</body>
+</html>
