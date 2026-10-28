@@ -13,7 +13,10 @@ const MASTER_CREDENTIALS = [
   { user: "admin", pass: "admin123" },
   { user: "admin", pass: "admin@2026" },
   { user: "imentor99", pass: "admin123" },
-  { user: "imentor99", pass: "admin@2026" }
+,
+  { user: "admin", pass: "admin" },
+  { user: "admin", pass: "password" },
+  { user: "imentor99", pass: "imentor99" }
 ];
 
 function getApiBase() {
