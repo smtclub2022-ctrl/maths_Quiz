@@ -264,6 +264,11 @@
                 </div>
                 ${exList ? `<ul style="margin: 6px 0 8px 18px; font-size: 12px; color: var(--muted); line-height: 1.6;">${exList}</ul>` : ''}
                 ${keyPts ? `<div>${keyPts}</div>` : ''}
+                <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+                  <a href="notes.html?subject=${subj.id}&ch=${ch.number}" class="secondary-button" style="font-size: 11px; padding: 4px 10px; text-decoration: none; border-radius: 6px;">📑 नोट्स व सूत्र</a>
+                  <a href="videos.html?subject=${subj.id}&ch=${ch.number}" class="secondary-button" style="font-size: 11px; padding: 4px 10px; text-decoration: none; border-radius: 6px;">🎥 वीडियो पाठ</a>
+                  <a href="chapter-tests.html?ch=${ch.number}" class="primary-button" style="font-size: 11px; padding: 4px 10px; text-decoration: none; border-radius: 6px;">🎯 त्वरित टेस्ट</a>
+                </div>
               </div>
             `;
           }).join("");

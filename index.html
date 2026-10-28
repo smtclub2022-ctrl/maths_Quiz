@@ -8,7 +8,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>I_Mentor_99 — कक्षा 9 व 10 ई-लर्निंग</title>
+  <title>I Mentor 99 — कक्षा 9 व 10 ई-लर्निंग प्लेटफ़ॉर्म</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,9 +29,8 @@
   <aside class="sidebar-drawer" id="sidebarDrawer" aria-label="मुख्य नेविगेशन" aria-hidden="true">
     <div class="sidebar-header">
       <div class="sidebar-brand">
-        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I Mentor 99"></span>
         <div class="sidebar-brand-text">
-          <strong>I_Mentor_99</strong>
           <span>कक्षा 9 व 10 ई-लर्निंग</span>
         </div>
       </div>
@@ -67,7 +66,7 @@
         <span class="sidebar-group-title">🌐 सार्वजनिक वेबसाइट (Public)</span>
         <nav class="sidebar-nav">
           <button class="sidebar-nav-item active" type="button" data-nav="home">
-            <span class="nav-icon">⌂</span>
+            <span class="nav-icon">🏠</span>
             <span class="nav-text">मुख्य पृष्ठ (Home)</span>
           </button>
           <a class="sidebar-nav-item" href="courses.html">
@@ -455,6 +454,9 @@
           <span class="mistake-badge" id="topbarMistakeBadge" hidden>0</span>
         </button>
         <button class="board-chip student-switch" id="studentSwitch" type="button" hidden>विद्यार्थी बदलें</button>
+        <button class="theme-toggle-btn" id="indexSpotlightBtn" type="button" title="त्वरित खोज (Ctrl+K)" aria-label="खोजें" style="display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:0 8px; font-weight:700; font-size:12px;">
+          <span>🔍</span><span class="spotlight-kbd" style="font-size:10px; padding:1px 5px;">Ctrl+K</span>
+        </button>
         <button class="sound-toggle-btn" id="soundToggleBtn" type="button" aria-label="ध्वनि चालू/बंद करें" title="ध्वनि चालू/बंद">
           <span class="sound-icon-on">🔊</span>
           <span class="sound-icon-off">🔇</span>
@@ -503,8 +505,22 @@
   <script src="workbook-question-bank.js?v=2.1"></script>
   <script src="old-paper-question-bank.js?v=2.1"></script>
   <script src="question-bank-overrides.js?v=2.1"></script>
-  <script src="api-config.js?v=2.1"></script>
+  <script src="api-config.js?v=2.5"></script>
+  <script src="exam-suite.js?v=2.5"></script>
   <script src="app.js?v=2.1"></script>
   <script src="nav.js?v=2.1"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const sBtn = document.getElementById("indexSpotlightBtn");
+      if (sBtn) {
+        sBtn.addEventListener("click", () => {
+          if (window.ExamSuite && typeof window.ExamSuite.openSpotlight === "function") {
+            window.ExamSuite.openSpotlight();
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

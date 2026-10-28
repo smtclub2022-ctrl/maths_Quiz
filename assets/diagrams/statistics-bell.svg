@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bellGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="300" y="38" fill="#f8fafc" font-size="17" font-weight="bold" text-anchor="middle">सांख्यिकी — सामान्य वितरण एवं केंद्रीय प्रवृत्ति</text>
+  <text x="300" y="60" fill="#94a3b8" font-size="13" text-anchor="middle">माध्य (Mean), माध्यक (Median) व बहुलक (Mode)</text>
+
+  <!-- Baseline -->
+  <line x1="50" y1="310" x2="550" y2="310" stroke="#475569" stroke-width="2"/>
+
+  <!-- Bell Curve Area -->
+  <path d="M 60,310 C 180,310 230,110 300,110 C 370,110 420,310 540,310 Z" fill="url(#bellGrad)"/>
+  <path d="M 60,310 C 180,310 230,110 300,110 C 370,110 420,310 540,310" fill="none" stroke="#818cf8" stroke-width="3.5"/>
+
+  <!-- Center Line (Mean = Median = Mode) -->
+  <line x1="300" y1="110" x2="300" y2="310" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="5,4"/>
+  <circle cx="300" cy="110" r="5" fill="#f43f5e"/>
+  
+  <rect x="230" y="75" width="140" height="30" rx="6" fill="#1e293b" stroke="#f43f5e"/>
+  <text x="300" y="95" fill="#fda4af" font-size="12" font-weight="bold" text-anchor="middle">माध्य = माध्यक = बहुलक</text>
+
+  <!-- Standard deviation markers -->
+  <line x1="220" y1="210" x2="220" y2="310" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="380" y1="210" x2="380" y2="310" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="220" y="330" fill="#38bdf8" font-size="12" text-anchor="middle">μ - σ</text>
+  <text x="300" y="330" fill="#f43f5e" font-size="12" font-weight="bold" text-anchor="middle">μ (Mean)</text>
+  <text x="380" y="330" fill="#38bdf8" font-size="12" text-anchor="middle">μ + σ</text>
+
+  <!-- Empirical Relationship Badge -->
+  <rect x="70" y="348" width="460" height="38" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text x="300" y="372" fill="#34d399" font-size="14" font-weight="bold" text-anchor="middle">अनुभवजन्य सूत्र: 3 माध्यक = बहुलक + 2 माध्य (3 Median = Mode + 2 Mean)</text>
+</svg>

@@ -355,6 +355,9 @@
               </optgroup>
             </select>
 
+            <button class="theme-toggle-btn" id="examSpotlightToggle" type="button" title="त्वरित खोज (Ctrl+K)" aria-label="खोजें" style="display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:0 10px; font-weight:700; font-size:12px;">
+              <span>🔍</span><span class="spotlight-kbd" style="font-size:10px; padding:1px 5px;">Ctrl+K</span>
+            </button>
             <button class="theme-toggle-btn" id="examThemeToggle" type="button" title="थीम बदलें">
               <span class="theme-icon-indicator" id="themeIcon">${curTheme === "dark" ? "☀️" : "🌙"}</span>
             </button>
@@ -728,3 +731,222 @@
   window.ExamSuite = ExamSuite;
 
 })(window);
+
+
+  // Global Spotlight / Command Palette implementation
+  function setupSpotlightSearch() {
+    let backdrop = document.getElementById("spotlightBackdrop");
+    if (!backdrop) {
+      backdrop = document.createElement("div");
+      backdrop.id = "spotlightBackdrop";
+      backdrop.className = "spotlight-backdrop";
+      backdrop.setAttribute("role", "dialog");
+      backdrop.setAttribute("aria-modal", "true");
+      backdrop.innerHTML = `
+        <div class="spotlight-modal">
+          <div class="spotlight-header">
+            <div class="spotlight-input-wrap">
+              <span style="font-size: 18px;">🔍</span>
+              <input type="text" id="spotlightInput" class="spotlight-input" placeholder="अध्याय, सूत्र, विषय या टेस्ट खोजें... (उदा. त्रिकोणमिति, द्विघात, Mock, Notes)" autocomplete="off">
+            </div>
+            <button type="button" id="closeSpotlightBtn" style="background:none; border:none; cursor:pointer; font-size:18px; color:var(--muted); padding:4px 8px;">✕</button>
+          </div>
+          <div class="spotlight-tags">
+            <button type="button" class="spotlight-tag-btn" data-search="त्रिकोणमिति">📐 त्रिकोणमिति</button>
+            <button type="button" class="spotlight-tag-btn" data-search="द्विघात">🔢 द्विघात समीकरण</button>
+            <button type="button" class="spotlight-tag-btn" data-search="मॉक">📝 मॉक परीक्षा</button>
+            <button type="button" class="spotlight-tag-btn" data-search="नोट्स">📑 नोट्स व सूत्र</button>
+            <button type="button" class="spotlight-tag-btn" data-search="बोर्ड पेपर">📜 बोर्ड पेपर्स</button>
+            <button type="button" class="spotlight-tag-btn" data-search="विज्ञान">🔬 विज्ञान</button>
+          </div>
+          <ul class="spotlight-results" id="spotlightResults"></ul>
+          <div class="spotlight-footer">
+            <span>💡 <strong>↑↓</strong> नेविगेट करें &nbsp;|&nbsp; <strong>Enter</strong> खोलें &nbsp;|&nbsp; <strong>Esc</strong> बंद करें</span>
+            <span>I_Mentor_99 Spotlight</span>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(backdrop);
+    }
+
+    const input = document.getElementById("spotlightInput");
+    const resultsList = document.getElementById("spotlightResults");
+    const closeBtn = document.getElementById("closeSpotlightBtn");
+
+    const SEARCH_INDEX = [
+      // Quick Navigation
+      { title: "मुख्य पृष्ठ (Home Portal)", sub: "वेबसाइट का मुख्य द्वार एवं माइंड मैप", icon: "⌂", url: "index.html", tag: "Public" },
+      { title: "पाठ्यक्रम (Courses Overview)", sub: "कक्षा 9 व 10 संपूर्ण कोर्स विवरण", icon: "📚", url: "courses.html", tag: "Public" },
+      { title: "विषय सूची (All Subjects)", sub: "गणित, विज्ञान, सामाजिक विज्ञान, हिंदी, अंग्रेजी", icon: "📖", url: "subjects.html", tag: "Student" },
+      { title: "छात्र डैशबोर्ड (Student Dashboard)", sub: "व्यक्तिगत प्रगति, स्कोर व विश्लेषण", icon: "👨‍🎓", url: "dashboard.html", tag: "Student" },
+      { title: "क्विज़ सेंटर हब (Quiz Center)", sub: "अध्यायवार अभ्यास व वस्तुनिष्ठ प्रश्नोत्तरी", icon: "🎯", url: "quiz-center.html", tag: "Exam" },
+      { title: "अध्यायवार टेस्ट (Chapter Speed Tests)", sub: "15-20 मिनट त्वरित अध्याय टेस्ट", icon: "📚", url: "chapter-tests.html", tag: "Exam" },
+      { title: "संपूर्ण मॉक परीक्षा (Full Length Mock Exam)", sub: "80 अंक 3 घंटे बोर्ड परीक्षा पैटर्न", icon: "📝", url: "mock-exams.html", tag: "Exam" },
+      { title: "परीक्षा टाइमर मोड (Timed Examination)", sub: "स्टॉपवॉच व रियल-टाइम काउंटडाउन टेस्ट", icon: "⏱️", url: "exam-timer.html", tag: "Exam" },
+      { title: "विगत वर्षों के बोर्ड पेपर्स (Past Papers)", sub: "2015-2024 हल सहित प्रश्न पत्र", icon: "📜", url: "previous-papers.html", tag: "Exam" },
+      { title: "मॉडल प्रश्न पत्र (Sample Papers)", sub: "नवीनतम बोर्ड ब्लूप्रिंट आधारित मॉडल पेपर्स", icon: "📑", url: "sample-papers.html", tag: "Exam" },
+      { title: "Workbook Quiz (कार्यपत्रक)", sub: "वर्कबुक प्रश्नोत्तरी एवं अभ्यास", icon: "📘", url: "workbook-quiz.html", tag: "Exam" },
+      { title: "सर्च प्रश्न बैंक (Question Bank)", sub: "सभी प्रश्नों में खोजें व फ़िल्टर करें", icon: "🔍", url: "question-bank.html", tag: "Exam" },
+      { title: "नोट्स एवं सूत्र (Formula Sheets & PDFs)", sub: "अध्यायवार त्वरित पुनरावृत्ति नोट्स व सचित्र आरेख", icon: "📑", url: "notes.html", tag: "Material" },
+      { title: "वीडियो लेक्चर्स (Video Lectures)", sub: "कठिन अवधारणाओं के एनिमेटेड वीडियो पाठ", icon: "🎥", url: "videos.html", tag: "Material" },
+      { title: "मेरी भूल सुधार पुस्तिका (Mistake Book)", sub: "गलत प्रश्नों का व्यक्तिगत संग्रह व अभ्यास", icon: "❌", url: "mistake-book.html", tag: "Tools" },
+      { title: "रिवीजन प्लानर (30/60 Day Study Planner)", sub: "बोर्ड परीक्षा टाइमटेबल व दैनिक चेकलिस्ट", icon: "📅", url: "revision-planner.html", tag: "Tools" },
+      { title: "लीडरबोर्ड एवं रैंक (State Leaderboard)", sub: "राज्य स्तरीय छात्र रैंकिंग व बैज", icon: "🏆", url: "leaderboard.html", tag: "Tools" },
+      { title: "छात्र लॉगिन एवं पंजीकरण (Student Login)", sub: "8 कॉलम डेटा व Google Sheets सिंक", icon: "🔐", url: "login.html", tag: "Account" },
+      { title: "एडमिन पोर्टल (Admin Panel)", sub: "छात्र डेटा CSV एक्सपोर्ट, प्रश्न फाइल अपलोड", icon: "⚙️", url: "admin.html", tag: "Admin" },
+
+      // Chapters (Class 10 Maths)
+      { title: "वास्तविक संख्याएँ (Real Numbers)", sub: "यूक्लिड प्रमेय, अपरिमेयता प्रमाण, अभाज्य गुणनखंड", icon: "📐", url: "notes.html?ch=1", tag: "कक्षा 10 गणित" },
+      { title: "बहुपद (Polynomials)", sub: "शून्यकों का ज्यामितीय अर्थ, द्विघात बहुपद के संबंध", icon: "📐", url: "notes.html?ch=2", tag: "कक्षा 10 गणित" },
+      { title: "दो चरों वाले रैखिक समीकरण (Linear Equations)", sub: "विलोपन, प्रतिस्थापन व ग्राफीय विधि", icon: "📈", url: "notes.html?ch=3", tag: "कक्षा 10 गणित" },
+      { title: "द्विघात समीकरण (Quadratic Equations)", sub: "गुणनखंड विधि, श्रीधराचार्य सूत्र x = (-b ± √D)/2a", icon: "🔢", url: "notes.html?ch=4", tag: "कक्षा 10 गणित" },
+      { title: "समांतर श्रेढ़ियाँ (Arithmetic Progressions - AP)", sub: "nवाँ पद an = a+(n-1)d, योगफल Sn = n/2(2a+(n-1)d)", icon: "➕", url: "notes.html?ch=5", tag: "कक्षा 10 गणित" },
+      { title: "त्रिभुज (Triangles & Thales Theorem)", sub: "थेल्स प्रमेय BPT, समरूपता कसौटियाँ (AAA, SSS, SAS)", icon: "📐", url: "notes.html?ch=6", tag: "कक्षा 10 गणित" },
+      { title: "निर्देशांक ज्यामिति (Coordinate Geometry)", sub: "दूरी सूत्र √((x2-x1)²+(y2-y1)²), विभाजन सूत्र", icon: "📍", url: "notes.html?ch=7", tag: "कक्षा 10 गणित" },
+      { title: "त्रिकोणमिति का परिचय (Trigonometry)", sub: "sin, cos, tan, cot, sec, cosec व सर्वसमिकाएँ", icon: "📐", url: "notes.html?ch=8", tag: "कक्षा 10 गणित" },
+      { title: "त्रिकोणमिति के अनुप्रयोग (Heights & Distances)", sub: "उन्नयन कोण, अवनमन कोण एवं भवन/मीनार ऊँचाई", icon: "🏔️", url: "notes.html?ch=9", tag: "कक्षा 10 गणित" },
+      { title: "वृत्त (Circles & Tangents)", sub: "स्पर्श रेखा प्रमेय 10.1 व 10.2 (PA = PB)", icon: "⭕", url: "notes.html?ch=10", tag: "कक्षा 10 गणित" },
+      { title: "वृत्तों से संबंधित क्षेत्रफल (Areas Related to Circles)", sub: "त्रिज्यखंड का क्षेत्रफल (θ/360)×πr², वृत्तखंड", icon: "🍕", url: "notes.html?ch=11", tag: "कक्षा 10 गणित" },
+      { title: "पृष्ठीय क्षेत्रफल एवं आयतन (Surface Areas & Volumes)", sub: "बेलन, शंकु, गोला, अर्द्धगोला के सूत्र", icon: "🧊", url: "notes.html?ch=12", tag: "कक्षा 10 गणित" },
+      { title: "सांख्यिकी (Statistics)", sub: "प्रत्यक्ष, कल्पित माध्य विधि, माध्यक व बहुलक", icon: "📊", url: "notes.html?ch=13", tag: "कक्षा 10 गणित" },
+      { title: "प्रायिकता (Probability)", sub: "P(E) = अनुकूल परिणाम / कुल परिणाम", icon: "🎲", url: "notes.html?ch=14", tag: "कक्षा 10 गणित" },
+
+      // Science Chapters
+      { title: "रासायनिक अभिक्रियाएँ एवं समीकरण (Reactions)", sub: "संयोजन, वियोजन, विस्थापन, अपचयन-उपचयन", icon: "⚗️", url: "notes.html?subject=science&ch=1", tag: "कक्षा 10 विज्ञान" },
+      { title: "अम्ल, क्षारक एवं लवण (Acids, Bases & Salts)", sub: "pH मान, सूचक, बेकिंग सोडा, विरंजक चूर्ण", icon: "🧪", url: "notes.html?subject=science&ch=2", tag: "कक्षा 10 विज्ञान" },
+      { title: "जैव प्रक्रम (Life Processes)", sub: "पोषण, श्वसन, मानव हृदय परिसंचरण, उत्सर्जन", icon: "🫀", url: "notes.html?subject=science&ch=6", tag: "कक्षा 10 विज्ञान" },
+      { title: "प्रकाश: परावर्तन एवं अपवर्तन (Optics)", sub: "दर्पण सूत्र 1/f = 1/v + 1/u, लेंस सूत्र, अपवर्तनांक", icon: "🔦", url: "notes.html?subject=science&ch=10", tag: "कक्षा 10 विज्ञान" },
+      { title: "विद्युत (Electricity & Circuits)", sub: "ओम का नियम V = IR, प्रतिरोधों का संयोजन", icon: "⚡", url: "notes.html?subject=science&ch=12", tag: "कक्षा 10 विज्ञान" }
+    ];
+
+    let highlightedIndex = 0;
+
+    function renderResults(query = "") {
+      const q = query.trim().toLowerCase();
+      let matched = SEARCH_INDEX;
+      if (q) {
+        matched = SEARCH_INDEX.filter(item => 
+          item.title.toLowerCase().includes(q) ||
+          item.sub.toLowerCase().includes(q) ||
+          item.tag.toLowerCase().includes(q)
+        );
+      }
+      matched = matched.slice(0, 8); // Top 8 results
+      highlightedIndex = 0;
+
+      if (!matched.length) {
+        resultsList.innerHTML = `
+          <li style="padding: 24px; text-align: center; color: var(--muted); font-size: 14px;">
+            🔍 "<strong>${query}</strong>" से संबंधित कोई परिणाम नहीं मिला।<br>
+            <span style="font-size:12px; margin-top:6px; display:inline-block;">अन्य शब्द जैसे 'गणित', 'त्रिकोणमिति', 'मॉक' या 'नोट्स' खोजें।</span>
+          </li>
+        `;
+        return;
+      }
+
+      resultsList.innerHTML = matched.map((item, idx) => `
+        <li class="spotlight-item ${idx === 0 ? 'highlighted' : ''}" data-url="${item.url}" data-idx="${idx}">
+          <div class="spotlight-item-left">
+            <span class="spotlight-item-icon">${item.icon}</span>
+            <div>
+              <strong class="spotlight-item-title">${item.title}</strong>
+              <span class="spotlight-item-sub">${item.sub}</span>
+            </div>
+          </div>
+          <span class="spotlight-item-tag">${item.tag}</span>
+        </li>
+      `).join("");
+
+      // Add click listeners to items
+      resultsList.querySelectorAll(".spotlight-item").forEach(el => {
+        el.addEventListener("click", () => {
+          const url = el.getAttribute("data-url");
+          if (url) window.location.href = url;
+        });
+      });
+    }
+
+    function openSpotlight(initialQuery = "") {
+      backdrop.classList.add("active");
+      document.body.style.overflow = "hidden";
+      input.value = initialQuery;
+      renderResults(initialQuery);
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function closeSpotlight() {
+      backdrop.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    if (closeBtn) closeBtn.addEventListener("click", closeSpotlight);
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) closeSpotlight();
+    });
+
+    input.addEventListener("input", (e) => {
+      renderResults(e.target.value);
+    });
+
+    input.addEventListener("keydown", (e) => {
+      const items = resultsList.querySelectorAll(".spotlight-item");
+      if (!items.length) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        highlightedIndex = (highlightedIndex + 1) % items.length;
+        items.forEach((it, i) => it.classList.toggle("highlighted", i === highlightedIndex));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        highlightedIndex = (highlightedIndex - 1 + items.length) % items.length;
+        items.forEach((it, i) => it.classList.toggle("highlighted", i === highlightedIndex));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const cur = items[highlightedIndex];
+        if (cur) {
+          const url = cur.getAttribute("data-url");
+          if (url) window.location.href = url;
+        }
+      } else if (e.key === "Escape") {
+        closeSpotlight();
+      }
+    });
+
+    // Tag click listeners
+    backdrop.querySelectorAll(".spotlight-tag-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const term = btn.getAttribute("data-search") || "";
+        input.value = term;
+        renderResults(term);
+        input.focus();
+      });
+    });
+
+    // Global Keyboard Shortcut: Ctrl + K or Cmd + K
+    window.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (backdrop.classList.contains("active")) {
+          closeSpotlight();
+        } else {
+          openSpotlight();
+        }
+      } else if (e.key === "Escape" && backdrop.classList.contains("active")) {
+        closeSpotlight();
+      }
+    });
+
+    // Bind Spotlight button in topbar if present
+    const spotlightBtn = document.getElementById("examSpotlightToggle");
+    if (spotlightBtn) {
+      spotlightBtn.addEventListener("click", () => openSpotlight());
+    }
+
+    ExamSuite.openSpotlight = openSpotlight;
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupSpotlightSearch);
+  } else {
+    setupSpotlightSearch();
+  }

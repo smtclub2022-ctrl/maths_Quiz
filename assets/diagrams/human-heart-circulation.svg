@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="100%" height="100%">
+  <rect width="600" height="420" rx="16" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="300" y="38" fill="#f8fafc" font-size="17" font-weight="bold" text-anchor="middle">जैव प्रक्रम: मानव हृदय एवं दोहरा परिसंचरण</text>
+  <text x="300" y="60" fill="#94a3b8" font-size="13" text-anchor="middle">Double Circulation (Class 10 Science - Life Processes)</text>
+
+  <!-- Heart Base Shape Box -->
+  <rect x="180" y="90" width="240" height="230" rx="28" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  
+  <!-- Septum dividing left and right -->
+  <line x1="300" y1="90" x2="300" y2="320" stroke="#64748b" stroke-width="4"/>
+  <!-- Horizontal division: Atria vs Ventricles -->
+  <line x1="180" y1="190" x2="420" y2="190" stroke="#64748b" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- Left Side: Deoxygenated (Blue) -->
+  <rect x="195" y="105" width="95" height="75" rx="12" fill="rgba(14, 165, 233, 0.2)" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="242" y="138" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">दायाँ आलिंद</text>
+  <text x="242" y="156" fill="#94a3b8" font-size="11" text-anchor="middle">(Right Atrium)</text>
+
+  <rect x="195" y="205" width="95" height="100" rx="12" fill="rgba(14, 165, 233, 0.2)" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="242" y="250" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">दायाँ निलय</text>
+  <text x="242" y="268" fill="#94a3b8" font-size="11" text-anchor="middle">(Right Ventricle)</text>
+
+  <!-- Right Side: Oxygenated (Red) -->
+  <rect x="310" y="105" width="95" height="75" rx="12" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="2"/>
+  <text x="357" y="138" fill="#f87171" font-size="13" font-weight="bold" text-anchor="middle">बायाँ आलिंद</text>
+  <text x="357" y="156" fill="#94a3b8" font-size="11" text-anchor="middle">(Left Atrium)</text>
+
+  <rect x="310" y="205" width="95" height="100" rx="12" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="2"/>
+  <text x="357" y="250" fill="#f87171" font-size="13" font-weight="bold" text-anchor="middle">बायाँ निलय</text>
+  <text x="357" y="268" fill="#94a3b8" font-size="11" text-anchor="middle">(Left Ventricle)</text>
+
+  <!-- Flow Arrows & Labels -->
+  <!-- Vena Cava input -->
+  <path d="M 120,140 L 190,140" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="110" y="135" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="end">महाशिरा (Vena Cava)</text>
+  <text x="110" y="150" fill="#94a3b8" font-size="10" text-anchor="end">CO₂ युक्त रक्त</text>
+
+  <!-- Pulmonary Artery output -->
+  <path d="M 242,310 L 242,370 L 120,370" stroke="#0ea5e9" stroke-width="3"/>
+  <text x="110" y="375" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="end">फुफ्फुस धमनी → फेफड़ों को</text>
+
+  <!-- Pulmonary Vein input -->
+  <path d="M 480,140 L 410,140" stroke="#ef4444" stroke-width="3"/>
+  <text x="490" y="135" fill="#f87171" font-size="11" font-weight="bold">फुफ्फुस शिरा (फेफड़ों से)</text>
+  <text x="490" y="150" fill="#94a3b8" font-size="10">O₂ युक्त शुद्ध रक्त</text>
+
+  <!-- Aorta output -->
+  <path d="M 357,310 L 357,370 L 480,370" stroke="#ef4444" stroke-width="3"/>
+  <text x="490" y="375" fill="#f87171" font-size="11" font-weight="bold">महाधमनी (Aorta) → पूरे शरीर को</text>
+
+  <!-- Footer Info Box -->
+  <rect x="80" y="388" width="440" height="24" rx="4" fill="#0f172a"/>
+  <text x="300" y="405" fill="#a78bfa" font-size="12" font-weight="bold" text-anchor="middle">💡 मनुष्य में दोहरा परिसंचरण (फुफ्फुसीय + दैहिक परिसंचरण) पाया जाता है।</text>
+</svg>
