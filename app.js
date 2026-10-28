@@ -317,40 +317,146 @@ function bankBreadcrumb(current = "") {
 
 function renderStudentLogin() {
   const classOptions = Array.from({ length: 12 }, (_, index) =>
-    `<option value="CLASS ${index + 1}">CLASS ${index + 1}</option>`
+    `<option value="CLASS ${index + 1}" ${index + 1 === 10 ? "selected" : ""}>CLASS ${index + 1}</option>`
   ).join("");
+
+  const currentApiUrl = (typeof window.getStudentApiUrl === "function")
+    ? window.getStudentApiUrl()
+    : String(window.STUDENT_API_BASE_URL || localStorage.getItem("iMentorApiUrl") || "").trim();
+
+  let localLoginsCount = 0;
+  try {
+    const raw = localStorage.getItem("iMentorStudentLogins");
+    if (raw) localLoginsCount = JSON.parse(raw).length;
+  } catch (e) {}
+
   app.innerHTML = `
     <section class="student-login" aria-labelledby="studentLoginTitle">
       <div class="student-login-brand"><img src="assets/mentor-logo.png" alt="I_Mentor_99"></div>
-      <p class="eyebrow">I_MENTOR_99 · CLASS 10 MATHS</p>
-      <h1 id="studentLoginTitle">STUDENT DETAILS</h1>
-      <p class="subheading">ENTER YOUR DETAILS TO START PRACTISING.</p>
+      <p class="eyebrow">I_MENTOR_99 · RAJASTHAN BOARD CLASS 10 MATHS</p>
+      <h1 id="studentLoginTitle">STUDENT DETAILS / विद्यार्थी विवरण</h1>
+      <p class="subheading">पोर्टल पर अभ्यास परीक्षा शुरू करने के लिए अपना विवरण दर्ज करें।</p>
       <form id="studentLoginForm" class="student-login-form">
-        <label for="studentName">STUDENT NAME</label>
-        <input id="studentName" name="name" type="text" autocomplete="name" autocapitalize="characters" title="USE ENGLISH LETTERS, SPACES, APOSTROPHES, PERIODS OR HYPHENS." maxlength="80" required>
-        <label for="studentClass">CLASS</label>
-        <select id="studentClass" name="class" required>
-          <option value="" disabled selected>SELECT CLASS</option>${classOptions}
-        </select>
-        <label for="studentSchool">SCHOOL NAME</label>
-        <input id="studentSchool" name="school" type="text" autocomplete="organization" autocapitalize="characters" title="ENTER THE SCHOOL NAME USING ENGLISH LETTERS." maxlength="120" required>
-        <label for="studentMobile">MOBILE NUMBER</label>
-        <input id="studentMobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-DIGIT INDIAN MOBILE NUMBER" aria-describedby="studentMobileHelp" required>
-        <p id="studentMobileHelp" class="student-login-note">MOBILE NUMBER IS NOT OTP-VERIFIED. IT IS USED TO IDENTIFY THE STUDENT PROFILE.</p>
+        <label for="studentName">STUDENT NAME / विद्यार्थी का नाम</label>
+        <input id="studentName" name="name" type="text" autocomplete="name" autocapitalize="characters" placeholder="उदा. RAHUL SHARMA" title="USE ENGLISH LETTERS, SPACES, APOSTROPHES, PERIODS OR HYPHENS." maxlength="80" required>
+        
+        <div class="form-row-2col">
+          <div>
+            <label for="studentClass">CLASS / कक्षा</label>
+            <select id="studentClass" name="class" required>
+              <option value="" disabled>SELECT CLASS</option>
+              ${classOptions}
+            </select>
+          </div>
+          <div>
+            <label for="studentSection">SECTION / वर्ग</label>
+            <select id="studentSection" name="section" required>
+              <option value="A" selected>SECTION A</option>
+              <option value="B">SECTION B</option>
+              <option value="C">SECTION C</option>
+              <option value="D">SECTION D</option>
+              <option value="E">SECTION E</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="studentSchool">SCHOOL NAME / विद्यालय का नाम</label>
+        <input id="studentSchool" name="school" type="text" autocomplete="organization" autocapitalize="characters" placeholder="उदा. GOVT SR SEC SCHOOL" title="ENTER THE SCHOOL NAME USING ENGLISH LETTERS." maxlength="120" required>
+        
+        <label for="studentMobile">MOBILE NUMBER / मोबाइल नंबर</label>
+        <input id="studentMobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-अंकीय भारतीय मोबाइल नंबर" aria-describedby="studentMobileHelp" required>
+        <p id="studentMobileHelp" class="student-login-note">मोबाइल नंबर आपकी प्रोफाइल व परीक्षा प्रगति सुरक्षित रखने के लिए उपयोग किया जाता है।</p>
+        
         <label class="student-consent">
-          <input name="consent" type="checkbox" required>
-          <span>I CONFIRM THAT I HAVE THE STUDENT'S OR PARENT/GUARDIAN'S PERMISSION TO SUBMIT THESE DETAILS.</span>
+          <input name="consent" type="checkbox" required checked>
+          <span>मैं पुष्टि करता/करती हूँ कि विद्यार्थी विवरण सही है तथा पोर्टल पर अभ्यास हेतु सहमति है। (I confirm permission to submit these details.)</span>
         </label>
-        <p class="student-login-note">NAME, CLASS, SCHOOL AND MOBILE NUMBER WILL BE STORED IN MONGODB.</p>
+        <p class="student-login-note">📊 डेटा 8 कॉलम (S.No., Date, Time, Student Name, Class, Section, School, Mobile Number) प्रारूप में सुरक्षित किया जाएगा।</p>
         <p id="studentLoginStatus" class="student-login-status" role="status" aria-live="polite"></p>
-        <button class="primary-button student-login-submit" type="submit">CONTINUE →</button>
+        <button class="primary-button student-login-submit" type="submit">अभ्यास शुरू करें / CONTINUE →</button>
         <button type="button" class="primary-button" id="guestLoginBtn" style="margin-top: 10px; background: #596176;">सीधे शुरू करें (Guest / Test Mode) →</button>
       </form>
+
+      <div class="login-api-panel">
+        <button type="button" class="login-api-toggle" id="toggleApiPanelBtn">
+          ⚙️ डेटा API लिंक व एक्सेल रिकॉर्ड्स (Data API & Records) ▾
+        </button>
+        <div id="loginApiBox" class="login-api-box" style="display: none;">
+          <label for="apiUrlInput">Data API / Webhook Endpoint (Google Sheets या REST API)</label>
+          <div style="display: flex; gap: 8px;">
+            <input id="apiUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" value="${escapeHTML(currentApiUrl)}" style="flex: 1;">
+            <button type="button" class="primary-button" id="saveApiUrlBtn" style="min-height: 38px; padding: 0 16px; font-size: 12px; white-space: nowrap;">सेव करें</button>
+          </div>
+          <p class="student-login-note" style="margin-top: 2px;">
+            💡 Google Sheets के लिए Web App URL यहाँ पेस्ट करें अथवा खाली छोड़ें (लोकल ऑफलाइन मोड हेतु)।
+          </p>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); padding: 4px 0;">
+            <span>पंजीकृत विद्यार्थी: <strong id="localRecordsCount">${localLoginsCount}</strong></span>
+            <span id="apiStatusBadge" style="padding: 2px 8px; border-radius: 6px; font-weight: 600; background: ${currentApiUrl ? '#dcfce7; color: #166534' : '#f1f5f9; color: #475569'};">
+              ${currentApiUrl ? '● API लिंक सक्रिय' : '○ Local / Offline मोड'}
+            </span>
+          </div>
+          <div class="login-api-actions">
+            <button type="button" id="exportCsvBtn">📥 डाउनलोड डेटा (Excel/CSV)</button>
+            <a href="assets/login_Data_Imentor_students.xlsx" download="login_Data_Imentor_students.xlsx" id="downloadTemplateBtn">📄 मूल एक्सेल टेम्पलेट</a>
+          </div>
+        </div>
+      </div>
     </section>`;
 
   const form = app.querySelector("#studentLoginForm");
   const status = app.querySelector("#studentLoginStatus");
   const guestBtn = app.querySelector("#guestLoginBtn");
+  const toggleApiBtn = app.querySelector("#toggleApiPanelBtn");
+  const apiBox = app.querySelector("#loginApiBox");
+  const saveApiUrlBtn = app.querySelector("#saveApiUrlBtn");
+  const apiUrlInput = app.querySelector("#apiUrlInput");
+  const exportCsvBtn = app.querySelector("#exportCsvBtn");
+
+  if (toggleApiBtn && apiBox) {
+    toggleApiBtn.addEventListener("click", () => {
+      const isHidden = apiBox.style.display === "none";
+      apiBox.style.display = isHidden ? "grid" : "none";
+      toggleApiBtn.textContent = isHidden
+        ? "⚙️ डेटा API लिंक व एक्सेल रिकॉर्ड्स (Data API & Records) ▴"
+        : "⚙️ डेटा API लिंक व एक्सेल रिकॉर्ड्स (Data API & Records) ▾";
+    });
+  }
+
+  if (saveApiUrlBtn && apiUrlInput) {
+    saveApiUrlBtn.addEventListener("click", () => {
+      const val = apiUrlInput.value.trim();
+      if (typeof window.setStudentApiUrl === "function") {
+        window.setStudentApiUrl(val);
+      } else {
+        localStorage.setItem("iMentorApiUrl", val);
+      }
+      const badge = app.querySelector("#apiStatusBadge");
+      if (badge) {
+        if (val) {
+          badge.textContent = "● API लिंक सक्रिय";
+          badge.style.background = "#dcfce7";
+          badge.style.color = "#166534";
+        } else {
+          badge.textContent = "○ Local / Offline मोड";
+          badge.style.background = "#f1f5f9";
+          badge.style.color = "#475569";
+        }
+      }
+      alert("API URL सफलतापूर्वक अपडेट हो गया!");
+    });
+  }
+
+  if (exportCsvBtn) {
+    exportCsvBtn.addEventListener("click", () => {
+      if (typeof window.exportStudentLoginsCSV === "function") {
+        window.exportStudentLoginsCSV();
+      } else {
+        alert("CSV Export फ़ंक्शन उपलब्ध नहीं है।");
+      }
+    });
+  }
 
   if (guestBtn) {
     guestBtn.addEventListener("click", () => {
@@ -371,44 +477,62 @@ function renderStudentLogin() {
 
     const submitButton = form.querySelector('[type="submit"]');
     const formData = new FormData(form);
-    const student = {
-      name: String(formData.get("name") || "").trim().toUpperCase(),
-      class: String(formData.get("class") || ""),
-      school: String(formData.get("school") || "").trim().toUpperCase(),
-      mobile: String(formData.get("mobile") || "").trim(),
-      consent: formData.get("consent") === "on"
-    };
-    const apiBase = String(window.STUDENT_API_BASE_URL || "").trim().replace(/\/+$/, "");
-    if (!apiBase) {
-      // Local/Offline mode fallback: save locally so testing is not blocked
-      studentSessionActive = true;
-      try {
-        localStorage.setItem("iMentorStudentProfile", JSON.stringify(student));
-        sessionStorage.setItem(studentSessionKey, "active");
-      } catch (error) {
-        console.warn("Could not save local student session:", error);
-      }
-      render();
-      window.scrollTo(0, 0);
-      return;
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString("en-GB"); // DD/MM/YYYY
+    const timeStr = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+
+    let existingLogins = [];
+    try {
+      const raw = localStorage.getItem("iMentorStudentLogins");
+      if (raw) existingLogins = JSON.parse(raw);
+    } catch (e) {
+      existingLogins = [];
     }
+    const nextSno = existingLogins.length + 1;
+
+    const studentNameVal = String(formData.get("name") || "").trim().toUpperCase();
+    const studentClassVal = String(formData.get("class") || "CLASS 10");
+    const studentSectionVal = String(formData.get("section") || "A").trim().toUpperCase();
+    const studentSchoolVal = String(formData.get("school") || "").trim().toUpperCase();
+    const studentMobileVal = String(formData.get("mobile") || "").trim();
+
+    // 8 columns strictly matching login_Data_Imentor_students.xlsx
+    const student = {
+      sno: nextSno,
+      date: dateStr,
+      time: timeStr,
+      studentName: studentNameVal,
+      name: studentNameVal,
+      class: studentClassVal,
+      section: studentSectionVal,
+      school: studentSchoolVal,
+      mobile: studentMobileVal,
+      consent: formData.get("consent") === "on",
+      // Column keys matching Excel template headers:
+      "S.No.": nextSno,
+      "Date": dateStr,
+      "Time": timeStr,
+      "Student Name": studentNameVal,
+      "Class": studentClassVal,
+      "Section": studentSectionVal,
+      "School": studentSchoolVal,
+      "Mobile Number": studentMobileVal
+    };
+
     submitButton.disabled = true;
     status.classList.remove("error");
-    status.textContent = "SAVING YOUR DETAILS…";
+    status.textContent = "विवरण सहेजा जा रहा है (SAVING YOUR DETAILS)…";
 
     try {
-      const response = await fetch(`${apiBase}/api/students`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(student)
-      });
-      let result;
-      try {
-        result = await response.json();
-      } catch (error) {
-        throw new Error("सर्वर से पढ़ने योग्य जवाब नहीं मिला। कृपया बाद में दोबारा प्रयास करें।");
+      let dispatchResult = { success: true };
+      if (typeof window.submitStudentLoginRecord === "function") {
+        dispatchResult = await window.submitStudentLoginRecord(student);
+      } else {
+        localStorage.setItem("iMentorStudentProfile", JSON.stringify(student));
+        existingLogins.push(student);
+        localStorage.setItem("iMentorStudentLogins", JSON.stringify(existingLogins));
       }
-      if (!response.ok) throw new Error(result.message || "जानकारी सहेजी नहीं जा सकी।");
 
       studentSessionActive = true;
       try {
@@ -416,13 +540,26 @@ function renderStudentLogin() {
       } catch (error) {
         console.error("Student session could not be saved:", error);
       }
-      render();
-      window.scrollTo(0, 0);
+
+      status.textContent = dispatchResult.message || "सफलतापूर्वक प्रवेश! पोर्टल लोड हो रहा है...";
+      setTimeout(() => {
+        render();
+        window.scrollTo(0, 0);
+      }, 400);
     } catch (error) {
-      console.error("Student details could not be saved:", error);
-      status.classList.add("error");
-      status.textContent = error.message || "COULD NOT CONNECT TO THE SERVER. PLEASE TRY AGAIN.";
-      submitButton.disabled = false;
+      console.error("Student details dispatch error:", error);
+      // Fallback locally so student is never blocked
+      try {
+        localStorage.setItem("iMentorStudentProfile", JSON.stringify(student));
+        sessionStorage.setItem(studentSessionKey, "active");
+        studentSessionActive = true;
+        render();
+        window.scrollTo(0, 0);
+      } catch (localErr) {
+        status.classList.add("error");
+        status.textContent = error.message || "सर्वर से संपर्क नहीं हो सका। कृपया पुनः प्रयास करें।";
+        submitButton.disabled = false;
+      }
     }
   });
 }

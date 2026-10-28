@@ -642,8 +642,13 @@
       const savedProfile = localStorage.getItem("iMentorStudentProfile");
       if (savedProfile) {
         const parsed = JSON.parse(savedProfile);
-        if (parsed.name) studentName = parsed.name;
-        if (parsed.school) studentMeta = parsed.school;
+        if (parsed.name || parsed.studentName) studentName = parsed.name || parsed.studentName;
+        const clsSec = (parsed.class ? parsed.class : "कक्षा 10") + (parsed.section ? `-${parsed.section}` : "");
+        if (parsed.school) {
+          studentMeta = `${clsSec} · ${parsed.school}`;
+        } else {
+          studentMeta = `राजस्थान बोर्ड · ${clsSec}`;
+        }
       }
     } catch (e) {
       console.warn("Could not parse student profile:", e);

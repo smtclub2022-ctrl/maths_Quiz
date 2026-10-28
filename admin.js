@@ -184,6 +184,17 @@ uploadForm.addEventListener("submit", async event => {
 });
 
 document.getElementById("refreshAdminFiles").addEventListener("click", loadFiles);
+
+const exportAdminBtn = document.getElementById("exportAdminLoginsBtn");
+if (exportAdminBtn) {
+  exportAdminBtn.addEventListener("click", () => {
+    if (typeof window.exportStudentLoginsCSV === "function") {
+      window.exportStudentLoginsCSV();
+    } else {
+      alert("CSV Export is not available.");
+    }
+  });
+}
 document.getElementById("adminLogout").addEventListener("click", async () => {
   try {
     await apiRequest("/api/admin/logout", {

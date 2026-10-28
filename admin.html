@@ -55,6 +55,15 @@
         </div>
         <p id="adminListMessage" class="admin-message" role="status" aria-live="polite"></p>
         <ul id="adminFileList" class="admin-files" aria-live="polite"></ul>
+
+        <div class="admin-toolbar" style="margin-top: 36px; border-top: 1px solid var(--line); padding-top: 24px;">
+          <h2>STUDENT LOGINS & REGISTRATIONS (8 COLUMNS)</h2>
+          <button id="exportAdminLoginsBtn" class="primary-button" type="button" style="min-height: 38px; padding: 6px 16px; font-size: 12px;">📥 EXPORT CSV</button>
+        </div>
+        <p>Student registration data matching <code>login_Data_Imentor_students.xlsx</code> (S.No., Date, Time, Student Name, Class, Section, School, Mobile Number).</p>
+        <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+          <a href="assets/login_Data_Imentor_students.xlsx" download="login_Data_Imentor_students.xlsx" class="secondary-button" style="text-decoration: none; display: inline-flex; align-items: center; padding: 8px 14px; font-size: 12px;">📄 DOWNLOAD EXCEL TEMPLATE</a>
+        </div>
       </section>
     </main>
     <footer class="footer"><span>Admin file uploads are private.</span><a href="./index.html">Return to quiz</a></footer>

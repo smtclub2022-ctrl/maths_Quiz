@@ -304,7 +304,100 @@ body.muted .sound-icon-off { display: inline-block; }
 .student-login-status { min-height: 18px; margin: 3px 0 0; color: var(--violet); font-size: 12px; }
 .student-login-status.error { color: var(--red); }
 .student-login-submit { width: 100%; min-height: 46px; }
+
 .student-login-submit:disabled { cursor: wait; opacity: .7; }
+
+.form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 480px) {
+  .form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.login-api-panel {
+  margin-top: 20px;
+  border-top: 1px dashed var(--line);
+  padding-top: 14px;
+  font-size: 13px;
+}
+.login-api-toggle {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--violet);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  width: 100%;
+  justify-content: center;
+  background: var(--surface);
+  transition: all 0.2s ease;
+}
+.login-api-toggle:hover {
+  background: var(--paper);
+  border-color: var(--violet);
+}
+.login-api-box {
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: grid;
+  gap: 10px;
+}
+.login-api-box label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.login-api-box input {
+  font-size: 12px !important;
+  min-height: 38px !important;
+  padding: 6px 10px !important;
+  text-transform: none !important;
+}
+.login-api-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.login-api-actions button, .login-api-actions a {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 140px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+.login-api-actions button:hover, .login-api-actions a:hover {
+  border-color: var(--violet);
+  color: var(--violet);
+}
+
 
 /* Admin Panel */
 .admin-panel { width: min(100%, 720px); margin: 0 auto; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: var(--card-shadow); }

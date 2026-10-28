@@ -266,8 +266,9 @@
       try {
         const prof = JSON.parse(localStorage.getItem("iMentorStudentProfile"));
         if (prof) {
-          if (prof.name) name = prof.name;
-          if (prof.school) school = prof.school;
+          if (prof.name || prof.studentName) name = prof.name || prof.studentName;
+          const clsSec = (prof.class ? prof.class : "कक्षा 10") + (prof.section ? `-${prof.section}` : "");
+          if (prof.school) school = `${clsSec} · ${prof.school}`;
         }
       } catch (e) {}
 
