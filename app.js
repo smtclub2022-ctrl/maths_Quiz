@@ -310,7 +310,7 @@ function setScreen(next) {
 }
 
 function breadcrumb(current) {
-  return `<nav class="breadcrumb"><button data-action="home">कक्षा 10 गणित</button><span>›</span><span>${escapeHTML(chapters[selectedChapter].title)}</span>${current ? `<span>›</span><span>${current}</span>` : ""}</nav>`;
+  return `<nav class="breadcrumb"><button data-action="home">होम (Home)</button><span>›</span><span>${escapeHTML(chapters[selectedChapter].title)}</span>${current ? `<span>›</span><span>${current}</span>` : ""}</nav>`;
 }
 
 function bankBreadcrumb(current = "") {
@@ -1128,7 +1128,7 @@ function buildShareableQuiz() {
 </head>
 <body>
   <main>
-    <header class="header"><p class="brand">I_Mentor_99 · कक्षा 10 गणित</p><h1>${escapeHTML(chapterTitle)}</h1><p>भाग ${selectedPart + 1}: ${escapeHTML(partTitle)} · ${questions.length} प्रश्न</p></header>
+    <header class="header"><p class="brand">I_Mentor_99 · अभ्यास पोर्टल</p><h1>${escapeHTML(chapterTitle)}</h1><p>भाग ${selectedPart + 1}: ${escapeHTML(partTitle)} · ${questions.length} प्रश्न</p></header>
     <form id="quiz"><section class="question"><label for="studentName"><strong>विद्यार्थी का नाम (वैकल्पिक)</strong></label><input class="student" id="studentName" type="text" autocomplete="name" placeholder="अपना नाम लिखें"></section><div id="questionList"></div><section class="question actions"><button type="submit">उत्तर जाँचें</button><span id="hint" class="hint" role="status">सभी प्रश्नों के उत्तर चुनें।</span></section></form>
     <section id="result" class="result" hidden aria-live="polite"></section>
     <p class="footer">यह ऑफ़लाइन अभ्यास फ़ॉर्म I_Mentor_99 से बनाया गया है।</p>
@@ -1428,7 +1428,7 @@ function renderResult() {
 }
 
 function renderMistakes() {
-  app.innerHTML = `<nav class="breadcrumb"><button data-action="home">कक्षा 10 गणित</button><span>›</span><span>मेरी गलतियाँ</span></nav>
+  app.innerHTML = `<nav class="breadcrumb"><button data-action="home">होम (Home)</button><span>›</span><span>मेरी गलतियाँ</span></nav>
     <div class="section-heading"><div><h1>मेरी गलतियाँ</h1><p>गलत उत्तरों को फिर से समझें और अभ्यास करें।</p></div></div>
     ${storageWarning ? `<p class="storage-warning" role="status">${escapeHTML(storageWarning)}</p>` : ""}
     ${progress.mistakes.length ? `<div class="answer-list">${progress.mistakes.map((mistake, index) => `<details class="answer-card"><summary class="answer-summary"><span class="answer-number">${index + 1}</span><p>${escapeHTML(mistake.prompt)}</p><span class="answer-status incorrect">${escapeHTML(chapters[mistake.chapter].title)}</span></summary><div class="answer-detail"><div>सही उत्तर: <strong>${escapeHTML(mistake.answer)}</strong></div><div class="solution-step"><strong>संकेत:</strong> ${escapeHTML(mistake.hint)}</div><div class="solution-step"><strong>हल:</strong> ${escapeHTML(mistake.solution)}</div><button class="secondary-button remove-mistake" data-remove="${escapeHTML(mistake.key)}">गलती सूची से हटाएँ</button></div></details>`).join("")}</div>` : `<div class="empty-state">अभी कोई गलती सेव नहीं है। अभ्यास के बाद गलत प्रश्न यहाँ दिखेंगे।</div>`}`;

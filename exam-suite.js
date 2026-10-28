@@ -419,7 +419,7 @@
         drawer.setAttribute("aria-hidden", "true");
 
         let studentName = "विद्यार्थी";
-        let studentSchool = "कक्षा 10 गणित · RBSE";
+        let studentSchool = "कक्षा 9 व 10 · RBSE";
         try {
           const prof = JSON.parse(localStorage.getItem("iMentorStudentProfile") || "{}");
           if (prof.name || prof.studentName) studentName = prof.name || prof.studentName;

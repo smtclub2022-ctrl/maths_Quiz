@@ -192,7 +192,7 @@
       }
 
       document.getElementById("btnShareWhatsApp").addEventListener("click", () => {
-        const text = `मैंने I_Mentor_99 पर कक्षा 10 गणित "${res.title}" में ${res.correct}/${res.total} (${res.percentage}%) अंक प्राप्त किए! 🎯\nआप भी अपनी बोर्ड तैयारी परखें: ${window.location.origin}/quiz-center.html`;
+        const text = `मैंने I_Mentor_99 पर "${res.title}" में ${res.correct}/${res.total} (${res.percentage}%) अंक प्राप्त किए! 🎯\nआप भी अपनी बोर्ड तैयारी परखें: ${window.location.origin}/quiz-center.html`;
         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
       });
 
