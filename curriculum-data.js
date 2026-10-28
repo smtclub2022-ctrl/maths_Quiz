@@ -1,5 +1,5 @@
 /**
- * I_Mentor_99 — कक्षा 9 व 10 संपूर्ण पाठ्यक्रम (NCERT / RBSE / CBSE)
+ * schoolbrain.in — कक्षा 9 व 10 संपूर्ण पाठ्यक्रम (NCERT / RBSE / CBSE)
  * सभी विषयों के अध्याय, अभ्यास (Exercises) एवं प्रमुख विषय
  */
 window.curriculumData = {

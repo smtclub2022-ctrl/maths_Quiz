@@ -10,6 +10,8 @@ const studentTableContainer = document.getElementById("adminStudentTableContaine
 
 let csrfToken = "";
 const MASTER_CREDENTIALS = [
+  { user: "schoolbrain", pass: "admin123" },
+  { user: "schoolbrain.in", pass: "admin123" },
   { user: "admin", pass: "admin123" },
   { user: "admin", pass: "admin@2026" },
   { user: "imentor99", pass: "admin123" },

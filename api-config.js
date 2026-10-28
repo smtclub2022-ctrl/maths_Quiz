@@ -1,9 +1,9 @@
 /**
- * iMentor 99 - Student Data API Configuration
+ * schoolbrain.in - Student Data API Configuration
  * Supports:
  *  1. Google Sheets Web App (via Google Apps Script Webhook)
  *  2. REST API / MongoDB Endpoint (POST /api/students)
- *  3. LocalStorage Offline Mode with full CSV Export matching login_Data_Imentor_students.xlsx
+ *  3. LocalStorage Offline Mode with full CSV Export matching student registration 8 columns
  *
  * Target Data Columns:
  *  1. S.No.
@@ -216,7 +216,7 @@ window.exportStudentLoginsCSV = function() {
     const a = document.createElement("a");
     const dateStamp = new Date().toISOString().slice(0, 10);
     a.href = url;
-    a.download = `login_Data_Imentor_students_${dateStamp}.csv`;
+    a.download = `schoolbrain_students_${dateStamp}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

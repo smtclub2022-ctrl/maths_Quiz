@@ -1,5 +1,5 @@
 /**
- * I_Mentor_99 - Examination & Educational Portal Shared Engine
+ * schoolbrain.in - Examination & Educational Portal Shared Engine
  * Provides Universal Inter-Page Navigation, Drawer, Question Bank Engine, Audio & Theming.
  */
 (function(window) {
@@ -305,9 +305,9 @@
               </button>
             </div>
             <a class="brand" href="index.html" aria-label="मुख्य पृष्ठ पर जाएँ">
-              <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+              <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="schoolbrain.in"></span>
               <span class="home-label">⌂ होम</span>
-              <span class="brand-title">I_Mentor_99</span>
+              <span class="brand-title">schoolbrain.in</span>
             </a>
           </div>
 
@@ -432,9 +432,9 @@
         drawer.innerHTML = `
           <div class="sidebar-header">
             <div class="sidebar-brand">
-              <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="I_Mentor_99"></span>
+              <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="schoolbrain.in"></span>
               <div class="sidebar-brand-text">
-                <strong>I_Mentor_99</strong>
+                <strong>schoolbrain.in</strong>
                 <span>कक्षा 9 व 10 ई-लर्निंग</span>
               </div>
             </div>
@@ -580,7 +580,7 @@
           </div>
           
           <div class="sidebar-footer">
-            <span>I_Mentor_99</span>
+            <span>schoolbrain.in</span>
             <span>कक्षा 9 व 10</span>
           </div>
         `;
@@ -677,7 +677,7 @@
               <div class="u-footer-col">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
                   <img src="assets/mentor-logo-header.png" alt="Logo" style="height: 32px;">
-                  <strong style="font-size: 16px; color: var(--ink);">I_Mentor_99</strong>
+                  <strong style="font-size: 16px; color: var(--ink);">schoolbrain.in</strong>
                 </div>
                 <p style="font-size: 13px; color: var(--muted); line-height: 1.6;">
                   कक्षा 9 और 10 के विद्यार्थियों के लिए समर्पित ई-लर्निंग एवं परीक्षा पोर्टल। RBSE एवं CBSE बोर्ड के नवीनतम NCERT पाठ्यक्रम के अनुसार तैयारी।
@@ -719,7 +719,7 @@
             </div>
 
             <div style="max-width: 1100px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted);">
-              <span>© 2026 I_Mentor_99. सर्वाधिकार सुरक्षित।</span>
+              <span>© 2026 schoolbrain.in. सर्वाधिकार सुरक्षित।</span>
               <span>RBSE & CBSE Class 9 & 10 E-Learning Suite</span>
             </div>
           </footer>
@@ -762,7 +762,7 @@
           <ul class="spotlight-results" id="spotlightResults"></ul>
           <div class="spotlight-footer">
             <span>💡 <strong>↑↓</strong> नेविगेट करें &nbsp;|&nbsp; <strong>Enter</strong> खोलें &nbsp;|&nbsp; <strong>Esc</strong> बंद करें</span>
-            <span>I_Mentor_99 Spotlight</span>
+            <span>schoolbrain.in Spotlight</span>
           </div>
         </div>
       `;
