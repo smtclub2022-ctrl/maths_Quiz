@@ -427,22 +427,10 @@
       .nav-left, .nav-right { justify-content: space-between; }
     }
   </style>
+  <link rel="stylesheet" href="styles.css?v=2.5">
 </head>
 <body>
-  <div class="topbar">
-    <a class="brand" href="./index.html" aria-label="मुखपृष्ठ पर जाएँ">
-      <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="SchoolBrain"></span>
-      <span class="home-label">⌂ होम</span>
-      <span>School<span class="brand-light">Brain</span></span>
-    </a>
-    <div class="topbar-right">
-      <a class="chip" href="quiz-center.html" style="text-decoration:none;">🎯 क्विज़ सेंटर</a>
-      <a class="chip" href="chapter-tests.html" style="text-decoration:none;">📚 अध्याय टेस्ट</a>
-      <a class="chip" href="board-exam-papers.html" style="text-decoration:none;">📜 बोर्ड परीक्षा पेपर्स</a>
-      <span class="chip"><span class="chip-dot"></span> राजस्थान बोर्ड</span>
-      <span class="chip class-chip">कक्षा 10</span>
-    </div>
-  </div>
+  <header class="topbar" id="examTopNav"></header>
   <main class="main" id="app"></main>
 
   <script>
@@ -958,5 +946,7 @@
 
     renderHome();
   </script>
+  <script src="exam-suite.js?v=2.5"></script>
+  <script>document.addEventListener("DOMContentLoaded", () => ExamSuite.renderNavbar("workbook"));</script>
 </body>
 </html>

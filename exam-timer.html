@@ -186,6 +186,7 @@
 </head>
 <body>
   <div class="app-shell">
+    <header class="topbar" id="examTopNav"></header>
     <header class="exam-header">
       <div style="display:flex; align-items:center; gap:12px;">
         <a href="index.html" class="home-label" title="परीक्षा छोड़ें">✕ बाहर निकलें</a>
@@ -251,6 +252,7 @@
   <script src="exam-suite.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      ExamSuite.renderNavbar("exam-timer");
       const params = new URLSearchParams(window.location.search);
       const chParam = params.get("chapter");
       const yrParam = params.get("year");

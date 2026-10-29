@@ -14,27 +14,7 @@
 </head>
 <body>
   <div class="app-shell">
-    <header class="topbar" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <div class="topbar-nav-arrows">
-          <button class="topbar-arrow-btn" onclick="window.location.href='dashboard.html'" type="button" title="पीछे (छात्र डैशबोर्ड)" aria-label="पिछला पृष्ठ">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <button class="topbar-arrow-btn" onclick="window.location.href='quiz-center.html'" type="button" title="आगे (क्विज़ हब)" aria-label="अगला पृष्ठ">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </button>
-        </div>
-        <a class="brand" href="./index.html" aria-label="Go to home page">
-        <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="SchoolBrain"></span>
-        <span class="home-label">⌂ HOME</span>
-        <span>ADMIN PANEL</span>
-      </a>
-      </div>
-      <div style="display: flex; gap: 8px;">
-        <a href="dashboard.html" class="board-chip topbar-desktop-link" style="text-decoration: none;">👨‍🎓 छात्र डैशबोर्ड</a>
-        <a href="quiz-center.html" class="board-chip topbar-desktop-link" style="text-decoration: none;">🎯 क्विज़ हब</a>
-      </div>
-    </header>
+<header class="topbar" id="examTopNav"></header>
     <main class="main-content">
       <section id="adminLoginPanel" class="admin-panel" aria-labelledby="adminLoginTitle">
         <p class="eyebrow">SCHOOLBRAIN · PRIVATE AREA</p>
@@ -90,6 +70,8 @@
     <footer class="footer"><span>Admin file uploads are private.</span><a href="./index.html">Return to quiz</a></footer>
   </div>
   <script src="api-config.js?v=2.5"></script>
+  <script src="exam-suite.js?v=2.5"></script>
+  <script>document.addEventListener("DOMContentLoaded", () => ExamSuite.renderNavbar("admin"));</script>
   <script src="admin.js?v=2.5"></script>
 </body>
 </html>
