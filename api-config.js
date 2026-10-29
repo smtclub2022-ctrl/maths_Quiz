@@ -1,5 +1,5 @@
 /**
- * schoolbrain.in - Student Data API Configuration
+ * SchoolBrain - Student Data API Configuration
  * Supports:
  *  1. Google Sheets Web App (via Google Apps Script Webhook)
  *  2. REST API / MongoDB Endpoint (POST /api/students)

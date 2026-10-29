@@ -336,8 +336,8 @@ function renderStudentLogin() {
 
   app.innerHTML = `
     <section class="student-login" aria-labelledby="studentLoginTitle">
-      <div class="student-login-brand"><img src="assets/mentor-logo.png" alt="schoolbrain.in"></div>
-      <p class="eyebrow">SCHOOLBRAIN.IN · छात्र पोर्टल (STUDENT PORTAL)</p>
+      <div class="student-login-brand"><img src="assets/mentor-logo.png" alt="SchoolBrain"></div>
+      <p class="eyebrow">SCHOOLBRAIN · छात्र पोर्टल (STUDENT PORTAL)</p>
       <h1 id="studentLoginTitle">STUDENT DETAILS / विद्यार्थी विवरण</h1>
       <p class="subheading">पोर्टल पर अभ्यास परीक्षा शुरू करने के लिए अपना विवरण दर्ज करें।</p>
       <form id="studentLoginForm" class="student-login-form">
@@ -589,11 +589,11 @@ function renderCourseSelection() {
         <div class="selection-welcome-avatar">👨‍🎓</div>
         <div class="selection-welcome-text">
           <strong id="welcomeStudentName">नमस्ते, ${escapeHTML(studentName)}!</strong>
-          <span id="welcomeStudentSchool">${escapeHTML(studentSchool || 'schoolbrain.in परीक्षा पोर्टल')}</span>
+          <span id="welcomeStudentSchool">${escapeHTML(studentSchool || 'SchoolBrain परीक्षा पोर्टल')}</span>
         </div>
       </div>
       
-      <p class="eyebrow">SCHOOLBRAIN.IN · कक्षा, बोर्ड व माध्यम चयन</p>
+      <p class="eyebrow">SCHOOLBRAIN · कक्षा, बोर्ड व माध्यम चयन</p>
       <h1 id="courseSelectionTitle" style="font-size: 24px; margin-bottom: 6px;">अपनी अध्ययन कक्षा व बोर्ड चुनें</h1>
       <p class="subheading" style="margin-bottom: 18px;">अपनी आवश्यकतानुसार बोर्ड, माध्यम और कक्षा का चयन करें:</p>
 
@@ -1117,7 +1117,7 @@ function buildShareableQuiz() {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHTML(title)} | schoolbrain.in</title>
+  <title>${escapeHTML(title)} | SchoolBrain</title>
   <style>
     *{box-sizing:border-box}body{margin:0;padding:24px 16px;background:#f6f7fb;color:#19223a;font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.65}
     main{max-width:760px;margin:0 auto}.header,.question,.result{padding:22px;margin-bottom:14px;border:1px solid #e8eaf1;border-radius:15px;background:#fff}
@@ -1128,10 +1128,10 @@ function buildShareableQuiz() {
 </head>
 <body>
   <main>
-    <header class="header"><p class="brand">schoolbrain.in · अभ्यास पोर्टल</p><h1>${escapeHTML(chapterTitle)}</h1><p>भाग ${selectedPart + 1}: ${escapeHTML(partTitle)} · ${questions.length} प्रश्न</p></header>
+    <header class="header"><p class="brand">SchoolBrain · अभ्यास पोर्टल</p><h1>${escapeHTML(chapterTitle)}</h1><p>भाग ${selectedPart + 1}: ${escapeHTML(partTitle)} · ${questions.length} प्रश्न</p></header>
     <form id="quiz"><section class="question"><label for="studentName"><strong>विद्यार्थी का नाम (वैकल्पिक)</strong></label><input class="student" id="studentName" type="text" autocomplete="name" placeholder="अपना नाम लिखें"></section><div id="questionList"></div><section class="question actions"><button type="submit">उत्तर जाँचें</button><span id="hint" class="hint" role="status">सभी प्रश्नों के उत्तर चुनें।</span></section></form>
     <section id="result" class="result" hidden aria-live="polite"></section>
-    <p class="footer">यह ऑफ़लाइन अभ्यास फ़ॉर्म schoolbrain.in से बनाया गया है।</p>
+    <p class="footer">यह ऑफ़लाइन अभ्यास फ़ॉर्म SchoolBrain से बनाया गया है।</p>
   </main>
   <script>
     const questions = ${quizData};
@@ -1201,7 +1201,7 @@ function downloadShareableQuiz() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `schoolbrain.in_Quiz_Chapter_${selectedChapter + 1}_Part_${selectedPart + 1}.html`;
+  link.download = `SchoolBrain_Quiz_Chapter_${selectedChapter + 1}_Part_${selectedPart + 1}.html`;
   document.body.append(link);
   link.click();
   link.remove();
@@ -1251,7 +1251,7 @@ function shareQuizLinkOnWhatsApp() {
 
 async function shareQuizOnWhatsApp() {
   const blob = new Blob([buildShareableQuiz()], { type: "text/html;charset=utf-8" });
-  const filename = `schoolbrain.in_Quiz_Chapter_${selectedChapter + 1}_Part_${selectedPart + 1}.html`;
+  const filename = `SchoolBrain_Quiz_Chapter_${selectedChapter + 1}_Part_${selectedPart + 1}.html`;
   const file = new File([blob], filename, { type: "text/html" });
   const shareText = `कक्षा 10 गणित क्विज़: ${chapters[selectedChapter].title} — भाग ${selectedPart + 1}`;
   if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
