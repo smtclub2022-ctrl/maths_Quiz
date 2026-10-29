@@ -321,40 +321,6 @@
           </div>
 
           <div class="topbar-right" style="gap:8px;">
-            <select class="exam-quick-select" id="examQuickPageSelect" aria-label="त्वरित पेज चुनें" title="सीधे किसी भी पेज पर जाएँ">
-              <option value="" disabled selected>📑 त्वरित पेज...</option>
-              <optgroup label="🌐 सार्वजनिक पृष्ठ (Public)">
-                <option value="index.html">⌂ मुख्य पृष्ठ (Home)</option>
-                <option value="courses.html">📚 पाठ्यक्रम (Courses)</option>
-                <option value="about.html">ℹ️ हमारे बारे में (About)</option>
-                <option value="contact.html">📞 संपर्क (Contact)</option>
-                <option value="login.html">🔐 छात्र लॉगिन (Login)</option>
-              </optgroup>
-              <optgroup label="👨‍🎓 विद्यार्थी पोर्टल (Dashboard)">
-                <option value="dashboard.html">👨‍🎓 छात्र डैशबोर्ड</option>
-                <option value="subjects.html">📖 विषय सूची (Subjects)</option>
-                <option value="notes.html">📑 नोट्स एवं सूत्र</option>
-                <option value="videos.html">🎥 वीडियो लेक्चर्स</option>
-                <option value="mistake-book.html">❌ भूल सुधार पुस्तिका</option>
-                <option value="revision-planner.html">📅 रिवीजन प्लानर</option>
-                <option value="leaderboard.html">🏆 लीडरबोर्ड एवं रैंक</option>
-                <option value="result.html">📊 परीक्षा परिणाम</option>
-              </optgroup>
-              <optgroup label="🎯 परीक्षा एवं टेस्ट हब">
-                <option value="quiz-center.html">🎯 क्विज़ सेंटर हब</option>
-                <option value="chapter-tests.html">📚 अध्यायवार टेस्ट</option>
-                <option value="mock-exams.html">📝 संपूर्ण मॉक परीक्षा</option>
-                <option value="exam-timer.html">⏱️ परीक्षा टाइमर मोड</option>
-                <option value="previous-papers.html">📜 विगत वर्षों के पेपर्स</option>
-                <option value="sample-papers.html">📑 मॉडल प्रश्न पत्र</option>
-                <option value="workbook-quiz.html">📘 Workbook Quiz</option>
-                <option value="question-bank.html">🔍 सर्च प्रश्न बैंक</option>
-              </optgroup>
-              <optgroup label="⚙️ एडमिन पोर्टल">
-                <option value="admin.html">⚙️ एडमिन पैनल (Admin)</option>
-              </optgroup>
-            </select>
-
             <button class="theme-toggle-btn" id="examSpotlightToggle" type="button" title="त्वरित खोज (Ctrl+K)" aria-label="खोजें" style="display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:0 10px; font-weight:700; font-size:12px;">
               <span>🔍</span><span class="spotlight-kbd" style="font-size:10px; padding:1px 5px;">Ctrl+K</span>
             </button>
@@ -364,13 +330,7 @@
           </div>
         `;
 
-        // Handle Quick Switcher
-        const qSelect = document.getElementById("examQuickPageSelect");
-        if (qSelect) {
-          qSelect.addEventListener("change", (e) => {
-            if (e.target.value) window.location.href = e.target.value;
-          });
-        }
+
 
         // Handle Theme Toggle
         const tBtn = document.getElementById("examThemeToggle");
