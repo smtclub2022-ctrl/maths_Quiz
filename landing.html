@@ -26,7 +26,40 @@
 <body>
   <div class="app-shell">
     <!-- Unified Universal Header with Drawer, Spotlight & Theme Toggle -->
-    <header class="topbar" id="examTopNav"></header>
+        <!-- Dedicated Landing Page Topbar (No dropdown, no landing pill, no dashboard/quiz/notes/ctrl+k; with About, Login, Sign Up, Language) -->
+    <header class="topbar" id="examTopNav">
+      <div class="topbar-left exam-topbar-wrap">
+        <a class="brand" href="landing.html" aria-label="SchoolBrain">
+          <span class="brand-title">SchoolBrain</span>
+        </a>
+      </div>
+
+      <div class="exam-subnav-scroll">
+        <a class="exam-nav-pill" href="courses.html">📚 कोर्सेज</a>
+        <a class="exam-nav-pill" href="about.html">ℹ️ About</a>
+        <a class="exam-nav-pill" href="contact.html">📞 Contact</a>
+      </div>
+
+      <div class="topbar-right" style="gap:8px;">
+        <button class="lang-toggle-btn" id="examLangToggleBtn" type="button" title="भाषा बदलें / Switch Language (Hindi / English)" aria-label="भाषा बदलें">
+          <span class="lang-icon">🌐</span>
+          <span class="lang-badge">
+            <span class="lang-opt active">HI</span>
+            <span class="lang-divider">|</span>
+            <span class="lang-opt">EN</span>
+          </span>
+        </button>
+        <button class="theme-toggle-btn" id="examThemeToggle" type="button" title="थीम बदलें">
+          <span class="theme-icon-indicator" id="themeIcon">☀️</span>
+        </button>
+        <a href="login.html" class="secondary-button" style="font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 999px; text-decoration: none; white-space: nowrap;">
+          🔐 Login
+        </a>
+        <a href="login.html" class="primary-button" style="font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap;">
+          ✨ Sign Up
+        </a>
+      </div>
+    </header>
 
     <main class="main-content">
       <div class="landing-wrap">

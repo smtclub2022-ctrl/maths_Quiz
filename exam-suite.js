@@ -294,42 +294,81 @@
 
       // 1. Render Topbar if element exists
       if (topbar) {
-        topbar.innerHTML = `
-          <div class="topbar-left exam-topbar-wrap">
-            <button class="exam-menu-btn" id="examMenuToggleBtn" type="button" aria-label="नेविगेशन मेनू खोलें" title="सभी पेज खोलें">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
-            </button>
-            <a class="brand" href="index.html" aria-label="SchoolBrain">
-              <span class="brand-title">SchoolBrain</span>
-            </a>
-          </div>
+        if (activePage === "landing") {
+          // Dedicated Clean Landing Page Topbar
+          // (No dropdown menu, no landing page button, no dashboard, no quiz hub, no notes/formula, no Ctrl+K)
+          // Replaced with: About, Login, Sign Up, Language
+          topbar.innerHTML = `
+            <div class="topbar-left exam-topbar-wrap">
+              <a class="brand" href="landing.html" aria-label="SchoolBrain">
+                <span class="brand-title">SchoolBrain</span>
+              </a>
+            </div>
 
-          <div class="exam-subnav-scroll">
-            <a class="exam-nav-pill ${activePage === "landing" ? "active" : ""}" href="landing.html">🌟 लैंडिंग पेज</a>
-            <a class="exam-nav-pill ${activePage === "courses" ? "active" : ""}" href="courses.html">📚 कोर्सेज</a>
-            <a class="exam-nav-pill ${activePage === "dashboard" ? "active" : ""}" href="dashboard.html">👨‍🎓 डैशबोर्ड</a>
-            <a class="exam-nav-pill ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">🎯 क्विज़ हब</a>
-            <a class="exam-nav-pill ${activePage === "notes" ? "active" : ""}" href="notes.html">📑 नोट्स व सूत्र</a>
-            <a class="exam-nav-pill ${activePage === "videos" ? "active" : ""}" href="videos.html">🎥 वीडियो</a>
-          </div>
+            <div class="exam-subnav-scroll">
+              <a class="exam-nav-pill" href="courses.html">📚 कोर्सेज</a>
+              <a class="exam-nav-pill" href="about.html">ℹ️ About</a>
+              <a class="exam-nav-pill" href="contact.html">📞 Contact</a>
+            </div>
 
-          <div class="topbar-right" style="gap:8px;">
-            <button class="lang-toggle-btn" id="examLangToggleBtn" type="button" title="भाषा बदलें / Switch Language (Hindi / English)" aria-label="भाषा बदलें">
-              <span class="lang-icon">🌐</span>
-              <span class="lang-badge">
-                <span class="lang-opt ${curLang === 'hi' ? 'active' : ''}">HI</span>
-                <span class="lang-divider">|</span>
-                <span class="lang-opt ${curLang === 'en' ? 'active' : ''}">EN</span>
-              </span>
-            </button>
-            <button class="theme-toggle-btn" id="examSpotlightToggle" type="button" title="त्वरित खोज (Ctrl+K)" aria-label="खोजें" style="display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:0 10px; font-weight:700; font-size:12px;">
-              <span>🔍</span><span class="spotlight-kbd" style="font-size:10px; padding:1px 5px;">Ctrl+K</span>
-            </button>
-            <button class="theme-toggle-btn" id="examThemeToggle" type="button" title="थीम बदलें">
-              <span class="theme-icon-indicator" id="themeIcon">${curTheme === "dark" ? "☀️" : "🌙"}</span>
-            </button>
-          </div>
-        `;
+            <div class="topbar-right" style="gap:8px;">
+              <button class="lang-toggle-btn" id="examLangToggleBtn" type="button" title="भाषा बदलें / Switch Language (Hindi / English)" aria-label="भाषा बदलें">
+                <span class="lang-icon">🌐</span>
+                <span class="lang-badge">
+                  <span class="lang-opt ${curLang === 'hi' ? 'active' : ''}">HI</span>
+                  <span class="lang-divider">|</span>
+                  <span class="lang-opt ${curLang === 'en' ? 'active' : ''}">EN</span>
+                </span>
+              </button>
+              <button class="theme-toggle-btn" id="examThemeToggle" type="button" title="थीम बदलें">
+                <span class="theme-icon-indicator" id="themeIcon">${curTheme === "dark" ? "☀️" : "🌙"}</span>
+              </button>
+              <a href="login.html" class="secondary-button" style="font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 999px; text-decoration: none; white-space: nowrap;">
+                🔐 Login
+              </a>
+              <a href="login.html" class="primary-button" style="font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap;">
+                ✨ Sign Up
+              </a>
+            </div>
+          `;
+        } else {
+          // Standard Application Topbar
+          topbar.innerHTML = `
+            <div class="topbar-left exam-topbar-wrap">
+              <button class="exam-menu-btn" id="examMenuToggleBtn" type="button" aria-label="नेविगेशन मेनू खोलें" title="सभी पेज खोलें">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+              </button>
+              <a class="brand" href="index.html" aria-label="SchoolBrain">
+                <span class="brand-title">SchoolBrain</span>
+              </a>
+            </div>
+
+            <div class="exam-subnav-scroll">
+              <a class="exam-nav-pill ${activePage === "courses" ? "active" : ""}" href="courses.html">📚 कोर्सेज</a>
+              <a class="exam-nav-pill ${activePage === "dashboard" ? "active" : ""}" href="dashboard.html">👨‍🎓 डैशबोर्ड</a>
+              <a class="exam-nav-pill ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">🎯 क्विज़ हब</a>
+              <a class="exam-nav-pill ${activePage === "notes" ? "active" : ""}" href="notes.html">📑 नोट्स व सूत्र</a>
+              <a class="exam-nav-pill ${activePage === "videos" ? "active" : ""}" href="videos.html">🎥 वीडियो</a>
+            </div>
+
+            <div class="topbar-right" style="gap:8px;">
+              <button class="lang-toggle-btn" id="examLangToggleBtn" type="button" title="भाषा बदलें / Switch Language (Hindi / English)" aria-label="भाषा बदलें">
+                <span class="lang-icon">🌐</span>
+                <span class="lang-badge">
+                  <span class="lang-opt ${curLang === 'hi' ? 'active' : ''}">HI</span>
+                  <span class="lang-divider">|</span>
+                  <span class="lang-opt ${curLang === 'en' ? 'active' : ''}">EN</span>
+                </span>
+              </button>
+              <button class="theme-toggle-btn" id="examSpotlightToggle" type="button" title="त्वरित खोज (Ctrl+K)" aria-label="खोजें" style="display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:0 10px; font-weight:700; font-size:12px;">
+                <span>🔍</span><span class="spotlight-kbd" style="font-size:10px; padding:1px 5px;">Ctrl+K</span>
+              </button>
+              <button class="theme-toggle-btn" id="examThemeToggle" type="button" title="थीम बदलें">
+                <span class="theme-icon-indicator" id="themeIcon">${curTheme === "dark" ? "☀️" : "🌙"}</span>
+              </button>
+            </div>
+          `;
+        }
 
 
 
