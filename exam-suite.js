@@ -298,17 +298,7 @@
             <button class="exam-menu-btn" id="examMenuToggleBtn" type="button" aria-label="नेविगेशन मेनू खोलें" title="सभी पेज खोलें">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
             </button>
-            <div class="topbar-nav-arrows">
-              <button class="topbar-arrow-btn" id="topbarBackBtn" type="button" title="पीछे जाएँ (Previous Page)" aria-label="पिछला पृष्ठ">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-              </button>
-              <button class="topbar-arrow-btn" id="topbarFwdBtn" type="button" title="आगे बढ़ें (Next Step)" aria-label="अगला पृष्ठ">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-              </button>
-            </div>
-            <a class="brand" href="index.html" aria-label="मुख्य पृष्ठ पर जाएँ">
-              <span class="brand-mark logo-mark"><img src="assets/mentor-logo-header.png" alt="SchoolBrain"></span>
-              <span class="home-label">⌂ होम</span>
+            <a class="brand" href="index.html" aria-label="SchoolBrain">
               <span class="brand-title">SchoolBrain</span>
             </a>
           </div>
@@ -320,7 +310,6 @@
             <a class="exam-nav-pill ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">🎯 क्विज़ हब</a>
             <a class="exam-nav-pill ${activePage === "notes" ? "active" : ""}" href="notes.html">📑 नोट्स व सूत्र</a>
             <a class="exam-nav-pill ${activePage === "videos" ? "active" : ""}" href="videos.html">🎥 वीडियो</a>
-            <a class="exam-nav-pill ${activePage === "mistake-book" ? "active" : ""}" href="mistake-book.html">❌ भूल सुधार</a>
           </div>
 
           <div class="topbar-right" style="gap:8px;">
