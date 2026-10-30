@@ -33,6 +33,7 @@
 
   const ALL_PAGES = [
     // 1. Public Website
+    { id: "landing", href: "landing.html", label: "🌟 लैंडिंग पेज (Landing Page)", icon: "🌟", group: "public" },
     { id: "home", href: "index.html", label: "⌂ होम (Home)", icon: "⌂", group: "public" },
     { id: "courses", href: "courses.html", label: "📚 पाठ्यक्रम (Courses)", icon: "📚", group: "public" },
     { id: "about", href: "about.html", label: "ℹ️ हमारे बारे में (About)", icon: "ℹ️", group: "public" },
@@ -262,7 +263,8 @@
 
   // Page Flow Definition for Forward & Backward Navigation
   const PAGE_FLOW = {
-    "home": { prev: null, next: { title: "पाठ्यक्रम (Courses)", url: "courses.html" } },
+    "landing": { prev: null, next: { title: "मुख्य पृष्ठ (Home)", url: "index.html" } },
+    "home": { prev: { title: "लैंडिंग पेज (Landing)", url: "landing.html" }, next: { title: "पाठ्यक्रम (Courses)", url: "courses.html" } },
     "courses": { prev: { title: "मुख्य पृष्ठ (Home)", url: "index.html" }, next: { title: "विषय सूची (Subjects)", url: "subjects.html" } },
     "subjects": { prev: { title: "पाठ्यक्रम (Courses)", url: "courses.html" }, next: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" } },
     "dashboard": { prev: { title: "विषय सूची (Subjects)", url: "subjects.html" }, next: { title: "क्विज़ सेंटर (Quiz Hub)", url: "quiz-center.html" } },
@@ -312,6 +314,7 @@
           </div>
 
           <div class="exam-subnav-scroll">
+            <a class="exam-nav-pill ${activePage === "landing" ? "active" : ""}" href="landing.html">🌟 लैंडिंग पेज</a>
             <a class="exam-nav-pill ${activePage === "courses" ? "active" : ""}" href="courses.html">📚 कोर्सेज</a>
             <a class="exam-nav-pill ${activePage === "dashboard" ? "active" : ""}" href="dashboard.html">👨‍🎓 डैशबोर्ड</a>
             <a class="exam-nav-pill ${activePage === "quiz-center" ? "active" : ""}" href="quiz-center.html">🎯 क्विज़ हब</a>
@@ -735,6 +738,7 @@
 
     const SEARCH_INDEX = [
       // Quick Navigation
+      { title: "लैंडिंग पेज (SchoolBrain Landing Page)", sub: "Smarter learning platform, 1000+ courses & tracks", icon: "🌟", url: "landing.html", tag: "Showcase" },
       { title: "मुख्य पृष्ठ (Home Portal)", sub: "वेबसाइट का मुख्य द्वार एवं माइंड मैप", icon: "⌂", url: "index.html", tag: "Public" },
       { title: "पाठ्यक्रम (Courses Overview)", sub: "कक्षा 9 व 10 संपूर्ण कोर्स विवरण", icon: "📚", url: "courses.html", tag: "Public" },
       { title: "विषय सूची (All Subjects)", sub: "गणित, विज्ञान, सामाजिक विज्ञान, हिंदी, अंग्रेजी", icon: "📖", url: "subjects.html", tag: "Student" },
