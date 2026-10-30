@@ -10,8 +10,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.6">
-  <link rel="stylesheet" href="landing.css?v=1.0">
+  <link rel="stylesheet" href="styles.css?v=5.0">
+  <link rel="stylesheet" href="landing.css?v=5.0">
+  <!-- Unmistakable Dark Pink (#970747) & White Theme Overrides -->
+  <style>
+    :root { --violet: #970747 !important; --pink: #970747 !important; --pink-dark: #780436 !important; --pink-pale: #fdf2f8 !important; }
+    .topbar { border-top: 3.5px solid #970747 !important; }
+    .brand-title, #topbarBrandTitle { color: #970747 !important; font-weight: 850 !important; }
+    .primary-button, .cta-button { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
+    .secondary-button { background: #ffffff !important; color: #970747 !important; border: 1.5px solid #970747 !important; }
+    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active { background: #970747 !important; color: #ffffff !important; border-color: #970747 !important; }
+    .hero, .result-hero { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -60,7 +70,7 @@
                 <span class="hero-stat-label">Learners & Mentors</span>
               </div>
               <div class="hero-stat-item">
-                <span class="hero-stat-num" style="color: #6366f1;">98.4%</span>
+                <span class="hero-stat-num" style="color: #970747;">98.4%</span>
                 <span class="hero-stat-label">Board & Test Success</span>
               </div>
               <div class="hero-stat-item">
@@ -571,7 +581,7 @@
             </div>
 
             <div class="mentor-card">
-              <div class="mentor-avatar" style="background: linear-gradient(135deg, #0ea5e9, #10b981);">👩‍🔬</div>
+              <div class="mentor-avatar" style="background: linear-gradient(135deg, #970747, #ec4899);">👩‍🔬</div>
               <div class="mentor-info">
                 <h4>Dr. Anita Choudhary</h4>
                 <span>STEM & Science Lead (Ex-NCERT Panel)</span>
@@ -580,7 +590,7 @@
             </div>
 
             <div class="mentor-card">
-              <div class="mentor-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">👨‍💻</div>
+              <div class="mentor-avatar" style="background: linear-gradient(135deg, #b8145c, #780436);">👨‍💻</div>
               <div class="mentor-info">
                 <h4>Er. Vikram Singh</h4>
                 <span>Competitive Exam & Logic Mentor</span>
@@ -737,7 +747,7 @@
                 </p>
               </div>
               <div class="test-author">
-                <div class="test-avatar" style="background:#e0f2fe; color:#970747;">PP</div>
+                <div class="test-avatar" style="background:#fce7f3; color:#970747;">PP</div>
                 <div class="test-meta">
                   <strong>Priya Patel</strong>
                   <span>CBSE Class 10 Topper (99/100 in Maths)</span>
@@ -754,7 +764,7 @@
                 </p>
               </div>
               <div class="test-author">
-                <div class="test-avatar" style="background:#fef3c7; color:#d97706;">MK</div>
+                <div class="test-avatar" style="background:#fdf2f8; color:#970747;">MK</div>
                 <div class="test-meta">
                   <strong>Mohan Kumar</strong>
                   <span>Senior Math Teacher · Govt Model School</span>

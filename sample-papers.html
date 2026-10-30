@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3">
+  <link rel="stylesheet" href="styles.css?v=5.0">
   <style>
     .blueprint-card {
       background: var(--paper);
@@ -58,6 +58,16 @@
       transform: translateY(-2px);
       box-shadow: 0 12px 28px rgba(0,0,0,0.06);
     }
+  </style>
+  <!-- Unmistakable Dark Pink (#970747) & White Theme Overrides -->
+  <style>
+    :root { --violet: #970747 !important; --pink: #970747 !important; --pink-dark: #780436 !important; --pink-pale: #fdf2f8 !important; }
+    .topbar { border-top: 3.5px solid #970747 !important; }
+    .brand-title, #topbarBrandTitle { color: #970747 !important; font-weight: 850 !important; }
+    .primary-button, .cta-button { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
+    .secondary-button { background: #ffffff !important; color: #970747 !important; border: 1.5px solid #970747 !important; }
+    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active { background: #970747 !important; color: #ffffff !important; border-color: #970747 !important; }
+    .hero, .result-hero { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
   </style>
 </head>
 <body>

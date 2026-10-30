@@ -1393,3 +1393,123 @@
     font-size: 48px;
   }
 }
+
+
+/* ==========================================================================
+   UNMISTAKABLE DARK PINK (#970747) & WHITE (#FFFFFF) FULL PAGE THEME
+   ========================================================================== */
+:root {
+  --lp-primary: #970747 !important;
+  --lp-primary-hover: #780436 !important;
+  --lp-secondary: #b8145c !important;
+  --lp-accent: #db2777 !important;
+  --lp-glow: rgba(151, 7, 71, 0.35) !important;
+}
+
+body {
+  background: #ffffff !important;
+}
+
+/* Landing Topbar */
+.topbar {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-top: 3.5px solid #970747 !important;
+  border-bottom: 1.5px solid rgba(151, 7, 71, 0.15) !important;
+}
+
+.brand-title {
+  color: #970747 !important;
+  font-weight: 850 !important;
+}
+
+/* Hero Elements */
+.hero-pill-badge {
+  background: #ffffff !important;
+  color: #970747 !important;
+  border: 1.5px solid rgba(151, 7, 71, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(151, 7, 71, 0.15) !important;
+}
+
+.landing-gradient-text {
+  background: linear-gradient(135deg, #970747 0%, #b8145c 45%, #ec4899 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: 850 !important;
+}
+
+.hero-stat-num {
+  color: #970747 !important;
+}
+
+.hero-mockup-card {
+  border: 2px solid rgba(151, 7, 71, 0.25) !important;
+  box-shadow: 0 20px 50px rgba(151, 7, 71, 0.25) !important;
+}
+
+.mockup-badge-live {
+  background: #970747 !important;
+  color: #ffffff !important;
+}
+
+.mockup-progress-fill {
+  background: linear-gradient(90deg, #970747, #ec4899) !important;
+}
+
+/* Section Headers & Badges */
+.landing-section-badge {
+  background: #fdf2f8 !important;
+  color: #970747 !important;
+  border: 1.5px solid rgba(151, 7, 71, 0.28) !important;
+  font-weight: 800 !important;
+}
+
+/* Audience Tabs */
+.audience-tab-btn.active {
+  background: #970747 !important;
+  color: #ffffff !important;
+  border-color: #970747 !important;
+  box-shadow: 0 8px 22px rgba(151, 7, 71, 0.35) !important;
+}
+
+/* Course Filter Pills */
+.course-filter-pill.active {
+  background: #970747 !important;
+  color: #ffffff !important;
+  border-color: #970747 !important;
+  box-shadow: 0 6px 18px rgba(151, 7, 71, 0.3) !important;
+}
+
+.course-showcase-card:hover {
+  border-color: #970747 !important;
+  box-shadow: 0 16px 36px rgba(151, 7, 71, 0.22) !important;
+}
+
+.course-tag {
+  background: #fdf2f8 !important;
+  color: #970747 !important;
+  border: 1px solid rgba(151, 7, 71, 0.2) !important;
+}
+
+/* Sticky Bottom CTA */
+.sticky-bottom-cta {
+  background: #970747 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 14px 40px rgba(151, 7, 71, 0.5) !important;
+}
+
+.sticky-cta-text {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.sticky-bottom-cta .primary-button {
+  background: #ffffff !important;
+  color: #970747 !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.sticky-bottom-cta .primary-button:hover {
+  background: #fdf2f8 !important;
+  color: #780436 !important;
+}
