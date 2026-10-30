@@ -290,6 +290,7 @@
 
       const topbar = document.getElementById("examTopNav");
       const curTheme = document.documentElement.getAttribute("data-theme") || "light";
+      const curLang = getLanguage();
 
       // 1. Render Topbar if element exists
       if (topbar) {
@@ -313,6 +314,14 @@
           </div>
 
           <div class="topbar-right" style="gap:8px;">
+            <button class="lang-toggle-btn" id="examLangToggleBtn" type="button" title="भाषा बदलें / Switch Language (Hindi / English)" aria-label="भाषा बदलें">
+              <span class="lang-icon">🌐</span>
+              <span class="lang-badge">
+                <span class="lang-opt ${curLang === 'hi' ? 'active' : ''}">HI</span>
+                <span class="lang-divider">|</span>
+                <span class="lang-opt ${curLang === 'en' ? 'active' : ''}">EN</span>
+              </span>
+            </button>
             <button class="theme-toggle-btn" id="examSpotlightToggle" type="button" title="त्वरित खोज (Ctrl+K)" aria-label="खोजें" style="display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:0 10px; font-weight:700; font-size:12px;">
               <span>🔍</span><span class="spotlight-kbd" style="font-size:10px; padding:1px 5px;">Ctrl+K</span>
             </button>
@@ -327,6 +336,8 @@
         // Handle Theme Toggle
         const tBtn = document.getElementById("examThemeToggle");
         if (tBtn) tBtn.addEventListener("click", () => ExamSuite.toggleTheme());
+        const lBtn = document.getElementById("examLangToggleBtn");
+        if (lBtn) lBtn.addEventListener("click", () => toggleLanguage());
 
         // Handle Forward and Backward Buttons
         const backBtn = document.getElementById("topbarBackBtn");
@@ -681,6 +692,228 @@
   };
 
   window.ExamSuite = ExamSuite;
+
+
+  // ============================================================
+  // UNIVERSAL BILINGUAL ENGINE (HINDI / ENGLISH SWITCHER)
+  // ============================================================
+  const LANG_STORAGE_KEY = "schoolbrain_lang";
+  let currentLang = "hi";
+  try {
+    currentLang = localStorage.getItem(LANG_STORAGE_KEY) || "hi";
+  } catch (e) {}
+
+  const UI_DICTIONARY = {
+    "🌟 लैंडिंग पेज": "🌟 Landing Page",
+    "📚 कोर्सेज": "📚 Courses",
+    "📚 पाठ्यक्रम": "📚 Courses",
+    "👨‍🎓 डैशबोर्ड": "👨‍🎓 Dashboard",
+    "🎯 क्विज़ हब": "🎯 Quiz Hub",
+    "🎯 क्विज़ सेंटर": "🎯 Quiz Center",
+    "📑 नोट्स व सूत्र": "📑 Notes & Formulas",
+    "📑 नोट्स": "📑 Notes",
+    "🎥 वीडियो": "🎥 Videos",
+    "🎥 वीडियो लेक्चर्स": "🎥 Video Lectures",
+    "📜 बोर्ड परीक्षा पेपर्स": "📜 Board Exam Papers",
+    "📘 Workbook Quiz": "📘 Workbook Quiz",
+    "🏛️ बोर्ड क्विज़": "🏛️ Board Quiz",
+    "📐 सूत्र": "📐 Formulas",
+    "कक्षा 10 गणित सूत्र": "Class 10 Math Formulas",
+    "RBSE अध्यायवार बोर्ड क्विज़": "RBSE Chapterwise Board Quiz",
+    "विद्यार्थी बदलें": "Switch Student",
+    "त्वरित खोज (Ctrl+K)": "Search (Ctrl+K)",
+    "सभी पेज खोलें": "Open Navigation Menu",
+    "नेविगेशन मेनू खोलें": "Open Menu",
+    "थीम बदलें": "Switch Theme",
+    "ध्वनि चालू/बंद करें": "Toggle Sound",
+    "मुख्य पृष्ठ पर जाएँ": "Go to Home",
+    "मुख्य पृष्ठ": "Home Page",
+    "हमारे बारे में": "About Us",
+    "संपर्क एवं सहायता": "Contact & Support",
+    "छात्र लॉगिन": "Student Login",
+    "भूल सुधार": "Mistake Book",
+    "रिवीजन प्लानर": "Revision Planner",
+    "लीडरबोर्ड एवं रैंक": "Leaderboard & Rank",
+    "परीक्षा परिणाम": "Exam Result",
+    "उत्तर समीक्षा": "Answer Review",
+    "अध्यायवार टेस्ट": "Chapter Tests",
+    "सैंपल पेपर्स": "Sample Papers",
+    "बोर्ड पेपर्स": "Board Papers",
+    "पुराने पेपर्स": "Previous Papers",
+    "प्रश्न बैंक": "Question Bank",
+    "अभ्यास क्विज़": "Practice Quiz",
+    "कक्षा 9 व 10 ई-लर्निंग": "Class 9 & 10 E-Learning",
+    "कक्षा 10 गणित": "Class 10 Mathematics",
+    "कक्षा 9 गणित": "Class 9 Mathematics",
+    "कक्षा 10 विज्ञान": "Class 10 Science",
+    "कक्षा 9 विज्ञान": "Class 9 Science",
+    "शुरू करें": "Start Now",
+    "जारी रखें": "Continue",
+    "अभ्यास शुरू करें": "Start Practice"
+  };
+
+  const REVERSE_UI_DICTIONARY = {};
+  Object.keys(UI_DICTIONARY).forEach(k => {
+    REVERSE_UI_DICTIONARY[UI_DICTIONARY[k]] = k;
+  });
+
+  function getLanguage() {
+    return currentLang;
+  }
+
+  function setLanguage(lang, triggerTranslate = true) {
+    currentLang = (lang === "en") ? "en" : "hi";
+    try {
+      localStorage.setItem(LANG_STORAGE_KEY, currentLang);
+    } catch (e) {}
+
+    document.documentElement.setAttribute("lang", currentLang);
+
+    // Synchronize all language toggle buttons
+    document.querySelectorAll(".lang-toggle-btn").forEach(btn => {
+      const opts = btn.querySelectorAll(".lang-opt");
+      if (opts.length >= 2) {
+        opts[0].classList.toggle("active", currentLang === "hi");
+        opts[1].classList.toggle("active", currentLang === "en");
+      }
+      btn.title = currentLang === "hi" 
+        ? "Switch to English / अंग्रेज़ी में बदलें" 
+        : "हिन्दी में बदलें / Switch to Hindi";
+    });
+
+    // Apply fast client UI translations
+    applyNavTranslations(currentLang);
+
+    // Apply Google Translate integration
+    if (triggerTranslate) {
+      applyGoogleTranslate(currentLang);
+    }
+
+    // Emit event
+    try {
+      window.dispatchEvent(new CustomEvent("schoolbrain-lang-change", { detail: { lang: currentLang } }));
+    } catch (e) {}
+  }
+
+  function toggleLanguage() {
+    setLanguage(currentLang === "hi" ? "en" : "hi", true);
+  }
+
+  function applyNavTranslations(lang) {
+    const targets = document.querySelectorAll(".exam-nav-pill, .board-chip, .topbar-desktop-link, .topbar-btn, .sidebar-link-title, .brand-title, .section-title, .cta-button");
+    targets.forEach(el => {
+      const text = el.textContent.trim();
+      if (lang === "en") {
+        if (!el.getAttribute("data-hi-text")) {
+          el.setAttribute("data-hi-text", text);
+        }
+        if (UI_DICTIONARY[text]) {
+          el.textContent = UI_DICTIONARY[text];
+        }
+      } else {
+        const orig = el.getAttribute("data-hi-text");
+        if (orig) {
+          el.textContent = orig;
+        } else if (REVERSE_UI_DICTIONARY[text]) {
+          el.textContent = REVERSE_UI_DICTIONARY[text];
+        }
+      }
+    });
+  }
+
+  function applyGoogleTranslate(lang) {
+    try {
+      const targetTrans = (lang === "en") ? "/auto/en" : "/auto/hi";
+      document.cookie = `googtrans=${targetTrans}; path=/;`;
+      if (window.location.hostname) {
+        document.cookie = `googtrans=${targetTrans}; path=/; domain=${window.location.hostname};`;
+      }
+
+      const select = document.querySelector(".goog-te-combo");
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event("change"));
+        return;
+      }
+
+      if (!window.google || !window.google.translate) {
+        loadGoogleTranslate(lang);
+      }
+    } catch (e) {
+      console.warn("Language switcher notice:", e);
+    }
+  }
+
+  function loadGoogleTranslate(targetLang) {
+    if (document.getElementById("googleTranslateScript")) return;
+
+    if (!document.getElementById("google_translate_element")) {
+      const gDiv = document.createElement("div");
+      gDiv.id = "google_translate_element";
+      gDiv.style.display = "none";
+      document.body.appendChild(gDiv);
+    }
+
+    window.googleTranslateElementInit = function() {
+      try {
+        new window.google.translate.TranslateElement({
+          pageLanguage: "hi",
+          includedLanguages: "hi,en",
+          autoDisplay: false
+        }, "google_translate_element");
+
+        if (targetLang === "en") {
+          setTimeout(() => {
+            const select = document.querySelector(".goog-te-combo");
+            if (select) {
+              select.value = "en";
+              select.dispatchEvent(new Event("change"));
+            }
+          }, 350);
+        }
+      } catch (err) {}
+    };
+
+    const script = document.createElement("script");
+    script.id = "googleTranslateScript";
+    script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.async = true;
+    document.head.appendChild(script);
+  }
+
+  function setupLanguageSwitcher() {
+    // Synchronize initial state
+    setLanguage(currentLang, currentLang === "en");
+
+    // Bind all buttons present in DOM
+    document.querySelectorAll(".lang-toggle-btn").forEach(btn => {
+      btn.removeEventListener("click", toggleLanguage);
+      btn.addEventListener("click", toggleLanguage);
+    });
+
+    const indexBtn = document.getElementById("indexLangToggleBtn");
+    if (indexBtn) {
+      indexBtn.removeEventListener("click", toggleLanguage);
+      indexBtn.addEventListener("click", toggleLanguage);
+    }
+
+    // Also bind spotlight button on index if not bound
+    const idxSpotlight = document.getElementById("indexSpotlightBtn");
+    if (idxSpotlight && ExamSuite.openSpotlight) {
+      idxSpotlight.addEventListener("click", () => ExamSuite.openSpotlight());
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupLanguageSwitcher);
+  } else {
+    setupLanguageSwitcher();
+  }
+
+  // Expose to ExamSuite
+  ExamSuite.getLanguage = getLanguage;
+  ExamSuite.setLanguage = setLanguage;
+  ExamSuite.toggleLanguage = toggleLanguage;
 
 })(window);
 
