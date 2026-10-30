@@ -4,20 +4,20 @@
    ========================================================================== */
 
 :root {
-  --lp-primary: #6366f1;
-  --lp-primary-hover: #4f46e5;
-  --lp-secondary: #0ea5e9;
-  --lp-accent: #d946ef;
+  --lp-primary: #970747;
+  --lp-primary-hover: #780436;
+  --lp-secondary: #b8145c;
+  --lp-accent: #ec4899;
   --lp-success: #10b981;
   --lp-warning: #f59e0b;
-  --lp-glow: rgba(99, 102, 241, 0.25);
+  --lp-glow: rgba(151, 7, 71, 0.25);
   --lp-glass-bg: rgba(255, 255, 255, 0.85);
   --lp-glass-border: rgba(255, 255, 255, 0.95);
   --lp-card-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
 }
 
 [data-theme="dark"] {
-  --lp-glow: rgba(129, 140, 248, 0.3);
+  --lp-glow: rgba(244, 114, 182, 0.3);
   --lp-glass-bg: rgba(23, 29, 45, 0.82);
   --lp-glass-border: rgba(255, 255, 255, 0.08);
   --lp-card-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
@@ -92,7 +92,7 @@
 }
 
 .landing-gradient-text {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 45%, #ec4899 100%);
+  background: linear-gradient(135deg, #970747 0%, #b8145c 45%, #ec4899 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -248,7 +248,7 @@
 .mockup-progress-fill {
   width: 88%;
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #10b981);
+  background: linear-gradient(90deg, #970747, #10b981);
   border-radius: 999px;
   transition: width 0.6s ease;
 }
@@ -333,7 +333,7 @@
 }
 
 .audience-tab-btn.active {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  background: linear-gradient(135deg, #970747, #780436);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 8px 20px var(--lp-glow);
@@ -605,7 +605,7 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #d946ef);
+  background: linear-gradient(135deg, #970747, #ec4899);
   display: grid;
   place-items: center;
   font-size: 24px;

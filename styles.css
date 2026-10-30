@@ -6,9 +6,14 @@
   --line: #e8eaf1;
   --paper: #ffffff;
   --canvas: #f6f7fb;
-  --violet: #6558df;
-  --violet-dark: #5043c8;
-  --violet-pale: #f0efff;
+  --violet: #970747; /* Dark Pink Primary */
+  --pink: #970747;
+  --pink-dark: #780436;
+  --pink-hover: #b8145c;
+  --pink-pale: #fdf2f8;
+  --pink-glow: rgba(151, 7, 71, 0.25);
+  --violet-dark: #780436;
+  --violet-pale: #fdf2f8;
   --green: #279874;
   --green-pale: #e8f8f2;
   --red: #d95858;
@@ -27,9 +32,13 @@
   --line: #2b334a;
   --paper: #171d2d;
   --canvas: #0e121d;
-  --violet: #857aff;
-  --violet-dark: #6e61f2;
-  --violet-pale: #26244d;
+  --violet: #f43f8a; /* Vibrant Dark Pink Highlight */
+  --pink: #f43f8a;
+  --pink-dark: #970747;
+  --pink-pale: #4a0422;
+  --pink-glow: rgba(244, 114, 182, 0.35);
+  --violet-dark: #be185d;
+  --violet-pale: #4a0422;
   --green: #35c496;
   --green-pale: #14352b;
   --red: #f37070;
@@ -103,7 +112,7 @@ button { color: inherit; font: inherit; }
 }
 
 .brand:focus-visible, .board-chip:focus-visible, .nav-toggle-btn:focus-visible {
-  outline: 3px solid #aca6ff;
+  outline: 3px solid rgba(151, 7, 71, 0.5);
   outline-offset: 3px;
 }
 
@@ -132,7 +141,7 @@ button { color: inherit; font: inherit; }
   color: #fff;
   background: var(--violet);
   font: 700 23px "DM Sans", sans-serif;
-  box-shadow: 0 5px 12px #6558df35;
+  box-shadow: 0 5px 12px rgba(151, 7, 71, 0.22);
 }
 
 .logo-mark {
@@ -309,7 +318,7 @@ html.is-login-screen .main-content {
   font-size: 13px;
 }
 .student-login-form input:not([type="checkbox"]) { text-transform: uppercase; }
-.student-login-form input:focus, .student-login-form select:focus { outline: 3px solid #aca6ff66; border-color: var(--violet); }
+.student-login-form input:focus, .student-login-form select:focus { outline: 3px solid rgba(151, 7, 71, 0.45); border-color: var(--violet); }
 .student-login-note { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
 .student-consent { display: flex; align-items: flex-start; gap: 9px; margin-top: 8px; color: var(--muted); font-size: 11px; line-height: 1.6; }
 .student-consent input { flex: 0 0 auto; margin-top: 3px; accent-color: var(--violet); }
@@ -418,7 +427,7 @@ html.is-login-screen .main-content {
 .admin-form { display: grid; gap: 9px; margin-top: 20px; }
 .admin-form label { margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 700; }
 .admin-form input:not([type="file"]) { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); font: inherit; font-size: 13px; }
-.admin-form input:focus { outline: 3px solid #aca6ff66; border-color: var(--violet); }
+.admin-form input:focus { outline: 3px solid rgba(151, 7, 71, 0.45); border-color: var(--violet); }
 .admin-message { min-height: 20px; margin: 4px 0 0 !important; color: var(--violet) !important; font-size: 12px !important; }
 .admin-message.error { color: var(--red) !important; }
 .admin-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin: 16px 0 22px; }
@@ -529,11 +538,11 @@ h1 { margin-bottom: 10px; font-size: clamp(26px, 3vw, 36px); line-height: 1.35; 
 .result-hero { padding: 29px; margin-bottom: 19px; border-radius: 18px; background: linear-gradient(115deg, #6457df, #8176ed); color: white; text-align: center; }
 .result-hero .result-icon { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 17px; background: #ffffff21; font-size: 25px; }
 .result-hero h1 { margin: 0 0 4px; font-size: 24px; }
-.result-hero p { margin: 0; color: #e3e1ff; font-size: 12px; }
+.result-hero p { margin: 0; color: #fce7f3; font-size: 12px; }
 .score-row { display: flex; justify-content: center; gap: 40px; margin-top: 19px; }
 .score-stat { display: grid; gap: 3px; }
 .score-stat strong { font: 700 23px "DM Sans", sans-serif; }
-.score-stat span { color: #e3e1ff; font-size: 10px; }
+.score-stat span { color: #fce7f3; font-size: 10px; }
 .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin: 15px 0 8px; }
 .result-accuracy { margin: -7px 0 15px; color: var(--muted); font-size: 12px; text-align: center; }
 .share-status { margin: 0 0 25px; color: var(--muted); font-size: 11px; text-align: center; line-height: 1.7; }
@@ -774,7 +783,7 @@ h1 { margin-bottom: 10px; font-size: clamp(26px, 3vw, 36px); line-height: 1.35; 
   transition: all .15s ease;
 }
 .sidebar-search-input:focus {
-  outline: 3px solid #aca6ff66;
+  outline: 3px solid rgba(151, 7, 71, 0.45);
   border-color: var(--violet);
   background: var(--paper);
 }
@@ -1869,7 +1878,7 @@ button, a, input, select, textarea {
   align-items: center;
   gap: 6px;
   background: rgba(14, 116, 144, 0.12);
-  color: #0284c7;
+  color: #970747;
   font-weight: 800;
   font-size: 11px;
   text-transform: uppercase;
@@ -1937,7 +1946,7 @@ button, a, input, select, textarea {
 }
 .rbse-hub-card:hover {
   transform: translateY(-2px);
-  border-color: #0284c7;
+  border-color: #970747;
   box-shadow: var(--shadow-sm);
 }
 .rbse-hub-card-header {
@@ -1949,8 +1958,8 @@ button, a, input, select, textarea {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: rgba(2, 132, 199, 0.12);
-  color: #0284c7;
+  background: rgba(151, 7, 71, 0.12);
+  color: #970747;
   display: grid;
   place-items: center;
   font-weight: 800;
@@ -1995,16 +2004,16 @@ button, a, input, select, textarea {
 .rbse-hub-btn:hover {
   background: #0284c7;
   color: #fff;
-  border-color: #0284c7;
+  border-color: #970747;
 }
 
 [data-theme="dark"] .rbse-chapter-card {
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(99, 102, 241, 0.12));
+  background: linear-gradient(135deg, rgba(151, 7, 71, 0.12), rgba(99, 102, 241, 0.12));
   border-color: rgba(2, 132, 199, 0.3);
 }
 [data-theme="dark"] .rbse-card-badge {
   background: rgba(2, 132, 199, 0.2);
-  color: #38bdf8;
+  color: #f472b6;
 }
 [data-theme="dark"] .rbse-hub-pill {
   background: rgba(34, 197, 94, 0.2);
@@ -2244,7 +2253,7 @@ button, a, input, select, textarea {
   transition: all 0.2s ease;
 }
 .selection-field-group select:focus {
-  outline: 3px solid #aca6ff66;
+  outline: 3px solid rgba(151, 7, 71, 0.45);
   border-color: var(--violet);
 }
 .selection-actions {
@@ -2838,7 +2847,7 @@ button, a, input, select, textarea {
 .subject-tile-btn {
   color: #ffffff !important;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(0, 0, 0, 0.08) 100%),
-              linear-gradient(135deg, #0284c7 0%, #2563eb 48%, #6366f1 100%) !important;
+              linear-gradient(135deg, #db2777 0%, #970747 48%, #780436 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.75),
               inset 0 -2px 4px rgba(0, 0, 0, 0.18),
@@ -2905,10 +2914,10 @@ button, a, input, select, textarea {
 .btn-resolve-mistake:hover,
 .subjects-change-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  color: #0284c7 !important;
-  border-color: #38bdf8 !important;
+  color: #970747 !important;
+  border-color: #f472b6 !important;
   box-shadow: inset 0 2px 3px rgba(255, 255, 255, 1),
-              inset 0 -2px 4px rgba(2, 132, 199, 0.15),
+              inset 0 -2px 4px rgba(151, 7, 71, 0.15),
               0 10px 22px rgba(14, 165, 233, 0.3),
               0 0 14px rgba(186, 230, 253, 0.6) !important;
 }
@@ -2918,8 +2927,8 @@ button, a, input, select, textarea {
 .btn-resolve-mistake:active,
 .subjects-change-btn:active {
   transform: translateY(1px) scale(0.97);
-  box-shadow: inset 0 2px 4px rgba(2, 132, 199, 0.25),
-              0 3px 8px rgba(14, 165, 233, 0.15) !important;
+  box-shadow: inset 0 2px 4px rgba(151, 7, 71, 0.25),
+              0 3px 8px rgba(151, 7, 71, 0.15) !important;
 }
 
 /* Water Droplet Nav Arrows & Small Control Buttons */
@@ -2928,11 +2937,11 @@ button, a, input, select, textarea {
 .theme-toggle-btn,
 .sound-toggle-btn,
 .lang-toggle-btn {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(224, 242, 254, 0.4) 100%) !important;
-  border: 1.5px solid rgba(186, 230, 253, 0.75) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(253, 242, 248, 0.45) 100%) !important;
+  border: 1.5px solid rgba(251, 207, 232, 0.75) !important;
   box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
-              inset 0 -1.5px 2px rgba(2, 132, 199, 0.12),
-              0 4px 12px rgba(14, 165, 233, 0.18) !important;
+              inset 0 -1.5px 2px rgba(151, 7, 71, 0.12),
+              0 4px 12px rgba(151, 7, 71, 0.18) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -2954,9 +2963,9 @@ button, a, input, select, textarea {
 .sound-toggle-btn:hover,
 .lang-toggle-btn:hover {
   transform: translateY(-2px) scale(1.06);
-  border-color: #38bdf8 !important;
+  border-color: #f472b6 !important;
   box-shadow: inset 0 2px 3px rgba(255, 255, 255, 1),
-              0 8px 18px rgba(14, 165, 233, 0.35) !important;
+              0 8px 18px rgba(151, 7, 71, 0.35) !important;
 }
 
 .topbar-arrow-btn:active:not(:disabled),
@@ -2972,10 +2981,10 @@ button, a, input, select, textarea {
 .board-chip.topbar-btn,
 .class-tab-btn,
 .page-nav-home {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(224, 242, 254, 0.35) 100%) !important;
-  border: 1.5px solid rgba(186, 230, 253, 0.65) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(253, 242, 248, 0.35) 100%) !important;
+  border: 1.5px solid rgba(251, 207, 232, 0.65) !important;
   box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
-              0 4px 12px rgba(14, 165, 233, 0.15) !important;
+              0 4px 12px rgba(151, 7, 71, 0.15) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -2984,7 +2993,7 @@ button, a, input, select, textarea {
 .class-tab-btn.active {
   color: #ffffff !important;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(0, 0, 0, 0.08) 100%),
-              linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #4f46e5 100%) !important;
+              linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important;
   border-color: rgba(255, 255, 255, 0.4) !important;
   box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.8),
               inset 0 -2px 4px rgba(0, 0, 0, 0.18),
@@ -2996,7 +3005,7 @@ button, a, input, select, textarea {
 .class-tab-btn:hover,
 .page-nav-home:hover {
   transform: translateY(-2px) scale(1.03);
-  border-color: #38bdf8 !important;
+  border-color: #f472b6 !important;
   box-shadow: inset 0 2px 3px rgba(255, 255, 255, 1),
               0 8px 20px rgba(14, 165, 233, 0.3) !important;
 }
@@ -3070,13 +3079,13 @@ button, a, input, select, textarea {
 .lang-badge .lang-opt.active {
   opacity: 1;
   font-weight: 800;
-  color: #0284c7;
-  background: rgba(2, 132, 199, 0.15);
+  color: #970747;
+  background: rgba(151, 7, 71, 0.15);
   box-shadow: 0 1px 3px rgba(2, 132, 199, 0.2);
 }
 
 [data-theme="dark"] .lang-badge .lang-opt.active {
-  color: #38bdf8;
+  color: #f472b6;
   background: rgba(56, 189, 248, 0.22);
 }
 
