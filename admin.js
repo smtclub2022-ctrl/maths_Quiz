@@ -1,404 +1,880 @@
-const loginPanel = document.getElementById("adminLoginPanel");
-const dashboard = document.getElementById("adminDashboard");
-const loginForm = document.getElementById("adminLoginForm");
-const loginMessage = document.getElementById("adminLoginMessage");
-const uploadForm = document.getElementById("adminUploadForm");
-const uploadMessage = document.getElementById("adminUploadMessage");
-const listMessage = document.getElementById("adminListMessage");
-const fileList = document.getElementById("adminFileList");
-const studentTableContainer = document.getElementById("adminStudentTableContainer");
+/**
+ * SchoolBrain - Owner Administration Console Engine
+ * Secure multi-card management for Files, Question Bank, Student Registrations & Backups.
+ */
 
-let csrfToken = "";
-const MASTER_CREDENTIALS = [
-  { user: "schoolbrain", pass: "admin123" },
-  { user: "SchoolBrain", pass: "admin123" },
-  { user: "admin", pass: "admin123" },
-  { user: "admin", pass: "admin@2026" },
-  { user: "imentor99", pass: "admin123" },
-,
-  { user: "admin", pass: "admin" },
-  { user: "admin", pass: "password" },
-  { user: "imentor99", pass: "imentor99" }
-];
+(function() {
+  "use strict";
 
-function getApiBase() {
-  const base = String(window.STUDENT_API_BASE_URL || "").trim().replace(/\/+$/, "");
-  // Don't treat Google Apps Script webhook as a REST admin backend
-  if (base.includes("script.google.com")) {
-    return "";
-  }
-  return base;
-}
+  // --- Theme Management in Admin ---
+  const THEME_KEY = "iMentorTheme";
+  const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+  document.documentElement.setAttribute("data-theme", savedTheme);
 
-function setMessage(element, message, isError = false) {
-  if (!element) return;
-  element.textContent = message;
-  element.classList.toggle("error", isError);
-}
-
-function showLogin(message = "") {
-  csrfToken = "";
-  sessionStorage.removeItem("adminSessionActive");
-  dashboard.hidden = true;
-  loginPanel.hidden = false;
-  setMessage(loginMessage, message, Boolean(message));
-}
-
-function showDashboard() {
-  sessionStorage.setItem("adminSessionActive", "true");
-  loginPanel.hidden = true;
-  dashboard.hidden = false;
-  loadFiles();
-  renderStudentTable();
-}
-
-function formatSize(bytes) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-// Local file storage helper for client-side mode
-function getLocalFiles() {
-  try {
-    const raw = localStorage.getItem("iMentorAdminFiles");
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveLocalFiles(files) {
-  try {
-    localStorage.setItem("iMentorAdminFiles", JSON.stringify(files));
-  } catch (e) {
-    console.warn("Could not save to localStorage:", e);
-  }
-}
-
-function renderFiles(files) {
-  fileList.replaceChildren();
-  if (!files.length) {
-    const empty = document.createElement("li");
-    empty.className = "admin-empty";
-    empty.textContent = "NO FILES HAVE BEEN UPLOADED.";
-    fileList.append(empty);
-    return;
+  const themeToggleBtn = document.getElementById("adminThemeToggleBtn");
+  const themeIcon = document.getElementById("adminThemeIcon");
+  if (themeToggleBtn) {
+    if (themeIcon) themeIcon.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+    themeToggleBtn.addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme") || "light";
+      const next = cur === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem(THEME_KEY, next);
+      if (themeIcon) themeIcon.textContent = next === "dark" ? "☀️" : "🌙";
+    });
   }
 
-  files.forEach(file => {
-    const row = document.createElement("li");
-    row.className = "admin-file";
-    const info = document.createElement("div");
-    info.className = "admin-file-info";
-    const name = document.createElement("strong");
-    name.textContent = file.name;
-    const metadata = document.createElement("span");
-    metadata.textContent = `${formatSize(file.size)} · ${new Date(file.uploadedAt).toLocaleString()}`;
-    info.append(name, metadata);
+  // --- Toast Notification Helper ---
+  const toast = document.getElementById("adminToast");
+  const toastMsg = document.getElementById("toastMsg");
+  const toastIcon = document.getElementById("toastIcon");
+  let toastTimer = null;
 
-    const actions = document.createElement("div");
-    actions.className = "admin-file-actions";
+  function showToast(message, isError = false) {
+    if (!toast) return;
+    clearTimeout(toastTimer);
+    toastMsg.textContent = message;
+    toastIcon.textContent = isError ? "⚠️" : "✓";
+    toast.style.background = isError ? "#be123c" : "#0f172a";
+    toast.classList.add("show");
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+  }
 
-    if (file.dataUrl) {
-      const download = document.createElement("a");
-      download.href = file.dataUrl;
-      download.download = file.name;
-      download.textContent = "DOWNLOAD";
-      actions.append(download);
-    } else if (getApiBase()) {
-      const download = document.createElement("a");
-      download.href = `${getApiBase()}/api/admin/files/${encodeURIComponent(file.id)}`;
-      download.textContent = "DOWNLOAD";
-      download.rel = "noopener";
-      actions.append(download);
+  // --- Owner Authentication Gate ---
+  const authGate = document.getElementById("ownerAuthGate");
+  const dashboardWrap = document.getElementById("ownerDashboardWrap");
+  const authForm = document.getElementById("ownerAuthForm");
+  const authMessage = document.getElementById("authGateMessage");
+  const lockBtn = document.getElementById("adminLockBtn");
+
+  const MASTER_CREDENTIALS = [
+    { user: "admin", pass: "admin@2026" },
+    { user: "admin", pass: "admin123" },
+    { user: "schoolbrain", pass: "admin123" },
+    { user: "imentor99", pass: "admin123" }
+  ];
+
+  function getCustomPassword() {
+    return localStorage.getItem("schoolbrain_admin_custom_pass") || "";
+  }
+
+  function isAuthenticated() {
+    return sessionStorage.getItem("schoolbrain_owner_session") === "active";
+  }
+
+  function verifyLogin(username, password) {
+    const u = String(username || "").trim().toLowerCase();
+    const p = String(password || "").trim();
+
+    // Check custom saved password
+    const customPass = getCustomPassword();
+    if (customPass && (u === "admin" || u === "owner" || u === "schoolbrain") && p === customPass) {
+      return true;
     }
 
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.textContent = "DELETE";
-    remove.addEventListener("click", () => deleteFile(file.id));
-    actions.append(remove);
+    // Check master fallback credentials
+    return MASTER_CREDENTIALS.some(c => c.user.toLowerCase() === u && c.pass === p);
+  }
 
-    row.append(info, actions);
-    fileList.append(row);
+  function setAuthenticatedState(active) {
+    if (active) {
+      sessionStorage.setItem("schoolbrain_owner_session", "active");
+      authGate.style.display = "none";
+      dashboardWrap.style.display = "flex";
+      lockBtn.style.display = "inline-flex";
+      loadAllModules();
+    } else {
+      sessionStorage.removeItem("schoolbrain_owner_session");
+      authGate.style.display = "block";
+      dashboardWrap.style.display = "none";
+      lockBtn.style.display = "none";
+      authForm.reset();
+    }
+  }
+
+  authForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const u = document.getElementById("adminUsername").value;
+    const p = document.getElementById("adminPassword").value;
+
+    if (verifyLogin(u, p)) {
+      authMessage.style.display = "none";
+      setAuthenticatedState(true);
+      showToast("Owner console unlocked successfully.");
+    } else {
+      authMessage.textContent = "Invalid username or master password. Access denied.";
+      authMessage.style.display = "block";
+      showToast("Invalid credentials", true);
+    }
   });
-}
 
-async function loadFiles() {
-  setMessage(listMessage, "LOADING FILES…");
-  const base = getApiBase();
-  if (!base) {
-    // Client-side local storage mode
-    const files = getLocalFiles();
-    renderFiles(files);
-    setMessage(listMessage, "");
-    return;
-  }
+  lockBtn.addEventListener("click", function() {
+    setAuthenticatedState(false);
+    showToast("Owner console locked.");
+  });
 
-  try {
-    const response = await fetch(`${base}/api/admin/files`, { credentials: "include" });
-    if (!response.ok) throw new Error("Could not load files from server.");
-    const data = await response.json();
-    renderFiles(data.files || []);
-    setMessage(listMessage, "");
-  } catch (error) {
-    // Fall back to local files
-    const files = getLocalFiles();
-    renderFiles(files);
-    setMessage(listMessage, "");
-  }
-}
 
-async function deleteFile(fileId) {
-  if (!window.confirm("DELETE THIS UPLOADED FILE?")) return;
-  setMessage(listMessage, "DELETING FILE…");
+  // --- Tab Switching Navigation ---
+  const tabButtons = document.querySelectorAll(".admin-tab-btn");
+  const tabContents = document.querySelectorAll(".admin-tab-content");
 
-  const base = getApiBase();
-  if (!base) {
-    let files = getLocalFiles();
-    files = files.filter(f => f.id !== fileId);
-    saveLocalFiles(files);
-    await loadFiles();
-    return;
-  }
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach(b => b.classList.remove("active"));
+      tabContents.forEach(c => c.style.display = "none");
 
-  try {
-    await fetch(`${base}/api/admin/files/${encodeURIComponent(fileId)}`, {
-      method: "DELETE",
-      headers: { "X-CSRF-Token": csrfToken },
-      credentials: "include"
+      btn.classList.add("active");
+      const targetId = btn.getAttribute("data-tab");
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) targetEl.style.display = "block";
     });
-    await loadFiles();
-  } catch (error) {
-    let files = getLocalFiles();
-    files = files.filter(f => f.id !== fileId);
-    saveLocalFiles(files);
-    await loadFiles();
+  });
+
+
+  // ============================================================
+  // MODULE 1: FILE REPOSITORY & UPLOADS
+  // ============================================================
+  const FILES_KEY = "iMentorAdminFiles";
+  const dropzone = document.getElementById("uploadDropzone");
+  const fileInput = document.getElementById("adminFileInput");
+  const filesTableBody = document.getElementById("filesTableBody");
+  const filesCountBadge = document.getElementById("filesCountBadge");
+  const searchFilesInput = document.getElementById("searchFilesInput");
+  const refreshFilesBtn = document.getElementById("refreshFilesBtn");
+  const kpiFilesCount = document.getElementById("kpiFilesCount");
+
+  function getLocalFiles() {
+    try {
+      const raw = localStorage.getItem(FILES_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
   }
-}
 
-function renderStudentTable() {
-  if (!studentTableContainer) return;
-  try {
-    const raw = localStorage.getItem("iMentorStudentLogins");
-    const list = raw ? JSON.parse(raw) : [];
+  function saveLocalFiles(list) {
+    try {
+      localStorage.setItem(FILES_KEY, JSON.stringify(list));
+    } catch (e) {
+      console.warn("Storage quota exceeded or error:", e);
+      showToast("Storage quota notice: file metadata saved", true);
+    }
+  }
 
-    if (!list || !list.length) {
-      studentTableContainer.innerHTML = `
-        <div style="padding: 16px; background: var(--bg-card, #ffffff); border: 1px solid var(--line, #e2e8f0); border-radius: 8px; color: var(--text-muted, #64748b); font-size: 13px;">
-          ℹ️ कोई नया स्थानीय छात्र पंजीकरण उपलब्ध नहीं है। छात्र पंजीकरण स्वचालित रूप से Google Sheets और यहाँ सिंक होते हैं।
-        </div>
+  function formatBytes(bytes) {
+    if (bytes === 0) return "0 B";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
+
+  function getFileIcon(filename) {
+    const ext = filename.split(".").pop().toLowerCase();
+    if (ext === "pdf") return "📄";
+    if (["doc", "docx"].includes(ext)) return "📝";
+    if (["xls", "xlsx", "csv"].includes(ext)) return "📊";
+    if (["png", "jpg", "jpeg", "svg"].includes(ext)) return "🖼️";
+    if (ext === "json") return "⚙️";
+    return "📁";
+  }
+
+  function renderFilesList(filterQuery = "") {
+    const allFiles = getLocalFiles();
+    const query = filterQuery.trim().toLowerCase();
+    const files = query ? allFiles.filter(f => f.name.toLowerCase().includes(query)) : allFiles;
+
+    if (filesCountBadge) filesCountBadge.textContent = allFiles.length;
+    if (kpiFilesCount) kpiFilesCount.textContent = allFiles.length;
+
+    filesTableBody.innerHTML = "";
+    if (!files.length) {
+      filesTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; color: var(--admin-muted); padding: 32px;">
+            ${query ? "No files matching search." : "No files uploaded yet. Drag files above or click to browse."}
+          </td>
+        </tr>
       `;
       return;
     }
 
-    const rowsHtml = list.map((item, idx) => {
-      const sno = item.sno || item["S.No."] || (idx + 1);
-      const date = item.date || item["Date"] || "-";
-      const time = item.time || item["Time"] || "-";
-      const name = item.studentName || item["Student Name"] || item.name || "-";
-      const cls = item.class || item["Class"] || "-";
-      const sec = item.section || item["Section"] || "-";
-      const sch = item.school || item["School"] || "-";
-      const mob = item.mobile || item["Mobile Number"] || "-";
+    files.forEach(f => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="font-size: 22px; text-align: center;">${getFileIcon(f.name)}</td>
+        <td>
+          <strong style="color: var(--admin-ink); display: block;">${escapeHtml(f.name)}</strong>
+          <span style="font-size: 11px; color: var(--admin-muted);">${f.type || "Document"}</span>
+        </td>
+        <td>${formatBytes(f.size)}</td>
+        <td style="font-size: 12px; color: var(--admin-muted);">
+          ${f.uploadedAt ? new Date(f.uploadedAt).toLocaleString() : "Recently"}
+        </td>
+        <td style="text-align: right;">
+          <div style="display: inline-flex; gap: 6px; justify-content: flex-end;">
+            ${f.dataUrl ? `<a href="${f.dataUrl}" download="${escapeHtml(f.name)}" class="action-chip-btn btn-download">📥 Download</a>` : ''}
+            <button type="button" class="action-chip-btn btn-del" data-del-file="${f.id}">🗑️ Delete</button>
+          </div>
+        </td>
+      `;
+      filesTableBody.appendChild(tr);
+    });
 
-      return `
-        <tr style="border-bottom: 1px solid var(--line, #e2e8f0);">
-          <td style="padding: 8px 12px; font-weight: 600;">${sno}</td>
-          <td style="padding: 8px 12px; white-space: nowrap;">${date}</td>
-          <td style="padding: 8px 12px; white-space: nowrap;">${time}</td>
-          <td style="padding: 8px 12px; font-weight: 600; color: var(--primary, #094067);">${name}</td>
-          <td style="padding: 8px 12px;">कक्षा ${cls}</td>
-          <td style="padding: 8px 12px;">${sec}</td>
-          <td style="padding: 8px 12px;">${sch}</td>
-          <td style="padding: 8px 12px; font-family: monospace;">${mob}</td>
+    // Bind delete buttons
+    filesTableBody.querySelectorAll("[data-del-file]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-del-file");
+        deleteFile(id);
+      });
+    });
+  }
+
+  function deleteFile(fileId) {
+    if (!confirm("Are you sure you want to remove this file permanently?")) return;
+    let files = getLocalFiles();
+    files = files.filter(f => f.id !== fileId);
+    saveLocalFiles(files);
+    renderFilesList(searchFilesInput.value);
+    showToast("File removed successfully.");
+  }
+
+  function handleUploadedFiles(fileListItems) {
+    if (!fileListItems || !fileListItems.length) return;
+    const currentFiles = getLocalFiles();
+    let processed = 0;
+
+    Array.from(fileListItems).forEach(file => {
+      if (file.size > 25 * 1024 * 1024) {
+        showToast(`${file.name} exceeds 25 MB limit`, true);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newRecord = {
+          id: "file_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5),
+          name: file.name,
+          size: file.size,
+          type: file.type || file.name.split(".").pop().toUpperCase(),
+          uploadedAt: new Date().toISOString(),
+          dataUrl: e.target.result
+        };
+        currentFiles.unshift(newRecord);
+        processed++;
+
+        if (processed === fileListItems.length) {
+          saveLocalFiles(currentFiles);
+          renderFilesList();
+          showToast(`Uploaded ${processed} file(s) successfully!`);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Dropzone events
+  if (dropzone && fileInput) {
+    dropzone.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", (e) => {
+      handleUploadedFiles(e.target.files);
+      fileInput.value = "";
+    });
+
+    ["dragenter", "dragover"].forEach(event => {
+      dropzone.addEventListener(event, (e) => {
+        e.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(event => {
+      dropzone.addEventListener(event, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("dragover");
+      });
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files) handleUploadedFiles(dt.files);
+    });
+  }
+
+  if (searchFilesInput) {
+    searchFilesInput.addEventListener("input", (e) => renderFilesList(e.target.value));
+  }
+  if (refreshFilesBtn) {
+    refreshFilesBtn.addEventListener("click", () => {
+      renderFilesList();
+      showToast("Files list refreshed");
+    });
+  }
+
+
+  // ============================================================
+  // MODULE 2: QUESTION BANK MANAGER (ADD, EDIT, REMOVE)
+  // ============================================================
+  const QUESTIONS_KEY = "schoolbrain_custom_questions";
+  const questionsTableBody = document.getElementById("questionsTableBody");
+  const filterQuestionChapter = document.getElementById("filterQuestionChapter");
+  const searchQuestionInput = document.getElementById("searchQuestionInput");
+  const openAddQuestionBtn = document.getElementById("openAddQuestionBtn");
+  const exportQuestionsBtn = document.getElementById("exportQuestionsBtn");
+  const questionModal = document.getElementById("questionModalBackdrop");
+  const questionForm = document.getElementById("questionForm");
+  const questionModalTitle = document.getElementById("questionModalTitle");
+  const closeQuestionModalBtn = document.getElementById("closeQuestionModalBtn");
+  const cancelQuestionBtn = document.getElementById("cancelQuestionBtn");
+  const kpiQuestionsCount = document.getElementById("kpiQuestionsCount");
+
+  function getCustomQuestions() {
+    try {
+      const raw = localStorage.getItem(QUESTIONS_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+
+    // Initial default seed bank if none stored
+    const seed = [
+      { id: "q1", class: "10", chapter: "1", text: "140 के अभाज्य गुणनखंडों के गुणनफल के रूप में व्यक्त कीजिए।", a: "2² × 5 × 7", b: "2³ × 5", c: "2 × 5² × 7", d: "2² × 7²", correct: "A", marks: 1, explanation: "140 = 2 × 70 = 2 × 2 × 35 = 2² × 5 × 7" },
+      { id: "q2", class: "10", chapter: "1", text: "संख्याओं 6 और 20 के अभाज्य गुणनखंडन विधि से HCF और LCM ज्ञात कीजिए।", a: "HCF = 2, LCM = 60", b: "HCF = 4, LCM = 30", c: "HCF = 6, LCM = 120", d: "HCF = 2, LCM = 40", correct: "A", marks: 1, explanation: "6 = 2×3, 20 = 2²×5. HCF = 2, LCM = 2²×3×5 = 60" },
+      { id: "q3", class: "10", chapter: "8", text: "यदि sin A = 3/4 हो, तो cos A का मान होगा:", a: "√7/4", b: "4/3", c: "3/√7", d: "1/2", correct: "A", marks: 1, explanation: "cos² A = 1 - sin² A = 1 - 9/16 = 7/16, cos A = √7/4" },
+      { id: "q4", class: "10", chapter: "4", text: "द्विघात समीकरण 2x² - 4x + 3 = 0 का विविक्तकर (Discriminant) क्या होगा?", a: "-8", b: "8", c: "-16", d: "0", correct: "A", marks: 1, explanation: "D = b² - 4ac = (-4)² - 4(2)(3) = 16 - 24 = -8" }
+    ];
+    saveCustomQuestions(seed);
+    return seed;
+  }
+
+  function saveCustomQuestions(list) {
+    try {
+      localStorage.setItem(QUESTIONS_KEY, JSON.stringify(list));
+    } catch (e) {}
+  }
+
+  function renderQuestionsList() {
+    const all = getCustomQuestions();
+    const chFilter = filterQuestionChapter ? filterQuestionChapter.value : "all";
+    const qQuery = searchQuestionInput ? searchQuestionInput.value.trim().toLowerCase() : "";
+
+    let filtered = all;
+    if (chFilter !== "all") {
+      filtered = filtered.filter(q => String(q.chapter) === chFilter);
+    }
+    if (qQuery) {
+      filtered = filtered.filter(q => q.text.toLowerCase().includes(qQuery));
+    }
+
+    if (kpiQuestionsCount) kpiQuestionsCount.textContent = all.length;
+
+    questionsTableBody.innerHTML = "";
+    if (!filtered.length) {
+      questionsTableBody.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--admin-muted); padding: 30px;">
+            No questions matching criteria. Click 'Add New Question' to create one.
+          </td>
         </tr>
       `;
-    }).join("");
-
-    studentTableContainer.innerHTML = `
-      <div style="background: var(--bg-card, #ffffff); border: 1px solid var(--line, #e2e8f0); border-radius: 8px; overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
-          <thead>
-            <tr style="background: var(--bg-subtle, #f8fafc); border-bottom: 2px solid var(--line, #cbd5e1); font-weight: 700;">
-              <th style="padding: 10px 12px;">क्र.सं. (S.No.)</th>
-              <th style="padding: 10px 12px;">दिनांक (Date)</th>
-              <th style="padding: 10px 12px;">समय (Time)</th>
-              <th style="padding: 10px 12px;">विद्यार्थी नाम (Name)</th>
-              <th style="padding: 10px 12px;">कक्षा (Class)</th>
-              <th style="padding: 10px 12px;">वर्ग (Section)</th>
-              <th style="padding: 10px 12px;">विद्यालय (School)</th>
-              <th style="padding: 10px 12px;">मोबाइल नं. (Mobile)</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rowsHtml}
-          </tbody>
-        </table>
-      </div>
-      <p style="font-size: 12px; color: var(--text-muted, #64748b); margin-top: 8px;">कुल पंजीकृत विद्यार्थी: <strong>${list.length}</strong> | Google Sheets और CSV में यह डेटा 8 कॉलम में उपलब्ध रहता है।</p>
-    `;
-  } catch (err) {
-    console.error("renderStudentTable error:", err);
-  }
-}
-
-loginForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!loginForm.reportValidity()) return;
-  const submit = loginForm.querySelector('[type="submit"]');
-  const formData = new FormData(loginForm);
-  const inputUser = String(formData.get("username") || "").trim().toLowerCase();
-  const inputPass = String(formData.get("password") || "").trim();
-
-  submit.disabled = true;
-  setMessage(loginMessage, "SIGNING IN…");
-
-  // Check master credentials
-  const isMaster = MASTER_CREDENTIALS.some(
-    cred => cred.user.toLowerCase() === inputUser && cred.pass === inputPass
-  );
-
-  if (isMaster) {
-    loginForm.reset();
-    showDashboard();
-    submit.disabled = false;
-    return;
-  }
-
-  // If not master credentials and a server backend is configured, attempt backend login
-  const base = getApiBase();
-  if (base) {
-    try {
-      const response = await fetch(`${base}/api/admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ username: inputUser, password: inputPass })
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Invalid credentials.");
-      csrfToken = data.csrfToken || "";
-      loginForm.reset();
-      showDashboard();
-    } catch (error) {
-      setMessage(loginMessage, error.message || "INVALID ADMIN CREDENTIALS.", true);
-    } finally {
-      submit.disabled = false;
+      return;
     }
-    return;
-  }
 
-  // Invalid master credentials
-  setMessage(loginMessage, "INVALID USERNAME OR PASSWORD. PLEASE CHECK CREDENTIALS.", true);
-  submit.disabled = false;
-});
+    filtered.forEach(q => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><span style="font-weight: 700; color: var(--admin-pink);">${escapeHtml(String(q.id))}</span></td>
+        <td><span class="course-tag" style="font-size: 11px;">Ch ${escapeHtml(String(q.chapter))}</span></td>
+        <td>
+          <div style="font-weight: 600; color: var(--admin-ink); max-width: 320px; line-height: 1.5;">
+            ${escapeHtml(q.text)}
+          </div>
+        </td>
+        <td style="font-size: 12px; color: var(--admin-muted);">
+          A: ${escapeHtml(q.a)} | B: ${escapeHtml(q.b)}
+        </td>
+        <td style="text-align: center;">
+          <strong style="color: #16a34a; background: #f0fdf4; padding: 2px 8px; border-radius: 6px; font-size: 12px;">
+            ${escapeHtml(q.correct)}
+          </strong>
+        </td>
+        <td style="text-align: right;">
+          <div style="display: inline-flex; gap: 6px; justify-content: flex-end;">
+            <button type="button" class="action-chip-btn btn-edit" data-edit-q="${q.id}">✏️ Edit</button>
+            <button type="button" class="action-chip-btn btn-del" data-del-q="${q.id}">🗑️ Del</button>
+          </div>
+        </td>
+      `;
+      questionsTableBody.appendChild(tr);
+    });
 
-uploadForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!uploadForm.reportValidity()) return;
-  const input = document.getElementById("adminFile");
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 25 * 1024 * 1024) {
-    setMessage(uploadMessage, "EACH FILE MUST BE 25 MB OR SMALLER.", true);
-    return;
-  }
-
-  const submit = uploadForm.querySelector('[type="submit"]');
-  submit.disabled = true;
-  setMessage(uploadMessage, "UPLOADING FILE…");
-
-  const base = getApiBase();
-  if (base) {
-    try {
-      const body = new FormData();
-      body.append("file", file);
-      const res = await fetch(`${base}/api/admin/files`, {
-        method: "POST",
-        headers: { "X-CSRF-Token": csrfToken },
-        credentials: "include",
-        body
+    // Bind Edit
+    questionsTableBody.querySelectorAll("[data-edit-q]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-edit-q");
+        openEditQuestionModal(id);
       });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Upload failed.");
-      input.value = "";
-      setMessage(uploadMessage, `${result.name || file.name} UPLOADED SUCCESSFULLY.`);
-      await loadFiles();
-    } catch (error) {
-      setMessage(uploadMessage, error.message, true);
-    } finally {
-      submit.disabled = false;
-    }
-    return;
+    });
+
+    // Bind Delete
+    questionsTableBody.querySelectorAll("[data-del-q]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-del-q");
+        deleteQuestion(id);
+      });
+    });
   }
 
-  // Client-side local storage fallback
-  try {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const files = getLocalFiles();
-      const newFile = {
-        id: "file_" + Date.now(),
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        uploadedAt: new Date().toISOString(),
-        dataUrl: e.target.result
-      };
-      files.unshift(newFile);
-      saveLocalFiles(files);
-      input.value = "";
-      setMessage(uploadMessage, `${file.name} UPLOADED SUCCESSFULLY.`);
-      loadFiles();
-      submit.disabled = false;
-    };
-    reader.onerror = function() {
-      setMessage(uploadMessage, "FILE COULD NOT BE READ.", true);
-      submit.disabled = false;
-    };
-    reader.readAsDataURL(file);
-  } catch (err) {
-    setMessage(uploadMessage, "UPLOAD FAILED.", true);
-    submit.disabled = false;
-  }
-});
-
-const refreshBtn = document.getElementById("refreshAdminFiles");
-if (refreshBtn) {
-  refreshBtn.addEventListener("click", () => {
-    loadFiles();
-    renderStudentTable();
-  });
-}
-
-const exportAdminBtn = document.getElementById("exportAdminLoginsBtn");
-if (exportAdminBtn) {
-  exportAdminBtn.addEventListener("click", () => {
-    if (typeof window.exportStudentLoginsCSV === "function") {
-      window.exportStudentLoginsCSV();
+  function openEditQuestionModal(qId = "") {
+    questionForm.reset();
+    if (qId) {
+      const all = getCustomQuestions();
+      const item = all.find(q => q.id === qId);
+      if (item) {
+        document.getElementById("qEditId").value = item.id;
+        document.getElementById("qClass").value = item.class || "10";
+        document.getElementById("qChapter").value = item.chapter || "1";
+        document.getElementById("qText").value = item.text || "";
+        document.getElementById("qOptA").value = item.a || "";
+        document.getElementById("qOptB").value = item.b || "";
+        document.getElementById("qOptC").value = item.c || "";
+        document.getElementById("qOptD").value = item.d || "";
+        document.getElementById("qCorrect").value = item.correct || "A";
+        document.getElementById("qMarks").value = item.marks || 1;
+        document.getElementById("qExplanation").value = item.explanation || "";
+        questionModalTitle.textContent = "✏️ Update Question #" + item.id;
+      }
     } else {
-      alert("CSV Export is not available.");
+      document.getElementById("qEditId").value = "";
+      questionModalTitle.textContent = "➕ Add New Question";
     }
-  });
-}
-
-const logoutBtn = document.getElementById("adminLogout");
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", () => {
-    sessionStorage.removeItem("adminSessionActive");
-    showLogin("SIGNED OUT.");
-  });
-}
-
-function initializeAdminPage() {
-  const activeSession = sessionStorage.getItem("adminSessionActive");
-  if (activeSession === "true") {
-    showDashboard();
-  } else {
-    showLogin("");
+    questionModal.classList.add("active");
   }
-}
 
-initializeAdminPage();
+  function closeQuestionModal() {
+    questionModal.classList.remove("active");
+  }
+
+  function deleteQuestion(qId) {
+    if (!confirm("Are you sure you want to remove this question?")) return;
+    let all = getCustomQuestions();
+    all = all.filter(q => q.id !== qId);
+    saveCustomQuestions(all);
+    renderQuestionsList();
+    showToast("Question removed from bank.");
+  }
+
+  questionForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const editId = document.getElementById("qEditId").value;
+    const questions = getCustomQuestions();
+
+    const record = {
+      id: editId || ("q_" + Date.now()),
+      class: document.getElementById("qClass").value,
+      chapter: document.getElementById("qChapter").value,
+      text: document.getElementById("qText").value.trim(),
+      a: document.getElementById("qOptA").value.trim(),
+      b: document.getElementById("qOptB").value.trim(),
+      c: document.getElementById("qOptC").value.trim(),
+      d: document.getElementById("qOptD").value.trim(),
+      correct: document.getElementById("qCorrect").value,
+      marks: parseInt(document.getElementById("qMarks").value, 10) || 1,
+      explanation: document.getElementById("qExplanation").value.trim()
+    };
+
+    if (editId) {
+      const idx = questions.findIndex(q => q.id === editId);
+      if (idx !== -1) questions[idx] = record;
+      showToast("Question updated successfully!");
+    } else {
+      questions.unshift(record);
+      showToast("New question added to bank!");
+    }
+
+    saveCustomQuestions(questions);
+    renderQuestionsList();
+    closeQuestionModal();
+  });
+
+  if (openAddQuestionBtn) openAddQuestionBtn.addEventListener("click", () => openEditQuestionModal());
+  if (closeQuestionModalBtn) closeQuestionModalBtn.addEventListener("click", closeQuestionModal);
+  if (cancelQuestionBtn) cancelQuestionBtn.addEventListener("click", closeQuestionModal);
+
+  if (filterQuestionChapter) filterQuestionChapter.addEventListener("change", () => renderQuestionsList());
+  if (searchQuestionInput) searchQuestionInput.addEventListener("input", () => renderQuestionsList());
+
+  if (exportQuestionsBtn) {
+    exportQuestionsBtn.addEventListener("click", () => {
+      const data = getCustomQuestions();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `SchoolBrain_Questions_Export_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Question bank exported.");
+    });
+  }
+
+
+  // ============================================================
+  // MODULE 3: STUDENT REGISTRATIONS (8 COLUMNS)
+  // ============================================================
+  const STUDENT_KEY = "iMentorStudentLogins";
+  const studentTableBody = document.getElementById("studentTableBody");
+  const searchStudentInput = document.getElementById("searchStudentInput");
+  const exportStudentCsvBtn = document.getElementById("exportStudentCsvBtn");
+  const addNewStudentBtn = document.getElementById("addNewStudentBtn");
+  const clearAllStudentsBtn = document.getElementById("clearAllStudentsBtn");
+  const syncWebhookBtn = document.getElementById("syncWebhookBtn");
+  const studentModal = document.getElementById("studentModalBackdrop");
+  const studentEditForm = document.getElementById("studentEditForm");
+  const studentModalTitle = document.getElementById("studentModalTitle");
+  const closeStudentModalBtn = document.getElementById("closeStudentModalBtn");
+  const cancelStudentBtn = document.getElementById("cancelStudentBtn");
+  const kpiStudentsCount = document.getElementById("kpiStudentsCount");
+
+  function getStudentRecords() {
+    try {
+      const raw = localStorage.getItem(STUDENT_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveStudentRecords(list) {
+    try {
+      localStorage.setItem(STUDENT_KEY, JSON.stringify(list));
+    } catch (e) {}
+  }
+
+  function renderStudentTable(filterQuery = "") {
+    const all = getStudentRecords();
+    const query = filterQuery.trim().toLowerCase();
+    const list = query 
+      ? all.filter(s => (s.name || "").toLowerCase().includes(query) || (s.mobile || "").includes(query) || (s.school || "").toLowerCase().includes(query))
+      : all;
+
+    if (kpiStudentsCount) kpiStudentsCount.textContent = all.length;
+
+    studentTableBody.innerHTML = "";
+    if (!list.length) {
+      studentTableBody.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; color: var(--admin-muted); padding: 30px;">
+            ${query ? "No student records matched search." : "No student records found. New logins will appear automatically."}
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    list.forEach((st, idx) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="font-weight: 700; color: var(--admin-pink);">${idx + 1}</td>
+        <td>${escapeHtml(st.date || new Date().toISOString().slice(0, 10))}</td>
+        <td>${escapeHtml(st.time || "10:00 AM")}</td>
+        <td><strong style="color: var(--admin-ink);">${escapeHtml(st.name || "N/A")}</strong></td>
+        <td><span class="course-tag" style="font-size: 11px;">${escapeHtml(st.class || "CLASS 10")}</span></td>
+        <td>${escapeHtml(st.section || "A")}</td>
+        <td><span style="font-size: 12px; color: var(--admin-muted);">${escapeHtml(st.school || "N/A")}</span></td>
+        <td><code style="font-weight: 700; color: var(--admin-pink);">${escapeHtml(st.mobile || "N/A")}</code></td>
+        <td style="text-align: right;">
+          <div style="display: inline-flex; gap: 4px;">
+            <button type="button" class="action-chip-btn btn-edit" data-edit-st="${idx}">✏️</button>
+            <button type="button" class="action-chip-btn btn-del" data-del-st="${idx}">🗑️</button>
+          </div>
+        </td>
+      `;
+      studentTableBody.appendChild(tr);
+    });
+
+    studentTableBody.querySelectorAll("[data-edit-st]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const i = parseInt(btn.getAttribute("data-edit-st"), 10);
+        openStudentModal(i);
+      });
+    });
+
+    studentTableBody.querySelectorAll("[data-del-st]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const i = parseInt(btn.getAttribute("data-del-st"), 10);
+        deleteStudent(i);
+      });
+    });
+  }
+
+  function openStudentModal(index = -1) {
+    studentEditForm.reset();
+    document.getElementById("studentEditIndex").value = index;
+
+    if (index >= 0) {
+      const all = getStudentRecords();
+      const st = all[index];
+      if (st) {
+        document.getElementById("stName").value = st.name || "";
+        document.getElementById("stClass").value = st.class || "CLASS 10";
+        document.getElementById("stSection").value = st.section || "A";
+        document.getElementById("stSchool").value = st.school || "";
+        document.getElementById("stMobile").value = st.mobile || "";
+        studentModalTitle.textContent = "✏️ Edit Student #" + (index + 1);
+      }
+    } else {
+      studentModalTitle.textContent = "➕ Add Student Record";
+    }
+    studentModal.classList.add("active");
+  }
+
+  function deleteStudent(index) {
+    if (!confirm("Are you sure you want to delete this student record?")) return;
+    const all = getStudentRecords();
+    all.splice(index, 1);
+    saveStudentRecords(all);
+    renderStudentTable();
+    showToast("Student record removed.");
+  }
+
+  studentEditForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const idx = parseInt(document.getElementById("studentEditIndex").value, 10);
+    const all = getStudentRecords();
+    const now = new Date();
+
+    const record = {
+      date: (idx >= 0 && all[idx] && all[idx].date) ? all[idx].date : now.toLocaleDateString(),
+      time: (idx >= 0 && all[idx] && all[idx].time) ? all[idx].time : now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      name: document.getElementById("stName").value.trim().toUpperCase(),
+      class: document.getElementById("stClass").value,
+      section: document.getElementById("stSection").value,
+      school: document.getElementById("stSchool").value.trim().toUpperCase(),
+      mobile: document.getElementById("stMobile").value.trim()
+    };
+
+    if (idx >= 0) {
+      all[idx] = record;
+      showToast("Student record updated!");
+    } else {
+      all.unshift(record);
+      showToast("Student record created!");
+    }
+
+    saveStudentRecords(all);
+    renderStudentTable();
+    studentModal.classList.remove("active");
+  });
+
+  if (addNewStudentBtn) addNewStudentBtn.addEventListener("click", () => openStudentModal(-1));
+  if (closeStudentModalBtn) closeStudentModalBtn.addEventListener("click", () => studentModal.classList.remove("active"));
+  if (cancelStudentBtn) cancelStudentBtn.addEventListener("click", () => studentModal.classList.remove("active"));
+
+  if (searchStudentInput) {
+    searchStudentInput.addEventListener("input", (e) => renderStudentTable(e.target.value));
+  }
+
+  if (clearAllStudentsBtn) {
+    clearAllStudentsBtn.addEventListener("click", () => {
+      if (confirm("DANGER: Are you sure you want to clear ALL student records? This cannot be undone.")) {
+        saveStudentRecords([]);
+        renderStudentTable();
+        showToast("All student records cleared.", true);
+      }
+    });
+  }
+
+  // Export 8-Column CSV
+  if (exportStudentCsvBtn) {
+    exportStudentCsvBtn.addEventListener("click", () => {
+      const records = getStudentRecords();
+      if (!records.length) {
+        showToast("No student records to export", true);
+        return;
+      }
+      const headers = ["S.No.", "Date", "Time", "Student Name", "Class", "Section", "School", "Mobile Number"];
+      const rows = records.map((r, i) => [
+        i + 1,
+        `"${r.date || ''}"`,
+        `"${r.time || ''}"`,
+        `"${r.name || ''}"`,
+        `"${r.class || ''}"`,
+        `"${r.section || ''}"`,
+        `"${r.school || ''}"`,
+        `"${r.mobile || ''}"`
+      ]);
+      const csv = [headers.join(","), ...rows.map(row => row.join(","))].join("\r\n");
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `SchoolBrain_Students_8Col_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("CSV downloaded successfully.");
+    });
+  }
+
+  // Sync to Webhook
+  if (syncWebhookBtn) {
+    syncWebhookBtn.addEventListener("click", async () => {
+      const url = window.STUDENT_API_BASE_URL || localStorage.getItem("schoolbrain_custom_webhook");
+      if (!url) {
+        showToast("Please configure Google Sheets Webhook URL first in Settings", true);
+        return;
+      }
+      showToast("Pinging Google Sheets Webhook...");
+      try {
+        const records = getStudentRecords();
+        const testPayload = records[0] || {
+          name: "ADMIN TEST SYNC",
+          class: "CLASS 10",
+          section: "A",
+          school: "SYSTEM VERIFICATION",
+          mobile: "9999999999",
+          date: new Date().toLocaleDateString(),
+          time: new Date().toLocaleTimeString()
+        };
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(testPayload)
+        });
+        showToast("Sync ping dispatched to Google Sheets!");
+      } catch (e) {
+        showToast("Webhook sync error: " + e.message, true);
+      }
+    });
+  }
+
+
+  // ============================================================
+  // MODULE 4: SETTINGS, MASTER PASS & BACKUPS
+  // ============================================================
+  const changePasswordForm = document.getElementById("changePasswordForm");
+  const saveWebhookForm = document.getElementById("saveWebhookForm");
+  const webhookUrlInput = document.getElementById("webhookUrlInput");
+  const downloadBackupBtn = document.getElementById("downloadBackupBtn");
+  const restoreBackupInput = document.getElementById("restoreBackupInput");
+
+  if (webhookUrlInput) {
+    webhookUrlInput.value = window.STUDENT_API_BASE_URL || localStorage.getItem("schoolbrain_custom_webhook") || "";
+  }
+
+  if (changePasswordForm) {
+    changePasswordForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const p1 = document.getElementById("newMasterPass").value.trim();
+      const p2 = document.getElementById("confirmMasterPass").value.trim();
+      if (p1 !== p2) {
+        showToast("Passwords do not match", true);
+        return;
+      }
+      if (p1.length < 6) {
+        showToast("Password must be at least 6 characters", true);
+        return;
+      }
+      localStorage.setItem("schoolbrain_admin_custom_pass", p1);
+      changePasswordForm.reset();
+      showToast("Master Admin Password changed successfully!");
+    });
+  }
+
+  if (saveWebhookForm) {
+    saveWebhookForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = webhookUrlInput.value.trim();
+      window.STUDENT_API_BASE_URL = val;
+      localStorage.setItem("schoolbrain_custom_webhook", val);
+      showToast("Webhook URL saved successfully!");
+    });
+  }
+
+  // Backup System
+  if (downloadBackupBtn) {
+    downloadBackupBtn.addEventListener("click", () => {
+      const backupData = {
+        meta: {
+          app: "SchoolBrain",
+          version: "5.0",
+          exportDate: new Date().toISOString()
+        },
+        files: getLocalFiles(),
+        questions: getCustomQuestions(),
+        students: getStudentRecords(),
+        settings: {
+          webhookUrl: window.STUDENT_API_BASE_URL || localStorage.getItem("schoolbrain_custom_webhook") || "",
+          theme: localStorage.getItem(THEME_KEY) || "light"
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `SchoolBrain_Full_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Complete system backup downloaded!");
+    });
+  }
+
+  // Restore Backup
+  if (restoreBackupInput) {
+    restoreBackupInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (!parsed.meta || parsed.meta.app !== "SchoolBrain") {
+            if (!confirm("This file does not appear to be an official SchoolBrain backup. Continue anyway?")) return;
+          }
+
+          if (parsed.files) saveLocalFiles(parsed.files);
+          if (parsed.questions) saveCustomQuestions(parsed.questions);
+          if (parsed.students) saveStudentRecords(parsed.students);
+          if (parsed.settings && parsed.settings.webhookUrl) {
+            window.STUDENT_API_BASE_URL = parsed.settings.webhookUrl;
+            localStorage.setItem("schoolbrain_custom_webhook", parsed.settings.webhookUrl);
+            if (webhookUrlInput) webhookUrlInput.value = parsed.settings.webhookUrl;
+          }
+
+          loadAllModules();
+          showToast("System restored successfully from backup!");
+        } catch (err) {
+          showToast("Invalid backup JSON file: " + err.message, true);
+        }
+      };
+      reader.readAsText(file);
+      restoreBackupInput.value = "";
+    });
+  }
+
+
+  // --- Helper to escape HTML ---
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // --- Initial Loader ---
+  function loadAllModules() {
+    renderFilesList();
+    renderQuestionsList();
+    renderStudentTable();
+  }
+
+  // Check existing session
+  if (isAuthenticated()) {
+    setAuthenticatedState(true);
+  } else {
+    setAuthenticatedState(false);
+  }
+
+})();

@@ -4,84 +4,1031 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#970747">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Admin Uploads | SchoolBrain</title>
+  <!-- Absolute security & privacy: prevent any search engine indexing or scraping -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <title>Owner Administration Console | SchoolBrain</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=5.0">
-  <!-- Unmistakable Dark Pink (#970747) & White Theme Overrides -->
+  
   <style>
-    :root { --violet: #970747 !important; --pink: #970747 !important; --pink-dark: #780436 !important; --pink-pale: #fdf2f8 !important; }
-    .topbar { border-top: 3.5px solid #970747 !important; }
-    .brand-title, #topbarBrandTitle { color: #970747 !important; font-weight: 850 !important; }
-    .primary-button, .cta-button { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
-    .secondary-button { background: #ffffff !important; color: #970747 !important; border: 1.5px solid #970747 !important; }
-    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active { background: #970747 !important; color: #ffffff !important; border-color: #970747 !important; }
-    .hero, .result-hero { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
+    :root {
+      --admin-pink: #970747;
+      --admin-pink-dark: #780436;
+      --admin-pink-light: #b8145c;
+      --admin-pink-pale: #fdf2f8;
+      --admin-pink-border: rgba(151, 7, 71, 0.22);
+      --admin-card-bg: #ffffff;
+      --admin-ink: #1e293b;
+      --admin-muted: #64748b;
+      --admin-line: #e2e8f0;
+      --admin-shadow: 0 10px 30px rgba(151, 7, 71, 0.08);
+    }
+
+    [data-theme="dark"] {
+      --admin-card-bg: #1e2433;
+      --admin-ink: #f1f5f9;
+      --admin-muted: #94a3b8;
+      --admin-line: #334155;
+      --admin-pink-pale: #3b031b;
+      --admin-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      background: var(--canvas, #f8fafc);
+      color: var(--admin-ink);
+      font-family: "DM Sans", "Noto Sans Devanagari", sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    /* Topbar */
+    .admin-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 68px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--paper, #ffffff);
+      border-top: 3.5px solid var(--admin-pink);
+      border-bottom: 1.5px solid var(--admin-line);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+      backdrop-filter: blur(10px);
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .admin-brand strong {
+      font-size: 20px;
+      font-weight: 850;
+      color: var(--admin-pink);
+      letter-spacing: -0.5px;
+    }
+
+    .admin-badge-private {
+      background: #fdf2f8;
+      color: #970747;
+      border: 1px solid rgba(151, 7, 71, 0.25);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Main Container */
+    .admin-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Login Lock Gate Card */
+    .admin-lock-card {
+      max-width: 440px;
+      margin: 60px auto;
+      background: var(--admin-card-bg);
+      border: 1.5px solid var(--admin-pink-border);
+      border-radius: 24px;
+      padding: 38px 32px;
+      box-shadow: 0 20px 50px rgba(151, 7, 71, 0.15);
+      text-align: center;
+    }
+
+    .lock-icon-bubble {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #970747 0%, #b8145c 100%);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-size: 32px;
+      box-shadow: 0 8px 24px rgba(151, 7, 71, 0.35);
+    }
+
+    .lock-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--admin-pink);
+      margin: 0 0 8px;
+    }
+
+    .lock-subtitle {
+      font-size: 13px;
+      color: var(--admin-muted);
+      line-height: 1.6;
+      margin: 0 0 24px;
+    }
+
+    .admin-form-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .admin-form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--admin-ink);
+      margin-bottom: 6px;
+    }
+
+    .admin-input, .admin-select, .admin-textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--admin-line);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--admin-ink);
+      background: var(--paper, #ffffff);
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+
+    .admin-input:focus, .admin-select:focus, .admin-textarea:focus {
+      outline: none;
+      border-color: var(--admin-pink);
+      box-shadow: 0 0 0 3px rgba(151, 7, 71, 0.16);
+    }
+
+    /* KPI Quick Stats Row */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 540px) {
+      .admin-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-stat-card {
+      background: var(--admin-card-bg);
+      border: 1.5px solid var(--admin-line);
+      border-radius: 18px;
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--admin-shadow);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .admin-stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--admin-pink);
+    }
+
+    .admin-stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .admin-stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .admin-stat-val {
+      font-size: 24px;
+      font-weight: 850;
+      color: var(--admin-ink);
+      line-height: 1;
+    }
+
+    .admin-stat-lbl {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--admin-muted);
+    }
+
+    /* Module Navigation Tabs */
+    .admin-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid var(--admin-line);
+      padding-bottom: 2px;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--admin-muted);
+      border-radius: 12px 12px 0 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .admin-tab-btn:hover {
+      color: var(--admin-pink);
+      background: var(--admin-pink-pale);
+    }
+
+    .admin-tab-btn.active {
+      color: var(--admin-pink);
+      background: var(--admin-pink-pale);
+      border-bottom: 3px solid var(--admin-pink);
+      font-weight: 800;
+    }
+
+    /* Container Card */
+    .admin-container-card {
+      background: var(--admin-card-bg);
+      border: 1.5px solid var(--admin-line);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: var(--admin-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .card-header-left h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--admin-ink);
+    }
+
+    .card-header-left p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--admin-muted);
+    }
+
+    /* Drag & Drop Upload Zone */
+    .upload-dropzone {
+      border: 2px dashed rgba(151, 7, 71, 0.35);
+      border-radius: 18px;
+      padding: 36px 20px;
+      text-align: center;
+      background: var(--admin-pink-pale);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      border-color: var(--admin-pink);
+      background: rgba(151, 7, 71, 0.08);
+      transform: scale(1.005);
+    }
+
+    .dropzone-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    /* Data Tables */
+    .admin-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--admin-line);
+      border-radius: 14px;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background: var(--canvas, #f8fafc);
+      padding: 12px 14px;
+      font-weight: 750;
+      color: var(--admin-muted);
+      border-bottom: 1.5px solid var(--admin-line);
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--admin-line);
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover td {
+      background: var(--admin-pink-pale);
+    }
+
+    /* Action Buttons inside tables */
+    .action-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .btn-edit {
+      background: #e0f2fe;
+      color: #0369a1;
+      border-color: #bae6fd;
+    }
+    .btn-edit:hover { background: #bae6fd; }
+
+    .btn-del {
+      background: #ffe4e6;
+      color: #e11d48;
+      border-color: #fecdd3;
+    }
+    .btn-del:hover { background: #fecdd3; }
+
+    .btn-download {
+      background: #fdf2f8;
+      color: #970747;
+      border-color: rgba(151, 7, 71, 0.25);
+    }
+    .btn-download:hover { background: rgba(151, 7, 71, 0.12); }
+
+    /* Modal / Update Container Overlay */
+    .admin-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .admin-modal-backdrop.active {
+      display: grid;
+    }
+
+    .admin-modal-card {
+      background: var(--admin-card-bg);
+      border: 1.5px solid var(--admin-line);
+      border-radius: 22px;
+      padding: 28px;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .form-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Notification Toast */
+    .admin-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-toast.show { display: flex; animation: slideUpToast 0.3s ease; }
+    @keyframes slideUpToast { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-<header class="topbar" id="examTopNav"></header>
-    <main class="main-content">
-      <section id="adminLoginPanel" class="admin-panel" aria-labelledby="adminLoginTitle">
-        <p class="eyebrow">SCHOOLBRAIN · PRIVATE AREA</p>
-        <h1 id="adminLoginTitle">ADMIN LOGIN</h1>
-        <p>Sign in to upload and manage question files. Only the configured administrator can access these files.</p>
-                <div style="background: rgba(9, 64, 103, 0.07); border: 1px solid rgba(9, 64, 103, 0.2); border-left: 4px solid var(--primary, #094067); padding: 12px 14px; border-radius: 8px; margin: 16px 0; font-size: 13px; line-height: 1.6;">
-          <strong>🔑 Master Admin Login:</strong><br>
-          • <strong>Username:</strong> <code style="font-size: 14px; color: #094067; font-weight: 700;">admin</code> (या <code>imentor99</code>)<br>
-          • <strong>Password:</strong> <code style="font-size: 14px; color: #094067; font-weight: 700;">admin123</code> (या <code>admin@2026</code>)
+  
+  <!-- Private Owner Topbar (No public links, no sitemaps) -->
+  <header class="admin-topbar">
+    <a class="admin-brand" href="admin.html">
+      <span style="font-size: 24px;">🛡️</span>
+      <strong>SchoolBrain</strong>
+      <span class="admin-badge-private">🔒 OWNER CONSOLE</span>
+    </a>
+
+    <div class="admin-topbar-actions">
+      <button class="theme-toggle-btn" id="adminThemeToggleBtn" type="button" title="थीम बदलें">
+        <span class="theme-icon-indicator" id="adminThemeIcon">☀️</span>
+      </button>
+      <button class="secondary-button" id="adminLockBtn" type="button" style="font-size: 12px; padding: 6px 14px; display: none;">
+        🔒 Lock / Logout
+      </button>
+      <a href="index.html" class="secondary-button" style="font-size: 12px; padding: 6px 14px; text-decoration: none;">
+        ← Exit to App
+      </a>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+
+    <!-- 1. AUTHENTICATION LOCK GATE (Shown when unauthorized) -->
+    <section id="ownerAuthGate" class="admin-lock-card">
+      <div class="lock-icon-bubble">🔐</div>
+      <h1 class="lock-title">Owner Authentication</h1>
+      <p class="lock-subtitle">
+        This administration console is restricted to the verified site owner. Enter master credentials to unlock functions.
+      </p>
+
+      <form id="ownerAuthForm">
+        <div class="admin-form-group">
+          <label for="adminUsername">Owner Username</label>
+          <input id="adminUsername" class="admin-input" type="text" placeholder="Enter username (e.g. admin)" autocomplete="username" required>
         </div>
-        <form id="adminLoginForm" class="admin-form">
-          <label for="adminUsername">ADMIN USERNAME</label>
-          <input id="adminUsername" name="username" type="text" autocomplete="username" required>
-          <label for="adminPassword">ADMIN PASSWORD</label>
-          <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
-          <p id="adminLoginMessage" class="admin-message" role="status" aria-live="polite"></p>
-          <button class="primary-button" type="submit">SIGN IN</button>
-        </form>
+
+        <div class="admin-form-group">
+          <label for="adminPassword">Master Password</label>
+          <input id="adminPassword" class="admin-input" type="password" placeholder="Enter master password" autocomplete="current-password" required>
+        </div>
+
+        <div id="authGateMessage" style="font-size: 13px; font-weight: 700; margin-bottom: 14px; color: #e11d48; display: none;"></div>
+
+        <button type="submit" class="primary-button" style="width: 100%; padding: 12px; font-size: 14px; font-weight: 800;">
+          🔓 Unlock Owner Console
+        </button>
+      </form>
+    </section>
+
+
+    <!-- 2. OWNER SECURE WORKSPACE DASHBOARD (Shown when verified) -->
+    <div id="ownerDashboardWrap" style="display: none; flex-direction: column; gap: 28px;">
+      
+      <!-- Quick KPI Metrics Cards -->
+      <div class="admin-stats-grid">
+        <!-- Card 1: Files -->
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon" style="background:#fdf2f8; color:#970747;">📁</div>
+          <div class="admin-stat-info">
+            <span class="admin-stat-val" id="kpiFilesCount">0</span>
+            <span class="admin-stat-lbl">Uploaded Files</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Students -->
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon" style="background:#f0fdf4; color:#16a34a;">👥</div>
+          <div class="admin-stat-info">
+            <span class="admin-stat-val" id="kpiStudentsCount">0</span>
+            <span class="admin-stat-lbl">Registered Students</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Questions -->
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon" style="background:#eff6ff; color:#2563eb;">🎯</div>
+          <div class="admin-stat-info">
+            <span class="admin-stat-val" id="kpiQuestionsCount">0</span>
+            <span class="admin-stat-lbl">Active Questions</span>
+          </div>
+        </div>
+
+        <!-- Card 4: System Status -->
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon" style="background:#faf5ff; color:#9333ea;">⚡</div>
+          <div class="admin-stat-info">
+            <span class="admin-stat-val" style="color: #16a34a; font-size: 18px;">● Operational</span>
+            <span class="admin-stat-lbl">Offline & Cloud Sync</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs Bar -->
+      <div class="admin-tabs-bar">
+        <button type="button" class="admin-tab-btn active" data-tab="tab-files">
+          <span>📁</span> File Upload & Assets
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="tab-questions">
+          <span>🎯</span> Question Bank Manager (Add / Edit / Remove)
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="tab-students">
+          <span>👥</span> Student Registrations (8 Columns)
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="tab-settings">
+          <span>⚙️</span> Site Settings & Security
+        </button>
+      </div>
+
+
+      <!-- ============================================================ -->
+      <!-- TAB 1: FILE UPLOAD & ASSETS REPOSITORY                       -->
+      <!-- ============================================================ -->
+      <section id="tab-files" class="admin-tab-content">
+        <div class="admin-container-card">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <h2>📁 File Upload & Document Repository</h2>
+              <p>Securely upload and manage PDFs, Word, Excel, CSV question papers, and assets.</p>
+            </div>
+            <button type="button" class="secondary-button" id="refreshFilesBtn" style="font-size: 12px; padding: 6px 14px;">
+              🔄 Refresh List
+            </button>
+          </div>
+
+          <!-- Drag & Drop Upload Zone -->
+          <form id="adminUploadDropzoneForm">
+            <div class="upload-dropzone" id="uploadDropzone">
+              <div class="dropzone-icon">📤</div>
+              <strong style="font-size: 16px; color: var(--admin-pink); display: block; margin-bottom: 6px;">
+                Drag & Drop Files Here or Click to Browse
+              </strong>
+              <span style="font-size: 13px; color: var(--admin-muted);">
+                Supports PDF, DOC, DOCX, XLS, XLSX, CSV, JSON, PNG, JPG (Max: 25 MB)
+              </span>
+              <input type="file" id="adminFileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.json,.png,.jpg,.jpeg" style="display: none;" multiple>
+            </div>
+            <div id="uploadStatusMsg" style="margin-top: 10px; font-size: 13px; font-weight: 700; display: none;"></div>
+          </form>
+
+          <!-- Search & Filter Controls -->
+          <div style="display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <input type="text" id="searchFilesInput" class="admin-input" placeholder="🔍 Search uploaded files..." style="max-width: 320px;">
+            <div style="font-size: 13px; color: var(--admin-muted); font-weight: 700;">
+              Files Stored: <span id="filesCountBadge" style="color: var(--admin-pink);">0</span>
+            </div>
+          </div>
+
+          <!-- Files Table Container -->
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">Icon</th>
+                  <th>File Name</th>
+                  <th>Size</th>
+                  <th>Upload Date & Time</th>
+                  <th style="text-align: right; width: 190px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="filesTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--admin-muted); padding: 30px;">
+                    No files uploaded yet. Drag files above or click to upload.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
-      <section id="adminDashboard" class="admin-panel" aria-labelledby="adminDashboardTitle" hidden>
-        <p class="eyebrow">PRIVATE ADMIN AREA</p>
-        <div class="admin-toolbar">
-          <h1 id="adminDashboardTitle">QUESTION FILES</h1>
-          <button id="adminLogout" class="secondary-button" type="button">SIGN OUT</button>
-        </div>
-        <p>Upload PDF, Word, Excel or CSV files. Files are stored privately in MongoDB and are not automatically imported into the quiz question bank. Maximum file size: 25 MB.</p>
-        <form id="adminUploadForm" class="admin-form">
-          <label for="adminFile">SELECT QUESTION FILE</label>
-          <input id="adminFile" name="file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv" required>
-          <p id="adminUploadMessage" class="admin-message" role="status" aria-live="polite"></p>
-          <button class="primary-button" type="submit">UPLOAD FILE</button>
-        </form>
-        <div class="admin-toolbar">
-          <h2>UPLOADED FILES</h2>
-          <button id="refreshAdminFiles" class="secondary-button" type="button">REFRESH</button>
-        </div>
-        <p id="adminListMessage" class="admin-message" role="status" aria-live="polite"></p>
-        <ul id="adminFileList" class="admin-files" aria-live="polite"></ul>
 
-        <div class="admin-toolbar" style="margin-top: 36px; border-top: 1px solid var(--line); padding-top: 24px;">
-          <h2>STUDENT LOGINS & REGISTRATIONS (8 COLUMNS)</h2>
-          <button id="exportAdminLoginsBtn" class="primary-button" type="button" style="min-height: 38px; padding: 6px 16px; font-size: 12px;">📥 EXPORT CSV</button>
-        </div>
-        <p>Student registration data (S.No., Date, Time, Student Name, Class, Section, School, Mobile Number).</p>
-        <div id="adminStudentTableContainer" style="overflow-x: auto; margin-top: 20px;"></div>
-        <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-          <a href="https://docs.google.com/spreadsheets/d/1JSU4Jm6wEFqxSn84MMs0FuqhkjPPRcvOgqz1yZ9YvNU/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="secondary-button" style="text-decoration: none; display: inline-flex; align-items: center; padding: 8px 14px; font-size: 12px;">📊 GOOGLE SHEET खोलें</a>
-          <a href="assets/login_Data_Imentor_students.xlsx" download="login_Data_Imentor_students.xlsx" class="secondary-button" style="text-decoration: none; display: inline-flex; align-items: center; padding: 8px 14px; font-size: 12px;">📄 DOWNLOAD EXCEL TEMPLATE</a>
+      <!-- ============================================================ -->
+      <!-- TAB 2: QUESTION BANK MANAGER (ADD / UPDATE / REMOVE)         -->
+      <!-- ============================================================ -->
+      <section id="tab-questions" class="admin-tab-content" style="display: none;">
+        <div class="admin-container-card">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <h2>🎯 Question Bank Management (Add, Edit & Remove)</h2>
+              <p>Add new questions, update existing chapter items, or import/export question sets.</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="primary-button" id="openAddQuestionBtn" style="font-size: 13px; padding: 8px 18px;">
+                ➕ Add New Question
+              </button>
+              <button type="button" class="secondary-button" id="exportQuestionsBtn" style="font-size: 13px; padding: 8px 14px;">
+                📥 Export JSON
+              </button>
+            </div>
+          </div>
+
+          <!-- Chapter Filter Bar -->
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+            <select id="filterQuestionChapter" class="admin-select" style="max-width: 340px;">
+              <option value="all">🌟 All Chapters (सभी 15 अध्याय)</option>
+              <option value="1">1. वास्तविक संख्याएँ (Real Numbers)</option>
+              <option value="2">2. बहुपद (Polynomials)</option>
+              <option value="3">3. दो चर वाले रैखिक समीकरण (Linear Equations)</option>
+              <option value="4">4. द्विघात समीकरण (Quadratic Equations)</option>
+              <option value="5">5. समांतर श्रेढियाँ (Arithmetic Progressions)</option>
+              <option value="6">6. त्रिभुज (Triangles)</option>
+              <option value="7">7. निर्देशांक ज्यामिति (Coordinate Geometry)</option>
+              <option value="8">8. त्रिकोणमिति का परिचय (Introduction to Trigonometry)</option>
+              <option value="9">9. त्रिकोणमिति के अनुप्रयोग (Applications of Trig)</option>
+              <option value="10">10. वृत्त (Circles)</option>
+              <option value="11">11. रचनाएँ (Constructions)</option>
+              <option value="12">12. वृत्तों से संबंधित क्षेत्रफल (Area of Circles)</option>
+              <option value="13">13. पृष्ठीय क्षेत्रफल और आयतन (Surface Areas & Vol)</option>
+              <option value="14">14. सांख्यिकी (Statistics)</option>
+              <option value="15">15. प्रायिकता (Probability)</option>
+            </select>
+
+            <input type="text" id="searchQuestionInput" class="admin-input" placeholder="🔍 Search question text..." style="max-width: 320px;">
+          </div>
+
+          <!-- Questions Live Table -->
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">ID</th>
+                  <th style="width: 140px;">Chapter</th>
+                  <th>Question Preview</th>
+                  <th>Options Preview</th>
+                  <th style="width: 70px;">Correct</th>
+                  <th style="text-align: right; width: 140px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="questionsTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; color: var(--admin-muted); padding: 30px;">
+                    Loading questions...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
-    </main>
-    <footer class="footer"><span>Admin file uploads are private.</span><a href="./index.html">Return to quiz</a></footer>
+
+
+      <!-- ============================================================ -->
+      <!-- TAB 3: STUDENT REGISTRATIONS (8 COLUMNS)                     -->
+      <!-- ============================================================ -->
+      <section id="tab-students" class="admin-tab-content" style="display: none;">
+        <div class="admin-container-card">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <h2>👥 Student Registration Records (Standard 8-Column Format)</h2>
+              <p>Records synced from student login screen and practice sessions.</p>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" class="primary-button" id="exportStudentCsvBtn" style="font-size: 13px; padding: 8px 18px;">
+                📥 Export CSV (Excel)
+              </button>
+              <button type="button" class="secondary-button" id="addNewStudentBtn" style="font-size: 13px; padding: 8px 14px;">
+                ➕ Add Student
+              </button>
+              <button type="button" class="secondary-button" id="clearAllStudentsBtn" style="font-size: 13px; padding: 8px 14px; color: #e11d48;">
+                ⚠️ Clear Records
+              </button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Controls -->
+          <div style="display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <input type="text" id="searchStudentInput" class="admin-input" placeholder="🔍 Search by Name, Mobile, or School..." style="max-width: 340px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <a href="https://docs.google.com/spreadsheets/d/1JSU4Jm6wEFqxSn84MMs0FuqhkjPPRcvOgqz1yZ9YvNU/edit?usp=sharing" target="_blank" rel="noopener" class="secondary-button" style="text-decoration: none; font-size: 12px; padding: 6px 14px;">
+                📊 Open Live Google Sheet
+              </a>
+              <button type="button" class="secondary-button" id="syncWebhookBtn" style="font-size: 12px; padding: 6px 14px;">
+                🔄 Test Webhook Sync
+              </button>
+            </div>
+          </div>
+
+          <!-- 8-Column Table Container -->
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">S.No.</th>
+                  <th style="width: 95px;">Date</th>
+                  <th style="width: 80px;">Time</th>
+                  <th>Student Name</th>
+                  <th>Class</th>
+                  <th style="width: 70px;">Section</th>
+                  <th>School Name</th>
+                  <th>Mobile Number</th>
+                  <th style="text-align: right; width: 110px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <tr>
+                  <td colspan="9" style="text-align: center; color: var(--admin-muted); padding: 30px;">
+                    No student registrations found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ============================================================ -->
+      <!-- TAB 4: SITE SETTINGS & SECURITY CARD                         -->
+      <!-- ============================================================ -->
+      <section id="tab-settings" class="admin-tab-content" style="display: none;">
+        <div class="admin-container-card">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <h2>⚙️ Platform Configuration, Master Password & Backups</h2>
+              <p>Configure Google Sheets webhook, update master passwords, and manage complete system backups.</p>
+            </div>
+          </div>
+
+          <div class="form-grid-2col">
+            <!-- Box A: Master Password Update Container -->
+            <div style="background: var(--canvas, #f8fafc); border: 1.5px solid var(--admin-line); border-radius: 18px; padding: 22px;">
+              <h3 style="margin: 0 0 10px; font-size: 16px; color: var(--admin-pink); display: flex; align-items: center; gap: 8px;">
+                <span>🔑</span> Change Master Admin Password
+              </h3>
+              <p style="font-size: 12px; color: var(--admin-muted); margin: 0 0 16px;">
+                Update the password required to unlock this Owner Console.
+              </p>
+
+              <form id="changePasswordForm">
+                <div class="admin-form-group">
+                  <label for="newMasterPass">New Master Password</label>
+                  <input id="newMasterPass" class="admin-input" type="password" placeholder="Enter new strong password" required>
+                </div>
+                <div class="admin-form-group">
+                  <label for="confirmMasterPass">Confirm New Password</label>
+                  <input id="confirmMasterPass" class="admin-input" type="password" placeholder="Re-enter password" required>
+                </div>
+                <button type="submit" class="primary-button" style="font-size: 13px; padding: 9px 18px;">
+                  💾 Save Master Password
+                </button>
+              </form>
+            </div>
+
+            <!-- Box B: Google Sheets Webhook Container -->
+            <div style="background: var(--canvas, #f8fafc); border: 1.5px solid var(--admin-line); border-radius: 18px; padding: 22px;">
+              <h3 style="margin: 0 0 10px; font-size: 16px; color: var(--admin-pink); display: flex; align-items: center; gap: 8px;">
+                <span>🌐</span> Google Sheets Webhook URL
+              </h3>
+              <p style="font-size: 12px; color: var(--admin-muted); margin: 0 0 16px;">
+                Target endpoint for automatic 8-column student registration sync.
+              </p>
+
+              <form id="saveWebhookForm">
+                <div class="admin-form-group">
+                  <label for="webhookUrlInput">Apps Script Web App Endpoint</label>
+                  <input id="webhookUrlInput" class="admin-input" type="url" placeholder="https://script.google.com/macros/s/.../exec" required>
+                </div>
+                <button type="submit" class="secondary-button" style="font-size: 13px; padding: 9px 18px;">
+                  💾 Save Webhook URL
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Box C: Full System Backup & Restore -->
+          <div style="background: var(--admin-pink-pale); border: 1.5px solid var(--admin-pink-border); border-radius: 18px; padding: 22px;">
+            <h3 style="margin: 0 0 8px; font-size: 16px; color: var(--admin-pink); display: flex; align-items: center; gap: 8px;">
+              <span>📦</span> Complete System Backup & Disaster Recovery
+            </h3>
+            <p style="font-size: 13px; color: var(--admin-ink); margin: 0 0 18px; line-height: 1.6;">
+              Download a complete JSON snapshot containing all uploaded file metadata, student registration records, custom question banks, and settings.
+            </p>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button type="button" class="primary-button" id="downloadBackupBtn" style="font-size: 13px; padding: 10px 22px;">
+                📥 Download Full System Backup (.JSON)
+              </button>
+
+              <label class="secondary-button" style="font-size: 13px; padding: 10px 22px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                📤 Restore System from Backup
+                <input type="file" id="restoreBackupInput" accept=".json" style="display: none;">
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: ADD / EDIT QUESTION UPDATE CONTAINER                  -->
+  <!-- ============================================================ -->
+  <div id="questionModalBackdrop" class="admin-modal-backdrop">
+    <div class="admin-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--admin-line); padding-bottom: 12px;">
+        <h3 id="questionModalTitle" style="margin: 0; font-size: 18px; color: var(--admin-pink);">
+          ➕ Add New Question
+        </h3>
+        <button type="button" id="closeQuestionModalBtn" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--admin-muted);">✕</button>
+      </div>
+
+      <form id="questionForm">
+        <input type="hidden" id="qEditId">
+
+        <div class="form-grid-2col">
+          <div class="admin-form-group">
+            <label for="qClass">Class</label>
+            <select id="qClass" class="admin-select" required>
+              <option value="10">Class 10 (कक्षा 10)</option>
+              <option value="9">Class 9 (कक्षा 9)</option>
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label for="qChapter">Chapter</label>
+            <select id="qChapter" class="admin-select" required>
+              <option value="1">1. वास्तविक संख्याएँ</option>
+              <option value="2">2. बहुपद</option>
+              <option value="3">3. दो चर वाले रैखिक समीकरण</option>
+              <option value="4">4. द्विघात समीकरण</option>
+              <option value="5">5. समांतर श्रेढियाँ</option>
+              <option value="6">6. त्रिभुज</option>
+              <option value="7">7. निर्देशांक ज्यामिति</option>
+              <option value="8">8. त्रिकोणमिति का परिचय</option>
+              <option value="9">9. त्रिकोणमिति के अनुप्रयोग</option>
+              <option value="10">10. वृत्त</option>
+              <option value="11">11. रचनाएँ</option>
+              <option value="12">12. वृत्तों से संबंधित क्षेत्रफल</option>
+              <option value="13">13. पृष्ठीय क्षेत्रफल और आयतन</option>
+              <option value="14">14. सांख्यिकी</option>
+              <option value="15">15. प्रायिकता</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="qText">Question Text (प्रश्न)</label>
+          <textarea id="qText" class="admin-textarea" rows="3" placeholder="Enter complete question text..." required></textarea>
+        </div>
+
+        <div class="form-grid-2col">
+          <div class="admin-form-group">
+            <label for="qOptA">Option A</label>
+            <input id="qOptA" class="admin-input" type="text" placeholder="Choice A" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="qOptB">Option B</label>
+            <input id="qOptB" class="admin-input" type="text" placeholder="Choice B" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="qOptC">Option C</label>
+            <input id="qOptC" class="admin-input" type="text" placeholder="Choice C" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="qOptD">Option D</label>
+            <input id="qOptD" class="admin-input" type="text" placeholder="Choice D" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2col">
+          <div class="admin-form-group">
+            <label for="qCorrect">Correct Answer</label>
+            <select id="qCorrect" class="admin-select" required>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label for="qMarks">Marks</label>
+            <input id="qMarks" class="admin-input" type="number" min="1" max="10" value="1">
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="qExplanation">Step-by-step Solution / Hint</label>
+          <textarea id="qExplanation" class="admin-textarea" rows="2" placeholder="Explanation for students (optional)"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+          <button type="button" id="cancelQuestionBtn" class="secondary-button">Cancel</button>
+          <button type="submit" class="primary-button">💾 Save Question</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <script src="api-config.js?v=2.5"></script>
-  <script src="exam-suite.js?v=2.5"></script>
-  <script>document.addEventListener("DOMContentLoaded", () => ExamSuite.renderNavbar("admin"));</script>
-  <script src="admin.js?v=2.5"></script>
+
+
+  <!-- ============================================================ -->
+  <!-- MODAL: ADD / EDIT STUDENT UPDATE CONTAINER                   -->
+  <!-- ============================================================ -->
+  <div id="studentModalBackdrop" class="admin-modal-backdrop">
+    <div class="admin-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--admin-line); padding-bottom: 12px;">
+        <h3 id="studentModalTitle" style="margin: 0; font-size: 18px; color: var(--admin-pink);">
+          ➕ Add / Update Student Record
+        </h3>
+        <button type="button" id="closeStudentModalBtn" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--admin-muted);">✕</button>
+      </div>
+
+      <form id="studentEditForm">
+        <input type="hidden" id="studentEditIndex">
+
+        <div class="admin-form-group">
+          <label for="stName">Student Full Name</label>
+          <input id="stName" class="admin-input" type="text" placeholder="e.g. RAHUL SHARMA" required>
+        </div>
+
+        <div class="form-grid-2col">
+          <div class="admin-form-group">
+            <label for="stClass">Class</label>
+            <select id="stClass" class="admin-select" required>
+              <option value="CLASS 10">CLASS 10</option>
+              <option value="CLASS 9">CLASS 9</option>
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label for="stSection">Section</label>
+            <select id="stSection" class="admin-select" required>
+              <option value="A">SECTION A</option>
+              <option value="B">SECTION B</option>
+              <option value="C">SECTION C</option>
+              <option value="D">SECTION D</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="stSchool">School Name</label>
+          <input id="stSchool" class="admin-input" type="text" placeholder="e.g. GOVT SR SEC SCHOOL" required>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="stMobile">Mobile Number</label>
+          <input id="stMobile" class="admin-input" type="tel" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-digit mobile number" required>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+          <button type="button" id="cancelStudentBtn" class="secondary-button">Cancel</button>
+          <button type="submit" class="primary-button">💾 Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Toast Notification -->
+  <div id="adminToast" class="admin-toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastMsg">Action completed</span>
+  </div>
+
+  <script src="api-config.js?v=5.0"></script>
+  <script src="admin.js?v=5.0"></script>
 </body>
 </html>

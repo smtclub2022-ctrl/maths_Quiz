@@ -63,8 +63,6 @@
     { id: "result", href: "result.html", label: "📊 नवीनतम परिणाम (Latest Result)", icon: "📊", group: "tools" },
     { id: "answer-review", href: "answer-review.html", label: "📝 उत्तर समीक्षा (Answer Review)", icon: "📝", group: "tools" },
 
-    // 5. Admin Panel
-    { id: "admin", href: "admin.html", label: "⚙️ एडमिन पोर्टल (Admin Panel)", icon: "⚙️", group: "admin" }
   ];
 
   // Helper to collect all questions from all loaded banks
@@ -285,7 +283,7 @@
     "about": { prev: { title: "मुख्य पृष्ठ (Home)", url: "index.html" }, next: { title: "संपर्क एवं सहायता (Contact)", url: "contact.html" } },
     "contact": { prev: { title: "हमारे बारे में (About Us)", url: "about.html" }, next: { title: "पाठ्यक्रम (Courses)", url: "courses.html" } },
     "login": { prev: { title: "मुख्य पृष्ठ (Home)", url: "index.html" }, next: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" } },
-    "admin": { prev: { title: "छात्र डैशबोर्ड (Dashboard)", url: "dashboard.html" }, next: { title: "क्विज़ सेंटर (Quiz Hub)", url: "quiz-center.html" } }
+    
   };
 
       const topbar = document.getElementById("examTopNav");
@@ -569,10 +567,7 @@
             <div class="sidebar-nav-group">
               <span class="sidebar-group-title">⚙️ प्रबंधन एवं लॉगआउट</span>
               <nav class="sidebar-nav">
-                <a class="sidebar-nav-item ${activePage === "admin" ? "active" : ""}" href="admin.html">
-                  <span class="nav-icon">⚙️</span>
-                  <span class="nav-text">एडमिन पोर्टल (Admin Panel)</span>
-                </a>
+
                 <a class="sidebar-nav-item" href="login.html">
                   <span class="nav-icon">🔄</span>
                   <span class="nav-text">विद्यार्थी बदलें / लॉगिन</span>
@@ -715,7 +710,7 @@
                   <li><a href="subjects.html" style="color: var(--muted); text-decoration: none;">📖 विषय सूची (Subjects)</a></li>
                   <li><a href="notes.html" style="color: var(--muted); text-decoration: none;">📑 नोट्स एवं सूत्र (Notes & PDFs)</a></li>
                   <li><a href="videos.html" style="color: var(--muted); text-decoration: none;">🎥 वीडियो लेक्चर्स</a></li>
-                  <li><a href="admin.html" style="color: var(--muted); text-decoration: none;">⚙️ एडमिन पोर्टल (Admin)</a></li>
+                  
                 </ul>
               </div>
             </div>
@@ -731,6 +726,15 @@
   };
 
   window.ExamSuite = ExamSuite;
+
+  // Secret Owner Access Shortcut: Ctrl + Shift + Alt + A
+  document.addEventListener("keydown", function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.altKey && e.key.toLowerCase() === "a") {
+      e.preventDefault();
+      window.location.href = "admin.html";
+    }
+  });
+
 
 
   // ============================================================
@@ -1018,7 +1022,7 @@
       { title: "रिवीजन प्लानर (30/60 Day Study Planner)", sub: "बोर्ड परीक्षा टाइमटेबल व दैनिक चेकलिस्ट", icon: "📅", url: "revision-planner.html", tag: "Tools" },
       { title: "लीडरबोर्ड एवं रैंक (State Leaderboard)", sub: "राज्य स्तरीय छात्र रैंकिंग व बैज", icon: "🏆", url: "leaderboard.html", tag: "Tools" },
       { title: "छात्र लॉगिन एवं पंजीकरण (Student Login)", sub: "8 कॉलम डेटा व Google Sheets सिंक", icon: "🔐", url: "login.html", tag: "Account" },
-      { title: "एडमिन पोर्टल (Admin Panel)", sub: "छात्र डेटा CSV एक्सपोर्ट, प्रश्न फाइल अपलोड", icon: "⚙️", url: "admin.html", tag: "Admin" },
+      
 
       // Chapters (Class 10 Maths)
       { title: "वास्तविक संख्याएँ (Real Numbers)", sub: "यूक्लिड प्रमेय, अपरिमेयता प्रमाण, अभाज्य गुणनखंड", icon: "📐", url: "notes.html?ch=1", tag: "कक्षा 10 गणित" },
