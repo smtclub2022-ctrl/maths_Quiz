@@ -462,6 +462,20 @@
                   <span class="nav-text">क्विज़ सेंटर (Quiz Center)</span>
                   <span class="nav-badge-pill">हब</span>
                 </a>
+                <a class="sidebar-nav-item ${activePage === "board-exam" || activePage === "boardquiz" || activePage === "previous-papers" ? "active" : ""}" href="board-exam-papers.html">
+                  <span class="nav-icon">🏛️</span>
+                  <span class="nav-text">बोर्ड परीक्षा पेपर्स (Board Quiz 2021-26)</span>
+                  <span class="nav-badge-pill" style="background:#2563EB; color:white;">185+ Qs</span>
+                </a>
+                <a class="sidebar-nav-item ${activePage === "shala-darpan" ? "active" : ""}" href="shala-darpan-quiz.html">
+                  <span class="nav-icon">🏫</span>
+                  <span class="nav-text">शाला दर्पण प्रश्न-बैंक (162 प्रश्न)</span>
+                  <span class="nav-badge-pill" style="background:#059669; color:white;">नया</span>
+                </a>
+                <a class="sidebar-nav-item ${activePage === "workbook" ? "active" : ""}" href="workbook-quiz.html">
+                  <span class="nav-icon">📘</span>
+                  <span class="nav-text">Workbook Quiz (कार्यपत्रक 75 Qs)</span>
+                </a>
                 <a class="sidebar-nav-item ${activePage === "chapter-tests" ? "active" : ""}" href="chapter-tests.html">
                   <span class="nav-icon">📚</span>
                   <span class="nav-text">अध्यायवार टेस्ट (Chapter Tests)</span>
@@ -482,15 +496,7 @@
                   <span class="nav-icon">📑</span>
                   <span class="nav-text">मॉडल प्रश्न पत्र (Sample Papers)</span>
                 </a>
-                <a class="sidebar-nav-item ${activePage === "workbook" ? "active" : ""}" href="workbook-quiz.html">
-                  <span class="nav-icon">📘</span>
-                  <span class="nav-text">Workbook Quiz (कार्यपत्रक)</span>
-                </a>
-                <a class="sidebar-nav-item ${activePage === "shala-darpan" ? "active" : ""}" href="shala-darpan-quiz.html">
-                  <span class="nav-icon">🏫</span>
-                  <span class="nav-text">शाला दर्पण प्रश्न-बैंक (162 प्रश्न)</span>
-                  <span class="nav-badge-pill" style="background:#059669; color:white;">नया</span>
-                </a>
+
 
                 <a class="sidebar-nav-item ${activePage === "question-bank" ? "active" : ""}" href="question-bank.html">
                   <span class="nav-icon">🔍</span>
