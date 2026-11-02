@@ -1213,7 +1213,23 @@ function isPubliclyHosted() {
     && !["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
 }
 
+const OFFICIAL_MAIN_URL = "https://smtclub2022-ctrl.github.io/maths_Quiz/";
+
 function getQuizShareUrl() {
+  let base = window.location.href;
+  if (!isPubliclyHosted()) {
+    base = OFFICIAL_MAIN_URL;
+  }
+  const url = new URL(base);
+  url.search = "";
+  url.hash = "";
+  url.searchParams.set("quiz", "1");
+  url.searchParams.set("chapter", String(selectedChapter));
+  url.searchParams.set("part", String(selectedPart));
+  return url.toString();
+}
+
+function _old_getQuizShareUrl() {
   const url = new URL(window.location.href);
   url.search = "";
   url.hash = "";

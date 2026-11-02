@@ -1626,7 +1626,11 @@
       document.getElementById('homeBtn').addEventListener('click', renderHome);
 
       document.getElementById('shareResultBtn').addEventListener('click', () => {
-        const text = `मैंने राजस्थान शाला दर्पण कक्षा 10 गणित के ${chapterTitle} में ${total} में से ${correctCount} प्रश्न सही किए (${percent}%)! आप भी अभ्यास करें: ${window.location.href}`;
+        const liveQuizUrl = (window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+          ? "https://smtclub2022-ctrl.github.io/maths_Quiz/shala-darpan-quiz.html"
+          : window.location.href;
+        const text = `मैंने राजस्थान शाला दर्पण कक्षा 10 गणित के ${chapterTitle} में ${total} में से ${correctCount} प्रश्न सही किए (${percent}%)! 🎯
+आप भी अभ्यास करें: ${liveQuizUrl}`;
         const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
         window.open(waUrl, '_blank');
       });
@@ -1705,7 +1709,10 @@
         // SHARE MODAL
     function openShareModal() {
       const modalContainer = document.getElementById('modalContainer');
-      const currentUrl = window.location.href.split('#')[0];
+      let currentUrl = window.location.href.split('#')[0];
+      if (window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+        currentUrl = "https://smtclub2022-ctrl.github.io/maths_Quiz/shala-darpan-quiz.html";
+      }
       const shareText = `📚 राजस्थान स्कूल शिक्षा परिषद (शाला दर्पण) कक्षा 10 गणित प्रश्न-बैंक क्विज़! 14 अध्याय + 2 मॉडल पेपर्स के 162 प्रामाणिक प्रश्न और संपूर्ण हल ऑनलाइन उपलब्ध हैं: ${currentUrl}`;
       const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
 
