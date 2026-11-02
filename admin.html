@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#970747">
+  <meta name="theme-color" content="#2563EB">
   <!-- Absolute security & privacy: prevent any search engine indexing or scraping -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <title>Owner Administration Console | SchoolBrain</title>
@@ -15,16 +15,16 @@
   
   <style>
     :root {
-      --admin-pink: #970747;
-      --admin-pink-dark: #780436;
-      --admin-pink-light: #b8145c;
-      --admin-pink-pale: #fdf2f8;
-      --admin-pink-border: rgba(151, 7, 71, 0.22);
+      --admin-pink: #2563EB;
+      --admin-pink-dark: #1D4ED8;
+      --admin-pink-light: #3B82F6;
+      --admin-pink-pale: #EFF6FF;
+      --admin-pink-border: rgba(37, 99, 235, 0.22);
       --admin-card-bg: #ffffff;
       --admin-ink: #1e293b;
       --admin-muted: #64748b;
       --admin-line: #e2e8f0;
-      --admin-shadow: 0 10px 30px rgba(151, 7, 71, 0.08);
+      --admin-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
     }
 
     [data-theme="dark"] {
@@ -77,9 +77,9 @@
     }
 
     .admin-badge-private {
-      background: #fdf2f8;
-      color: #970747;
-      border: 1px solid rgba(151, 7, 71, 0.25);
+      background: #EFF6FF;
+      color: #2563EB;
+      border: 1px solid rgba(37, 99, 235, 0.25);
       font-size: 11px;
       font-weight: 800;
       padding: 3px 10px;
@@ -114,7 +114,7 @@
       border: 1.5px solid var(--admin-pink-border);
       border-radius: 24px;
       padding: 38px 32px;
-      box-shadow: 0 20px 50px rgba(151, 7, 71, 0.15);
+      box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15);
       text-align: center;
     }
 
@@ -123,12 +123,12 @@
       height: 68px;
       margin: 0 auto 18px;
       border-radius: 20px;
-      background: linear-gradient(135deg, #970747 0%, #b8145c 100%);
+      background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
       color: #ffffff;
       display: grid;
       place-items: center;
       font-size: 32px;
-      box-shadow: 0 8px 24px rgba(151, 7, 71, 0.35);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
     }
 
     .lock-title {
@@ -174,7 +174,7 @@
     .admin-input:focus, .admin-select:focus, .admin-textarea:focus {
       outline: none;
       border-color: var(--admin-pink);
-      box-shadow: 0 0 0 3px rgba(151, 7, 71, 0.16);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
     }
 
     /* KPI Quick Stats Row */
@@ -315,7 +315,7 @@
 
     /* Drag & Drop Upload Zone */
     .upload-dropzone {
-      border: 2px dashed rgba(151, 7, 71, 0.35);
+      border: 2px dashed rgba(37, 99, 235, 0.35);
       border-radius: 18px;
       padding: 36px 20px;
       text-align: center;
@@ -326,7 +326,7 @@
 
     .upload-dropzone:hover, .upload-dropzone.dragover {
       border-color: var(--admin-pink);
-      background: rgba(151, 7, 71, 0.08);
+      background: rgba(37, 99, 235, 0.08);
       transform: scale(1.005);
     }
 
@@ -398,11 +398,11 @@
     .btn-del:hover { background: #fecdd3; }
 
     .btn-download {
-      background: #fdf2f8;
-      color: #970747;
-      border-color: rgba(151, 7, 71, 0.25);
+      background: #EFF6FF;
+      color: #2563EB;
+      border-color: rgba(37, 99, 235, 0.25);
     }
-    .btn-download:hover { background: rgba(151, 7, 71, 0.12); }
+    .btn-download:hover { background: rgba(37, 99, 235, 0.12); }
 
     /* Modal / Update Container Overlay */
     .admin-modal-backdrop {
@@ -528,7 +528,7 @@
       <div class="admin-stats-grid">
         <!-- Card 1: Files -->
         <div class="admin-stat-card">
-          <div class="admin-stat-icon" style="background:#fdf2f8; color:#970747;">📁</div>
+          <div class="admin-stat-icon" style="background:#EFF6FF; color:#2563EB;">📁</div>
           <div class="admin-stat-info">
             <span class="admin-stat-val" id="kpiFilesCount">0</span>
             <span class="admin-stat-lbl">Uploaded Files</span>

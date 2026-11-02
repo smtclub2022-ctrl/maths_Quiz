@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#970747">
+  <meta name="theme-color" content="#2563EB">
   <meta name="description" content="SchoolBrain — Smarter learning platform with modern & engaging UI, 1,000+ curated courses, real-time milestones and specialist mentorship.">
   <title>SchoolBrain — Smarter Learning Platform | Landing Page</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -12,15 +12,35 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=5.0">
   <link rel="stylesheet" href="landing.css?v=5.0">
-  <!-- Unmistakable Dark Pink (#970747) & White Theme Overrides -->
+    <!-- Child-Friendly Joyful Learner (#2563EB & #10B981) Theme -->
   <style>
-    :root { --violet: #970747 !important; --pink: #970747 !important; --pink-dark: #780436 !important; --pink-pale: #fdf2f8 !important; }
-    .topbar { border-top: 3.5px solid #970747 !important; }
-    .brand-title, #topbarBrandTitle { color: #970747 !important; font-weight: 850 !important; }
-    .primary-button, .cta-button { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
-    .secondary-button { background: #ffffff !important; color: #970747 !important; border: 1.5px solid #970747 !important; }
-    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active { background: #970747 !important; color: #ffffff !important; border-color: #970747 !important; }
-    .hero, .result-hero { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
+    :root {
+      --violet: #2563EB !important;
+      --pink: #2563EB !important;
+      --pink-dark: #1D4ED8 !important;
+      --pink-hover: #3B82F6 !important;
+      --pink-pale: #EFF6FF !important;
+      --indigo: #2563EB !important;
+      --indigo-dark: #1D4ED8 !important;
+      --indigo-pale: #EFF6FF !important;
+      --green: #10B981 !important;
+      --green-pale: #ECFDF5 !important;
+      --amber: #F59E0B !important;
+      --amber-pale: #FFFBEB !important;
+      --red: #F43F5E !important;
+      --red-pale: #FFF1F2 !important;
+      --ink: #1E293B !important;
+      --canvas: #F8FAFC !important;
+    }
+    .topbar { border-top: 3.5px solid #2563EB !important; }
+    .brand-title, #topbarBrandTitle { color: #2563EB !important; font-weight: 850 !important; }
+    .primary-button, .cta-button, .btn-hero-primary { background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #1D4ED8 100%) !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(37,99,235,0.3) !important; }
+    .secondary-button { background: #ffffff !important; color: #2563EB !important; border: 1.5px solid #2563EB !important; }
+    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active, .filter-btn.active { background: #2563EB !important; color: #ffffff !important; border-color: #2563EB !important; }
+    .hero, .result-hero, .result-score-card { background: linear-gradient(135deg, #1E40AF 0%, #2563EB 55%, #3B82F6 100%) !important; color: #ffffff !important; }
+    .badge-ch { background: #EFF6FF !important; color: #2563EB !important; border-color: #BFDBFE !important; }
+    .btn-quiz, .btn-primary { background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%) !important; border-color: #1D4ED8 !important; }
+    .q-nav-btn.current { background: #2563EB !important; border-color: #2563EB !important; }
   </style>
 </head>
 <body>
@@ -84,7 +104,7 @@
               <a href="quiz-center.html" class="secondary-button" style="font-size: 14px; padding: 13px 22px;">
                 🎯 Interactive Quiz Hub
               </a>
-              <a href="#main-features" class="secondary-button" style="font-size: 14px; padding: 13px 20px; border-color: #970747; color: #970747;">
+              <a href="#main-features" class="secondary-button" style="font-size: 14px; padding: 13px 20px; border-color: #2563EB; color: #2563EB;">
                 ✨ Main Features ↓
               </a>
               <a href="#knowledge-paths" class="secondary-button" style="font-size: 14px; padding: 13px 20px;">
@@ -103,7 +123,7 @@
                 <span class="hero-stat-label">Learners & Mentors</span>
               </div>
               <div class="hero-stat-item">
-                <span class="hero-stat-num" style="color: #970747;">98.4%</span>
+                <span class="hero-stat-num" style="color: #2563EB;">98.4%</span>
                 <span class="hero-stat-label">Board & Test Success</span>
               </div>
               <div class="hero-stat-item">
@@ -177,13 +197,13 @@
 
         
         <!-- ============================================================ -->
-        <!-- MAIN FEATURES SECTION (DARK PINK #970747 & WHITE #FFFFFF)    -->
+        <!-- MAIN FEATURES SECTION (DARK PINK #2563EB & WHITE #FFFFFF)    -->
         <!-- ============================================================ -->
         <section id="main-features" class="main-features-section">
           <div class="mf-header">
             <span class="mf-badge">✨ मुख्य विशेषताएँ • MAIN FEATURES</span>
             <h2 class="mf-title">Smarter Learning Powered by <span>Breakthrough Features</span></h2>
-            <p class="mf-desc">Experience a unified suite of educational innovations crafted in high-contrast Dark Pink (#970747) and pure White (#FFFFFF), engineered to elevate concepts, eliminate mistakes, and guarantee exam triumph.</p>
+            <p class="mf-desc">Experience a unified suite of educational innovations crafted in high-contrast Dark Pink (#2563EB) and pure White (#FFFFFF), engineered to elevate concepts, eliminate mistakes, and guarantee exam triumph.</p>
           </div>
 
           <!-- Feature Category Filter Tabs -->
@@ -614,7 +634,7 @@
             </div>
 
             <div class="mentor-card">
-              <div class="mentor-avatar" style="background: linear-gradient(135deg, #970747, #ec4899);">👩‍🔬</div>
+              <div class="mentor-avatar" style="background: linear-gradient(135deg, #2563EB, #ec4899);">👩‍🔬</div>
               <div class="mentor-info">
                 <h4>Dr. Anita Choudhary</h4>
                 <span>STEM & Science Lead (Ex-NCERT Panel)</span>
@@ -623,7 +643,7 @@
             </div>
 
             <div class="mentor-card">
-              <div class="mentor-avatar" style="background: linear-gradient(135deg, #b8145c, #780436);">👨‍💻</div>
+              <div class="mentor-avatar" style="background: linear-gradient(135deg, #3B82F6, #1D4ED8);">👨‍💻</div>
               <div class="mentor-info">
                 <h4>Er. Vikram Singh</h4>
                 <span>Competitive Exam & Logic Mentor</span>
@@ -780,7 +800,7 @@
                 </p>
               </div>
               <div class="test-author">
-                <div class="test-avatar" style="background:#fce7f3; color:#970747;">PP</div>
+                <div class="test-avatar" style="background:#fce7f3; color:#2563EB;">PP</div>
                 <div class="test-meta">
                   <strong>Priya Patel</strong>
                   <span>CBSE Class 10 Topper (99/100 in Maths)</span>
@@ -797,7 +817,7 @@
                 </p>
               </div>
               <div class="test-author">
-                <div class="test-avatar" style="background:#fdf2f8; color:#970747;">MK</div>
+                <div class="test-avatar" style="background:#EFF6FF; color:#2563EB;">MK</div>
                 <div class="test-meta">
                   <strong>Mohan Kumar</strong>
                   <span>Senior Math Teacher · Govt Model School</span>
@@ -924,7 +944,7 @@
         });
       });
 
-      // 2b. Main Features Category Filtering (Dark Pink #970747 & White #FFFFFF Section)
+      // 2b. Main Features Category Filtering (Dark Pink #2563EB & White #FFFFFF Section)
       const mfFilterBtns = document.querySelectorAll('.mf-filter-btn');
       const mfCards = document.querySelectorAll('.mf-card');
 

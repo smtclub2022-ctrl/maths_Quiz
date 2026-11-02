@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#970747">
+  <meta name="theme-color" content="#2563EB">
   <title>Workbook Quiz | SchoolBrain</title>
   <style>
     :root {
@@ -12,7 +12,7 @@
       --line: #e8eaf1;
       --paper: #ffffff;
       --canvas: #f6f7fb;
-      --violet: #970747;
+      --violet: #2563EB;
       --violet-dark: #5043c8;
       --violet-pale: #f0efff;
       --green: #279874;
@@ -359,7 +359,7 @@
     .jump-grid button.current { border-color: var(--violet); background: var(--violet-pale); color: var(--violet); }
     .jump-grid button.answered { background: #ebfaf4; border-color: #ccefe0; color: #1b7b59; }
     .result-box {
-      background: linear-gradient(115deg, #970747, #7b69f0 60%, #8b7cf5 100%);
+      background: linear-gradient(115deg, #2563EB, #7b69f0 60%, #8b7cf5 100%);
       color: white;
       border-radius: 22px;
       padding: 26px 20px;
@@ -428,15 +428,35 @@
     }
   </style>
   <link rel="stylesheet" href="styles.css?v=5.0">
-  <!-- Unmistakable Dark Pink (#970747) & White Theme Overrides -->
+    <!-- Child-Friendly Joyful Learner (#2563EB & #10B981) Theme -->
   <style>
-    :root { --violet: #970747 !important; --pink: #970747 !important; --pink-dark: #780436 !important; --pink-pale: #fdf2f8 !important; }
-    .topbar { border-top: 3.5px solid #970747 !important; }
-    .brand-title, #topbarBrandTitle { color: #970747 !important; font-weight: 850 !important; }
-    .primary-button, .cta-button { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
-    .secondary-button { background: #ffffff !important; color: #970747 !important; border: 1.5px solid #970747 !important; }
-    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active { background: #970747 !important; color: #ffffff !important; border-color: #970747 !important; }
-    .hero, .result-hero { background: linear-gradient(135deg, #970747 0%, #b8145c 50%, #780436 100%) !important; color: #ffffff !important; }
+    :root {
+      --violet: #2563EB !important;
+      --pink: #2563EB !important;
+      --pink-dark: #1D4ED8 !important;
+      --pink-hover: #3B82F6 !important;
+      --pink-pale: #EFF6FF !important;
+      --indigo: #2563EB !important;
+      --indigo-dark: #1D4ED8 !important;
+      --indigo-pale: #EFF6FF !important;
+      --green: #10B981 !important;
+      --green-pale: #ECFDF5 !important;
+      --amber: #F59E0B !important;
+      --amber-pale: #FFFBEB !important;
+      --red: #F43F5E !important;
+      --red-pale: #FFF1F2 !important;
+      --ink: #1E293B !important;
+      --canvas: #F8FAFC !important;
+    }
+    .topbar { border-top: 3.5px solid #2563EB !important; }
+    .brand-title, #topbarBrandTitle { color: #2563EB !important; font-weight: 850 !important; }
+    .primary-button, .cta-button, .btn-hero-primary { background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #1D4ED8 100%) !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(37,99,235,0.3) !important; }
+    .secondary-button { background: #ffffff !important; color: #2563EB !important; border: 1.5px solid #2563EB !important; }
+    .exam-nav-pill.active, .board-chip.active, .course-filter-pill.active, .audience-tab-btn.active, .filter-btn.active { background: #2563EB !important; color: #ffffff !important; border-color: #2563EB !important; }
+    .hero, .result-hero, .result-score-card { background: linear-gradient(135deg, #1E40AF 0%, #2563EB 55%, #3B82F6 100%) !important; color: #ffffff !important; }
+    .badge-ch { background: #EFF6FF !important; color: #2563EB !important; border-color: #BFDBFE !important; }
+    .btn-quiz, .btn-primary { background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%) !important; border-color: #1D4ED8 !important; }
+    .q-nav-btn.current { background: #2563EB !important; border-color: #2563EB !important; }
   </style>
 </head>
 <body>
