@@ -54,6 +54,7 @@
     { id: "previous-papers", href: "previous-papers.html", label: "📜 बोर्ड पेपर्स (Previous Papers)", icon: "📜", group: "exam" },
     { id: "sample-papers", href: "sample-papers.html", label: "📑 मॉडल प्रश्न पत्र (Sample Papers)", icon: "📑", group: "exam" },
     { id: "workbook", href: "workbook-quiz.html", label: "📘 Workbook Quiz (कार्यपत्रक)", icon: "📘", group: "exam" },
+    { id: "shala-darpan", href: "shala-darpan-quiz.html", label: "🏫 शाला दर्पण प्रश्न-बैंक (162 Qs)", icon: "🏫", group: "exam" },
     { id: "question-bank", href: "question-bank.html", label: "🔍 सर्च प्रश्न बैंक (Question Bank)", icon: "🔍", group: "exam" },
 
     // 4. Student Tools & Progress
@@ -533,6 +534,12 @@
                   <span class="nav-icon">📘</span>
                   <span class="nav-text">Workbook Quiz (कार्यपत्रक)</span>
                 </a>
+                <a class="sidebar-nav-item ${activePage === "shala-darpan" ? "active" : ""}" href="shala-darpan-quiz.html">
+                  <span class="nav-icon">🏫</span>
+                  <span class="nav-text">शाला दर्पण प्रश्न-बैंक (162 प्रश्न)</span>
+                  <span class="nav-badge-pill" style="background:#059669; color:white;">नया</span>
+                </a>
+
                 <a class="sidebar-nav-item ${activePage === "question-bank" ? "active" : ""}" href="question-bank.html">
                   <span class="nav-icon">🔍</span>
                   <span class="nav-text">सर्च प्रश्न बैंक (Question Bank)</span>
@@ -1015,6 +1022,7 @@
       { title: "विगत वर्षों के बोर्ड पेपर्स (Past Papers)", sub: "2015-2024 हल सहित प्रश्न पत्र", icon: "📜", url: "previous-papers.html", tag: "Exam" },
       { title: "मॉडल प्रश्न पत्र (Sample Papers)", sub: "नवीनतम बोर्ड ब्लूप्रिंट आधारित मॉडल पेपर्स", icon: "📑", url: "sample-papers.html", tag: "Exam" },
       { title: "Workbook Quiz (कार्यपत्रक)", sub: "वर्कबुक प्रश्नोत्तरी एवं अभ्यास", icon: "📘", url: "workbook-quiz.html", tag: "Exam" },
+      { title: "शाला दर्पण प्रश्न-बैंक (Shala Darpan Quiz)", sub: "14 अध्याय + 2 मॉडल पेपर्स के 162 प्रश्न एवं हल", icon: "🏫", url: "shala-darpan-quiz.html", tag: "Exam" },
       { title: "सर्च प्रश्न बैंक (Question Bank)", sub: "सभी प्रश्नों में खोजें व फ़िल्टर करें", icon: "🔍", url: "question-bank.html", tag: "Exam" },
       { title: "नोट्स एवं सूत्र (Formula Sheets & PDFs)", sub: "अध्यायवार त्वरित पुनरावृत्ति नोट्स व सचित्र आरेख", icon: "📑", url: "notes.html", tag: "Material" },
       { title: "वीडियो लेक्चर्स (Video Lectures)", sub: "कठिन अवधारणाओं के एनिमेटेड वीडियो पाठ", icon: "🎥", url: "videos.html", tag: "Material" },
