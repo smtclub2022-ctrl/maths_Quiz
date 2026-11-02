@@ -258,6 +258,280 @@
     },
 
     // Injects Universal Navigation Bar, Sidebar Drawer, Bottom Nav, and Footer
+    
+    getTopbarDropdownHTML: function() {
+      return `<div class="topbar-dropdown-wrap" id="topbarFeaturesDropdownWrap">
+  <button class="topbar-dropdown-btn" id="topbarFeaturesBtn" type="button" aria-expanded="false" aria-haspopup="true" title="सभी फीचर्स व पोर्टल्स देखें">
+    <span class="dropdown-icon">✨</span>
+    <span class="dropdown-text">सभी फीचर्स</span>
+    <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="topbar-dropdown-menu" id="topbarFeaturesMenu" role="menu" aria-hidden="true">
+    <div class="dropdown-header">
+      <span class="dropdown-header-title">✨ SchoolBrain संपूर्ण फीचर्स मेनू</span>
+      <span class="dropdown-header-subtitle">कक्षा 9 व 10 ई-लर्निंग एवं परीक्षा पोर्टल</span>
+    </div>
+
+    <!-- 1. Exam Suite -->
+    <div class="dropdown-section">
+      <div class="dropdown-section-title">
+        <span>🎯 परीक्षा एवं टेस्ट पोर्टल</span>
+        <span style="font-size:10px; color:#2563EB;">185+ Qs</span>
+      </div>
+      <a class="dropdown-menu-item" href="board-exam-papers.html" role="menuitem">
+        <span class="menu-item-icon">🏛️</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">बोर्ड परीक्षा पेपर्स (Board Quiz)</span>
+          <span class="menu-item-subtitle">2021-2026 के 11 सत्र, 185+ प्रश्न</span>
+        </div>
+        <span class="menu-item-badge">मुख्य</span>
+      </a>
+      <a class="dropdown-menu-item badge-green" href="shala-darpan-quiz.html" role="menuitem">
+        <span class="menu-item-icon">🏫</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">शाला दर्पण प्रश्न-बैंक</span>
+          <span class="menu-item-subtitle">14 अध्याय + 2 मॉडल पेपर्स</span>
+        </div>
+        <span class="menu-item-badge">162 Qs</span>
+      </a>
+      <a class="dropdown-menu-item" href="workbook-quiz.html" role="menuitem">
+        <span class="menu-item-icon">📘</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">कार्यपुस्तिका (Workbook Quiz)</span>
+          <span class="menu-item-subtitle">आधिकारिक उपचारात्मक शिक्षण</span>
+        </div>
+        <span class="menu-item-badge">75 Qs</span>
+      </a>
+      <a class="dropdown-menu-item" href="quiz-center.html" role="menuitem">
+        <span class="menu-item-icon">🎯</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">क्विज़ सेंटर हब</span>
+          <span class="menu-item-subtitle">सभी ऑनलाइन क्विज़ संग्रह</span>
+        </div>
+        <span class="menu-item-badge">हब</span>
+      </a>
+      <a class="dropdown-menu-item" href="chapter-tests.html" role="menuitem">
+        <span class="menu-item-icon">📚</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">अध्यायवार टेस्ट</span>
+          <span class="menu-item-subtitle">15 अध्यायों के 10-10 अभ्यास सेट</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="exam-timer.html" role="menuitem">
+        <span class="menu-item-icon">⏱️</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">परीक्षा टाइमर टेस्ट</span>
+          <span class="menu-item-subtitle">समयबद्ध स्पीड टेस्ट मोड</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="mock-exams.html" role="menuitem">
+        <span class="menu-item-icon">📝</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">संपूर्ण मॉक परीक्षा</span>
+          <span class="menu-item-subtitle">80 अंकों का पूर्ण बोर्ड प्रारूप</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- 2. Student Dashboard & Learning -->
+    <div class="dropdown-section">
+      <div class="dropdown-section-title">
+        <span>👨‍🎓 विद्यार्थी कार्यक्षेत्र व नोट्स</span>
+        <span style="font-size:10px; color:#10B981;">लर्निंग</span>
+      </div>
+      <a class="dropdown-menu-item" href="dashboard.html" role="menuitem">
+        <span class="menu-item-icon">👨‍🎓</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">छात्र डैशबोर्ड (Dashboard)</span>
+          <span class="menu-item-subtitle">प्रगति रिपोर्ट, स्कोर व आंकड़े</span>
+        </div>
+        <span class="menu-item-badge">हब</span>
+      </a>
+      <a class="dropdown-menu-item" href="notes.html" role="menuitem">
+        <span class="menu-item-icon">📑</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">नोट्स, सूत्र एवं आरेख (Notes)</span>
+          <span class="menu-item-subtitle">NCERT सूत्र व 10 सचित्र रेखाचित्र</span>
+        </div>
+        <span class="menu-item-badge">PDFs</span>
+      </a>
+      <a class="dropdown-menu-item" href="subjects.html" role="menuitem">
+        <span class="menu-item-icon">📖</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">सभी विषय (कक्षा 9 व 10)</span>
+          <span class="menu-item-subtitle">गणित, विज्ञान, संस्कृत, सामाजिक</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="videos.html" role="menuitem">
+        <span class="menu-item-icon">🎥</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">वीडियो लेक्चर्स</span>
+          <span class="menu-item-subtitle">अध्यायवार वीडियो क्लासेज</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="mistake-book.html" role="menuitem">
+        <span class="menu-item-icon">❌</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">भूल सुधार पुस्तिका</span>
+          <span class="menu-item-subtitle">गलत प्रश्नों का दोबारा अभ्यास</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="leaderboard.html" role="menuitem">
+        <span class="menu-item-icon">🏆</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">लीडरबोर्ड एवं रैंक</span>
+          <span class="menu-item-subtitle">राज्य स्तरीय रैंकिंग व बैज</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- 3. Public Website -->
+    <div class="dropdown-section">
+      <div class="dropdown-section-title">
+        <span>🌐 सार्वजनिक वेबसाइट</span>
+      </div>
+      <a class="dropdown-menu-item" href="index.html" role="menuitem">
+        <span class="menu-item-icon">🏠</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">मुख्य पृष्ठ (Home)</span>
+          <span class="menu-item-subtitle">SchoolBrain मुख्य पोर्टल</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="courses.html" role="menuitem">
+        <span class="menu-item-icon">📚</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">पाठ्यक्रम (Courses)</span>
+          <span class="menu-item-subtitle">कक्षा 9 व 10 संपूर्ण सिलेबस</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="landing.html" role="menuitem">
+        <span class="menu-item-icon">🌟</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">लैंडिंग पेज</span>
+          <span class="menu-item-subtitle">परिचय व मुख्य विशेषताएँ</span>
+        </div>
+      </a>
+      <a class="dropdown-menu-item" href="contact.html" role="menuitem">
+        <span class="menu-item-icon">📞</span>
+        <div class="menu-item-content">
+          <span class="menu-item-title">संपर्क एवं सहायता</span>
+          <span class="menu-item-subtitle">हेल्पलाइन व संपर्क</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- 4. Quick Actions -->
+    <div class="dropdown-actions-row">
+      <button class="dropdown-action-btn" id="dropdownSoundToggleBtn" type="button" title="साउंड चालू/बंद">
+        <span id="dropdownSoundIcon">🔊</span>
+        <span>ध्वनि</span>
+      </button>
+      <button class="dropdown-action-btn" id="dropdownShareBtn" type="button" title="शेयर करें">
+        <span>📤</span>
+        <span>शेयर</span>
+      </button>
+      <button class="dropdown-action-btn" id="dropdownPrintBtn" type="button" title="प्रिंट करें">
+        <span>🖨️</span>
+        <span>प्रिंट</span>
+      </button>
+    </div>
+  </div>
+</div>`;
+    },
+
+    initTopbarDropdown: function() {
+      const topbarRights = document.querySelectorAll(".topbar-right");
+      topbarRights.forEach(tr => {
+        if (!tr.querySelector("#topbarFeaturesDropdownWrap")) {
+          tr.innerHTML = ExamSuite.getTopbarDropdownHTML();
+        }
+      });
+
+      // Attach event listener to all dropdown buttons
+      document.querySelectorAll("#topbarFeaturesBtn").forEach(btn => {
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          const wrap = this.closest(".topbar-dropdown-wrap");
+          if (!wrap) return;
+          const isOpen = wrap.classList.contains("open");
+          document.querySelectorAll(".topbar-dropdown-wrap.open").forEach(w => {
+            w.classList.remove("open");
+            const b = w.querySelector(".topbar-dropdown-btn");
+            if (b) b.setAttribute("aria-expanded", "false");
+          });
+          if (!isOpen) {
+            wrap.classList.add("open");
+            this.setAttribute("aria-expanded", "true");
+            const menu = wrap.querySelector(".topbar-dropdown-menu");
+            if (menu) menu.setAttribute("aria-hidden", "false");
+          }
+        };
+      });
+
+      // Close when clicking outside
+      if (!window._dropdownClickOutsideAttached) {
+        window._dropdownClickOutsideAttached = true;
+        document.addEventListener("click", function(e) {
+          if (!e.target.closest(".topbar-dropdown-wrap")) {
+            document.querySelectorAll(".topbar-dropdown-wrap.open").forEach(w => {
+              w.classList.remove("open");
+              const b = w.querySelector(".topbar-dropdown-btn");
+              if (b) b.setAttribute("aria-expanded", "false");
+              const menu = w.querySelector(".topbar-dropdown-menu");
+              if (menu) menu.setAttribute("aria-hidden", "true");
+            });
+          }
+        });
+
+        document.addEventListener("keydown", function(e) {
+          if (e.key === "Escape") {
+            document.querySelectorAll(".topbar-dropdown-wrap.open").forEach(w => {
+              w.classList.remove("open");
+              const b = w.querySelector(".topbar-dropdown-btn");
+              if (b) b.setAttribute("aria-expanded", "false");
+            });
+          }
+        });
+      }
+
+      // Quick action buttons
+      document.querySelectorAll("#dropdownSoundToggleBtn").forEach(sBtn => {
+        sBtn.onclick = function(e) {
+          e.stopPropagation();
+          const current = localStorage.getItem("iMentorSoundEnabled") !== "false";
+          const next = !current;
+          localStorage.setItem("iMentorSoundEnabled", next ? "true" : "false");
+          document.querySelectorAll("#dropdownSoundIcon").forEach(ic => {
+            ic.textContent = next ? "🔊" : "🔇";
+          });
+          if (typeof ExamSuite !== "undefined" && ExamSuite.playClickSound && next) {
+            ExamSuite.playClickSound();
+          }
+        };
+      });
+
+      document.querySelectorAll("#dropdownShareBtn").forEach(sBtn => {
+        sBtn.onclick = function(e) {
+          e.stopPropagation();
+          const pageTitle = document.title || "SchoolBrain - कक्षा 9 व 10 ई-लर्निंग";
+          const pageUrl = window.location.href;
+          if (navigator.share) {
+            navigator.share({ title: pageTitle, url: pageUrl }).catch(() => {});
+          } else {
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(pageTitle + "\n" + pageUrl);
+            window.open(waUrl, "_blank", "noopener,noreferrer");
+          }
+        };
+      });
+
+      document.querySelectorAll("#dropdownPrintBtn").forEach(pBtn => {
+        pBtn.onclick = function(e) {
+          e.stopPropagation();
+          window.print();
+        };
+      });
+    },
+
     renderNavbar: function(activePage) {
 
   // Page Flow Definition for Forward & Backward Navigation
@@ -302,6 +576,7 @@
               </a>
             </div>
             <div class="topbar-right">
+              ${ExamSuite.getTopbarDropdownHTML()}
             </div>
           `;
         } else {
@@ -317,6 +592,7 @@
             </div>
 
             <div class="topbar-right">
+              ${ExamSuite.getTopbarDropdownHTML()}
             </div>
           `;
         }
@@ -602,6 +878,9 @@
         `;
         document.body.appendChild(bNav);
       }
+
+      // Init topbar dropdown menu
+      ExamSuite.initTopbarDropdown();
 
       // 4. Inject Universal Forward/Backward Navigation Strip and Footer
       const footerContainer = document.getElementById("uFooterContainer");
@@ -1162,4 +1441,11 @@ document.addEventListener("click", function(e) {
   btn.appendChild(ripple);
   
   setTimeout(() => ripple.remove(), 700);
+});
+
+// Auto-initialize topbar dropdown
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof ExamSuite !== "undefined" && ExamSuite.initTopbarDropdown) {
+    ExamSuite.initTopbarDropdown();
+  }
 });
