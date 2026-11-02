@@ -808,6 +808,37 @@
       .topbar { padding: 0 14px; }
       .card-actions { grid-template-columns: 1fr; }
     }
+  
+    /* PRO PRINT STYLES */
+    @media print {
+      .topbar, .footer, .btn-hero, .filter-bar, .card-actions, .view-top button, .nav-actions, .result-actions, #studyStartQuiz, #studyStartQuizBottom, #printStudyBtn, .hint-drawer { display: none !important; }
+      body { background: white !important; color: black !important; font-size: 12pt !important; }
+      .main { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      .view-card, .study-card, .review-card { border: 1px solid #ccc !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 15px !important; padding: 12px !important; }
+      .review-opt.is-ans { font-weight: bold !important; text-decoration: underline !important; background: #eee !important; }
+    }
+    /* CONFETTI CANVAS */
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
   </style>
   <link rel="stylesheet" href="styles.css?v=5.0">
     <!-- Child-Friendly Joyful Learner (#2563EB & #10B981) Theme -->
@@ -877,6 +908,252 @@
   <script src="shala-darpan-question-bank.js"></script>
 
   <script>
+    
+    // === PRO ENHANCEMENTS: AUDIO, KEYBOARD SHORTCUTS, CONFETTI & OFFLINE EXPORT ===
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioCtx = new AudioClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'select') {
+          // Soft modern chime
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.12); // E5
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'next') {
+          // Subtle swoosh
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(392, now); // G4
+          osc.frequency.exponentialRampToValueAtTime(587.33, now + 0.15); // D5
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        } else if (type === 'fanfare') {
+          // Celebration arpeggio
+          const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+            gain.gain.setValueAtTime(0.18, now + idx * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.1);
+            osc.stop(now + idx * 0.1 + 0.35);
+          });
+        }
+      } catch (e) {
+        // Audio playback fallback ignored safely
+      }
+    }
+
+    // Confetti celebration
+    function fireConfetti() {
+      let canvas = document.getElementById('confettiCanvas');
+      if (!canvas) {
+        canvas = document.createElement('canvas');
+        canvas.id = 'confettiCanvas';
+        document.body.appendChild(canvas);
+      }
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+      const particles = [];
+      const colors = ['#2563EB', '#3B82F6', '#10B981', '#F59E0B', '#F43F5E', '#A855F7', '#EC4899'];
+
+      for (let i = 0; i < 120; i++) {
+        particles.push({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2 - 80,
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.8) * 18,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+
+      let frame = 0;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.45; // gravity
+          p.rotation += p.vRot;
+          p.opacity -= 0.012;
+
+          if (p.opacity > 0) {
+            alive = true;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.globalAlpha = Math.max(0, p.opacity);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          }
+        });
+
+        frame++;
+        if (alive && frame < 180) {
+          requestAnimationFrame(render);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+        }
+      }
+      render();
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (state.view !== 'quiz') return;
+      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+      if (activeTag === 'input' || activeTag === 'textarea') return;
+
+      const q = state.questions[state.currentIndex];
+      if (!q) return;
+
+      const key = e.key.toLowerCase();
+      let selectedIdx = -1;
+      if (key === '1' || key === 'a') selectedIdx = 0;
+      else if (key === '2' || key === 'b') selectedIdx = 1;
+      else if (key === '3' || key === 'c') selectedIdx = 2;
+      else if (key === '4' || key === 'd') selectedIdx = 3;
+
+      if (selectedIdx >= 0 && selectedIdx < q.options.length) {
+        e.preventDefault();
+        state.answers[state.currentIndex] = q.options[selectedIdx];
+        playSound('select');
+        renderQuizView();
+      } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
+        e.preventDefault();
+        const nextBtn = document.getElementById('nextBtn');
+        if (nextBtn) nextBtn.click();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const prevBtn = document.getElementById('prevBtn');
+        if (prevBtn && !prevBtn.disabled) prevBtn.click();
+      } else if (key === 'h') {
+        const hintEl = document.querySelector('.hint-drawer');
+        if (hintEl) hintEl.open = !hintEl.open;
+      }
+    });
+
+    // Offline HTML Exporter
+    function downloadOfflineQuizFile(title, questions) {
+      const qJson = JSON.stringify(questions).replace(/</g, '\\u003c');
+      const offlineHtml = `<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(title)} | ऑफ़लाइन क्विज़</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 20px 16px; background: #f8fafc; color: #1e293b; font-family: "Noto Sans Devanagari", sans-serif; line-height: 1.6; }
+    main { max-width: 760px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, #1e40af, #2563eb); color: white; padding: 24px; border-radius: 16px; margin-bottom: 20px; }
+    .header h1 { margin: 0 0 6px; font-size: 22px; }
+    .q-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; }
+    .q-prompt { font-size: 16px; font-weight: 700; margin: 0 0 12px; }
+    .opt-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+    .opt-label:hover { background: #eff6ff; border-color: #93c5fd; }
+    .btn { background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; }
+    .solution-box { display: none; margin-top: 10px; padding: 10px 14px; background: #eff6ff; border-left: 3px solid #2563eb; border-radius: 6px; font-size: 13px; }
+    .solution-box.visible { display: block; }
+    .result-box { display: none; background: #ecfdf5; border: 1.5px solid #10b981; padding: 20px; border-radius: 14px; text-align: center; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="header">
+      <h1>${escapeHtml(title)}</h1>
+      <p style="margin:0; opacity:.9;">शाला दर्पण राजस्थान बोर्ड कक्षा 10 गणित · पूर्णतः ऑफ़लाइन क्विज़</p>
+    </div>
+    <div id="resultBox" class="result-box"></div>
+    <form id="quizForm">
+      <div id="questionsContainer"></div>
+      <div style="text-align:center; margin-top: 24px;">
+        <button type="submit" class="btn">परिणाम जांचें ✓</button>
+      </div>
+    </form>
+  </main>
+  <script>
+    const questions = ${qJson};
+    const container = document.getElementById('questionsContainer');
+    questions.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.innerHTML = '<div class="q-prompt">प्रश्न ' + (i+1) + '. ' + q.prompt + '</div>' +
+        q.options.map((opt, oIdx) => '<label class="opt-label"><input type="radio" name="q' + i + '" value="' + opt.replace(/"/g, '&quot;') + '"> <span>' + opt + '</span></label>').join('') +
+        '<div class="solution-box" id="sol' + i + '"><strong>सही उत्तर:</strong> ' + q.answer + '<br><strong>हल:</strong> ' + (q.solution || q.explanation || 'नियमानुसार हल।') + '</div>';
+      container.appendChild(card);
+    });
+    document.getElementById('quizForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      let correct = 0;
+      questions.forEach((q, i) => {
+        const sel = document.querySelector('input[name="q' + i + '"]:checked');
+        const solBox = document.getElementById('sol' + i);
+        solBox.classList.add('visible');
+        if (sel && sel.value === q.answer) correct++;
+      });
+      const pct = Math.round((correct / questions.length) * 100);
+      const res = document.getElementById('resultBox');
+      res.style.display = 'block';
+      res.innerHTML = '<h2 style="margin:0 0 8px; color:#047857;">स्कोर: ' + correct + ' / ' + questions.length + ' (' + pct + '%)</h2><p style="margin:0; color:#065f46;">प्रत्येक प्रश्न का आधिकारिक हल नीचे देख सकते हैं।</p>';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  <\/script>
+</body>
+</html>`;
+
+      const blob = new Blob([offlineHtml], { type: 'text/html;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = (title.replace(/[^a-zA-Z0-9ऀ-ॿ]/g, '_') || 'Shala_Darpan_Quiz') + '_Offline.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('📥 ऑफ़लाइन क्विज़ फ़ाइल डाउनलोड हो गई!');
+    }
+
     // State management
     const state = {
       view: 'home', // 'home' | 'quiz' | 'result' | 'study'
@@ -1193,6 +1470,7 @@
         b.addEventListener('click', () => {
           const val = b.dataset.choice;
           state.answers[state.currentIndex] = val;
+          playSound("select");
           renderQuizView();
         });
       });
@@ -1210,6 +1488,7 @@
           submitQuiz();
         } else {
           state.currentIndex += 1;
+          playSound("next");
           renderQuizView();
         }
       });
@@ -1219,6 +1498,7 @@
           submitQuiz();
         } else {
           state.currentIndex += 1;
+          playSound("next");
           renderQuizView();
         }
       });
@@ -1228,6 +1508,9 @@
     function submitQuiz() {
       clearInterval(state.timer);
       state.view = 'result';
+      playSound('fanfare');
+      if (percent >= 80) setTimeout(fireConfetti, 150);
+
 
       let correctCount = 0;
       state.questions.forEach((q, i) => {
@@ -1245,6 +1528,9 @@
         ? 'महा-मॉक टेस्ट'
         : (bank[state.chapterIndex] ? bank[state.chapterIndex].chapterTitle : 'शाला दर्पण क्विज़');
 
+            let badge = '🏆 गणित महारथी';
+      if (percent < 50) badge = '💪 निरंतर अभ्यासी';
+      else if (percent < 80) badge = '⭐ शानदार तैयारी';
       let rankMsg = 'उत्कृष्ट प्रदर्शन! आपकी तैयारी बहुत मजबूत है। 🎉';
       if (percent < 50) rankMsg = 'अभ्यास जारी रखें! नीचे दिए गए हल देखकर समझें। 💪';
       else if (percent < 80) rankMsg = 'अच्छा प्रयास! थोड़ी और मेहनत से आप 100% ला सकते हैं। 👍';
@@ -1254,6 +1540,7 @@
         <section class="result-score-card">
           <p>📘 ${escapeHtml(chapterTitle)}</p>
           <h2>${rankMsg}</h2>
+          <div class="badge-pill">${badge} · सटीकता: ${percent}%</div>
           <div class="result-metrics">
             <div class="res-metric">
               <strong>${correctCount} / ${total}</strong>
@@ -1364,9 +1651,14 @@
               <span>›</span>
               <span>हल व उत्तर-कुंजी</span>
             </div>
-            <button type="button" class="btn-primary" id="studyStartQuiz">
-              🎯 इस अध्याय की क्विज़ दें
-            </button>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="button" class="btn-secondary" id="printStudyBtn">
+                🖨️ प्रिंट करें / PDF
+              </button>
+              <button type="button" class="btn-primary" id="studyStartQuiz">
+                🎯 इस अध्याय की क्विज़ दें
+              </button>
+            </div>
           </div>
 
           <div style="margin-bottom: 24px;">
@@ -1403,12 +1695,14 @@
         </div>
       `;
 
-      document.getElementById('studyBreadHome').addEventListener('click', renderHome);
+            document.getElementById('studyBreadHome').addEventListener('click', renderHome);
+      const printBtn = document.getElementById('printStudyBtn');
+      if (printBtn) printBtn.addEventListener('click', () => window.print());
       document.getElementById('studyStartQuiz').addEventListener('click', () => startQuiz(chapterIdx));
       document.getElementById('studyStartQuizBottom').addEventListener('click', () => startQuiz(chapterIdx));
     }
 
-    // SHARE MODAL
+        // SHARE MODAL
     function openShareModal() {
       const modalContainer = document.getElementById('modalContainer');
       const currentUrl = window.location.href.split('#')[0];
@@ -1432,6 +1726,9 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.158.572 4.184 1.572 5.939l-1.572 5.889 6.068-1.591c1.705.934 3.659 1.47 5.741 1.47 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/></svg>
                 <span>व्हाट्सएप पर शेयर करें</span>
               </a>
+              <button type="button" class="btn-hero btn-hero-secondary" style="background:#eff6ff; color:#2563eb; border:1.5px solid #bfdbfe; font-weight:700;" id="downloadOfflineBtn">
+                📥 ऑफ़लाइन क्विज़ HTML डाउनलोड करें (बिना इंटरनेट)
+              </button>
             </div>
           </div>
         </div>
@@ -1453,6 +1750,21 @@
           showToast('लिंक कॉपी हो गया!');
         });
       });
+      const dlBtn = document.getElementById('downloadOfflineBtn');
+      if (dlBtn) {
+        dlBtn.addEventListener('click', () => {
+          const bank = getBank();
+          let targetTitle = 'शाला दर्पण संपूर्ण गणित प्रश्न बैंक';
+          let targetQs = [];
+          if (state.chapterIndex >= 0 && bank[state.chapterIndex]) {
+            targetTitle = bank[state.chapterIndex].chapterTitle;
+            targetQs = bank[state.chapterIndex].questions;
+          } else {
+            bank.forEach(c => (c.questions || []).forEach(q => targetQs.push(q)));
+          }
+          downloadOfflineQuizFile(targetTitle, targetQs);
+        });
+      }
     }
 
     document.getElementById('topbarShareBtn').addEventListener('click', openShareModal);
